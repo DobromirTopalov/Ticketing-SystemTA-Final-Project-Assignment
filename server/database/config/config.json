@@ -1,0 +1,23 @@
+{
+  "development": {
+    "username": "root",
+    "password": null,
+    "database": "ticketsdb",
+    "host": "127.0.0.1",
+    "dialect": "mysql"
+  },
+  "test": {
+    "username": "root",
+    "password": null,
+    "database": "tickets_test",
+    "host": "127.0.0.1",
+    "dialect": "mysql"
+  },
+  "production": {
+    "username": "contaakjqbsphzzy",
+    "password": "MwZJRgXjLYgPdWWTCEuJJFRMCoS8JitfQ3cxGQ77Uwik4SsXp7hVJsxgMnfCvXGC",
+    "database": "db9df9392d49cf46e0b552a8b601706db0",
+    "host": "9df9392d-49cf-46e0-b552-a8b601706db0.mysql.sequelizer.com",
+    "dialect": "mysql"
+  }
+}
