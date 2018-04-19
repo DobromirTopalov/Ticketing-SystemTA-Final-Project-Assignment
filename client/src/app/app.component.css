@@ -1,0 +1,17 @@
+.logo{
+    font-size: 40px;
+}
+
+.logo i{
+    font-size: 40px;
+    vertical-align: middle;
+}
+
+.logo-txt{
+    vertical-align: middle;
+}
+
+.active{
+    background-color: red;
+    color: white;
+}

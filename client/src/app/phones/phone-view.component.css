@@ -1,0 +1,17 @@
+mat-card{
+    max-width: 400px;
+    margin: 20px;
+}
+
+.img-phone{
+    min-height: 250px;  
+    max-height: 250px;
+}
+
+mat-card-title{
+    font-weight: bold;
+}
+
+.price-value{
+    font-style: italic;
+}

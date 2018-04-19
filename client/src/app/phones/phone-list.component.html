@@ -1,0 +1,42 @@
+<div class="logo">
+  <i class="material-icons">phonelink_ring</i>
+  <span class="logo-txt">&lt;ng-phones /&gt;</span>
+</div>
+<div fxLayout="row wrap" fxLayoutGap="15px">
+  <mat-form-field fxFlex="20%">
+      <mat-select (change)="onChange()" [(ngModel)]="order" placeholder="Select Order">
+          <mat-option value="asc">Ascending</mat-option>
+          <mat-option value="desc">Descending</mat-option>
+      </mat-select>
+  </mat-form-field>
+
+  <mat-form-field fxFlex="20%">
+      <mat-select (change)="onChange()" [(ngModel)]="byType" placeholder="Select Type">
+          <mat-option value="brand">Brand</mat-option>
+          <mat-option value="price">Price</mat-option>
+          <mat-option value="model">Model</mat-option>
+      </mat-select>
+  </mat-form-field>
+
+  <mat-form-field fxFlex="40%">
+      <input matInput placeholder="Search" (input)="onSearch()" [(ngModel)]="search">
+  </mat-form-field>
+
+</div>
+
+<button mat-raised-button (click)="clearFilter()">Clear filter</button>
+
+<div>
+  <div fxLayout="row wrap" fxLayoutAlign="start start" fxLayoutGap="20px" >
+    <div fxFlex="20%" class="card-picture" *ngFor="let phone of filteredPhones">
+        <a [routerLink]="['/phones', phone?.brand]">{{phone?.brand}}</a>
+      <app-phone-view (showPhone)="showPhone($event)" [phone]="phone"></app-phone-view>
+    </div>
+  </div>
+
+  <!-- <div *ngIf="isShown">
+    <app-phone-details (clickOutside)="hidePhone()" (hidePhone)="hidePhone()" [phone]="currentPhone"></app-phone-details>
+  </div> -->
+</div>
+
+

@@ -1,0 +1,35 @@
+<div *ngFor="let phone of phones">
+  <a [routerLink]="['/phones', phone?.brand]">{{phone.brand}}</a>
+</div>
+<div fxLayout="row" fxLayoutAlign="center center" >
+  <mat-card>
+    <mat-card-header fxLayout="row">
+      <div fxFlex="75">
+        <mat-card-title>Brand: {{phone?.brand}}</mat-card-title>
+        <mat-card-subtitle>Model: {{phone?.user}}</mat-card-subtitle>
+      </div>
+      <div fxFlex="25">
+        <img class="brand-img" src="{{phone?.brandImg}}" alt="brand-image">
+      </div>
+    </mat-card-header>
+    <div class="img-phone" fxLayout="row wrap" fxLayoutGap="30px">
+      <img fxFlexAlign="start" fxFlex="40" mat-card-image src="{{phone?.imgUrl}}" alt="{{phone?.brand}}-{{phone?.model}}">
+      <div fxFlex="45" fxFlexAlign="start" fxLayout="column">
+        <p>Specifications:</p>
+        <p fxFlex="25">DisplayType: {{DisplayType[phone?.specs?.displayType]}}</p>
+        <p fxFlex="25">DisplaySize: {{phone?.specs?.displaySize | number:'1.1-2'}} "</p>
+      </div>
+      <div class="desc-phone" fxFlex="100">Description: {{phone?.description}}</div>
+    </div>
+    <mat-card-content>
+      <p class="price-value">
+        Price: {{phone?.price | currency}}
+      </p>
+    </mat-card-content>
+    <mat-card-actions>
+      <button class="close-btn" mat-raised-button (click)="onHidePhone()">Close</button>
+    </mat-card-actions>
+  </mat-card>
+</div>
+
+<button (click)="nav()">Nav Back to Phones</button>

@@ -1,0 +1,16 @@
+<mat-card (click)="onShowPhone()">
+  <mat-card-header>
+    <mat-card-title>Brand: {{phone?.brand}}</mat-card-title>
+    <mat-card-subtitle>Model: {{phone?.model}}</mat-card-subtitle>
+  </mat-card-header>
+  <div class="img-phone" fxLayout="row">
+    <img fxFlexAlign="center" mat-card-image [src]="phone?.imgUrl" alt="{{phone?.brand}}-{{phone?.model}}">
+  </div>
+  <mat-card-content>
+    <p class="price-value">
+      Price: {{phone?.price | currency : 'EUR'}}
+    </p>
+  </mat-card-content>
+</mat-card>
+
+<!-- {{phone.brand | ellipsis}} -->

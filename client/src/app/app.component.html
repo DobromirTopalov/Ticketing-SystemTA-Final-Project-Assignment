@@ -1,0 +1,9 @@
+<a [routerLink]="['/home']" routerLinkActive="active">Home</a>
+<a [routerLink]="['/phones']" routerLinkActive="active" >Phones</a>
+<a *ngIf="!isAuth()" [routerLink]="['/register']" routerLinkActive="active" >Register</a>
+<a *ngIf="!isAuth()" [routerLink]="['/login']" routerLinkActive="active" >Login</a>
+<a *ngIf="isAuth()" (click)="testAuth()" [routerLink]="['/test']" routerLinkActive="active" >Test</a>
+<a *ngIf="isAuth()" [routerLink]="['/']" (click)="logout()">Logout</a>
+<router-outlet></router-outlet>
+
+<button (click)="testAuth()">Auth</button>
