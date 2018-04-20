@@ -7,7 +7,7 @@ const {
 } = require('../../../database/models');
 
 class UserData extends SharedData {
-  constructor() {
+  constructor(Model) {
     super(User, [Company, Role]);
   }
 
@@ -57,15 +57,6 @@ class UserData extends SharedData {
     } catch (error) {
       throw error;
     }
-  }
-
-  getAll() {
-    const arr = this.Model.findAll({
-      // raw: true,
-      include: this.includes,
-    });
-
-    return arr;
   }
 }
 

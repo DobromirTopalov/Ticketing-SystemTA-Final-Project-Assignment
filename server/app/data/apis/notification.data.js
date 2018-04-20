@@ -1,9 +1,13 @@
 const SharedData = require('./shared.data');
 
+const {
+  Notification,
+  User,
+} = require('../../../database/models');
+
 class NotificationData extends SharedData {
   constructor(Model) {
-    super();
-    this.Model = Model;
+    super(Notification, [User]);
   }
 
   createNotification(NotificationObject, UserId) {

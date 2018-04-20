@@ -9,7 +9,6 @@ const init = (app, data) => {
   router
   .get('/api/tickets', controller.getTickets())
   .get('/api/tickets/:id', controller.getById());
-  // .post('/api/teams', controller.createTeams());
 
   app.use('/', router);
 };

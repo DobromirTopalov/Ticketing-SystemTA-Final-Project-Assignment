@@ -1,9 +1,14 @@
 const SharedData = require('./shared.data');
 
+const {
+  Log,
+  User,
+  Ticket,
+} = require('../../../database/models');
+
 class LogData extends SharedData {
   constructor(Model) {
-    super();
-    this.Model = Model;
+    super(Log, [User, Ticket]);
   }
 
   createLog(LogObject, UserId, TicketId) {

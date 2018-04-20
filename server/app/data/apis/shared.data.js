@@ -1,3 +1,4 @@
+// TO DO: delete require at some point of development if not used
 const {
   User,
   Ticket,
@@ -16,8 +17,8 @@ class SharedData {
 
   getAll() {
     const result = this.Model.findAll({
-      // raw: true,
       include: this.includes,
+      // raw: true,
     });
 
     return result;

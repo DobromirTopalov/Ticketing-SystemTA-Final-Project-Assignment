@@ -8,8 +8,8 @@ const init = (app, data) => {
 
   router
   .get('/api/teams', controller.getTeams())
+  .get('/api/teams/:id', controller.getById())
   .get('/api/teams/:name', controller.getByName());
-  // .post('/api/teams', controller.createTeams());
 
   app.use('/', router);
 };

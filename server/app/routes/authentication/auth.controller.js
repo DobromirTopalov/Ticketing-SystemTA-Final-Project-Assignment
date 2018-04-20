@@ -3,7 +3,7 @@ const uuid = require('uuid/v4');
 const jwt = require('jwt-simple');
 const moment = require('moment');
 
-const config = require('./../config');
+const config = require('./../../config');
 
 class AuthController {
   constructor(data) {
@@ -24,7 +24,7 @@ class AuthController {
     return async (req, res, next) => {
       let userFound = await this.data.users.getAll().map((element) => element.dataValues);
       userFound = userFound.find((x) => x.email === req.body.email);
-      console.log(userFound);
+
       if (userFound) {
         bcrypt.compare(req.body.password, userFound.password, (err, response) => {
           if (response) {

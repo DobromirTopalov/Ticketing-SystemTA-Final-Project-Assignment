@@ -9,11 +9,16 @@ const {
 } = require('../../../database/models');
 
 class TicketData extends SharedData {
-  constructor() {
-    super(Ticket, [User, Status, Label, Team, { model: User, as: 'requesterId' }, { model: User, as: 'assigneeId' }, { model: User, as: 'escalationContactId' }]);
+  constructor(Model) {
+    super(Ticket, [User, Status, Label, Team,
+                    { model: User, as: 'requesterId' },
+                    { model: User, as: 'assigneeId' },
+                    { model: User, as: 'escalationContactId' },
+                  ]);
   }
 
-  createTicket(TicketObject, TeamId, StatusId, LabelId, RequesterId, AssigneeId, EscalationContactId) {
+  createTicket(TicketObject, TeamId, StatusId, LabelId,
+               RequesterId, AssigneeId, EscalationContactId) {
     try {
       const result = this.Model
         .create({
@@ -32,7 +37,8 @@ class TicketData extends SharedData {
     }
   }
 
-  updateTicket(TicketId, TicketObject, TeamId, StatusId, LabelId, RequesterId, AssigneeId, EscalationContactId) {
+  updateTicket(TicketId, TicketObject, TeamId, StatusId, LabelId,
+               RequesterId, AssigneeId, EscalationContactId) {
     try {
       const result = this.Model.update({
         deadline: TicketObject.getName(),
@@ -53,11 +59,6 @@ class TicketData extends SharedData {
     } catch (error) {
       throw error;
     }
-  }
-
-  async getTicket(id, user) {
-    const ticket = await super.getById(id);
-    return ticket;
   }
 }
 
