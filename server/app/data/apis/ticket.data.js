@@ -1,9 +1,18 @@
 const SharedData = require('./shared.data');
 
+const {
+  User,
+  Ticket,
+  Company,
+  Role,
+  Status,
+  Label,
+  Team,
+} = require('../../../database/models');
+
 class TicketData extends SharedData {
   constructor(Model) {
-    super();
-    this.Model = Model;
+    super(Ticket, [Company, Role { model: PhoneNumber, as: 'phoneNumbers' }]);
   }
 
   createTicket(TicketObject, TeamId, StatusId, LabelId, RequesterId, AssigneeId, EscalationContactId) {
@@ -64,6 +73,10 @@ class TicketData extends SharedData {
     const labelData = await tickets.getLabel({
       raw: true,
     });
+    const userData = await tickets.getUsers({
+      raw: true,
+    });
+    console.log(userData);
 
     const requesterData = await user.getByParamId(requesterId);
     const assigneeData = await user.getByParamId(assigneeId);
