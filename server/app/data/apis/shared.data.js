@@ -26,6 +26,29 @@ class SharedData {
       where: {
         id: SomeId,
       },
+      // raw: true,
+    });
+
+    return result;
+  }
+
+  getByParamId(id) {
+    const result = this.Model.findOne({
+      where: {
+        id: id,
+      },
+      include: [
+        {
+          model: Company,
+          attributes: ['name', 'description', 'companyImgUrl', 'sector', 'webpage'],
+          raw: true,
+        },
+        {
+          model: Role,
+          attributes: ['name'],
+          raw: true,
+       },
+      ],
       raw: true,
     });
 

@@ -15,12 +15,12 @@ class TicketController {
 
   getById() {
     return async (req, res, next) => {
-      const tickets = await this.data.tickets.getAll();
-      const ticket = tickets.find((x) => x.id === +req.params.id);
+      const tickets = await this.data.tickets.getTicket(+req.params.id, this.data.users);
 
       return res.status(401).send({
-        ticket,
+        tickets,
       });
+      // return tickets;
     };
   }
 }
