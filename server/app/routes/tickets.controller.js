@@ -3,7 +3,7 @@ class TicketController {
     this.data = data;
   }
 
-  geTickets() {
+  getTickets() {
     return async (req, res, next) => {
       const tickets = await this.data.tickets.getAll();
 

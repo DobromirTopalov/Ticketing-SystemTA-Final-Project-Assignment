@@ -7,7 +7,7 @@ const init = (app, data) => {
   const controller = new TicketController(data);
 
   router
-  .get('/api/tickets', controller.geTickets())
+  .get('/api/tickets', controller.getTickets())
   .get('/api/tickets/:id', controller.getById());
   // .post('/api/teams', controller.createTeams());
 
