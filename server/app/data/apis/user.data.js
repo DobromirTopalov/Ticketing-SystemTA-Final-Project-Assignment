@@ -1,9 +1,14 @@
 const SharedData = require('./shared.data');
 
+const {
+  User,
+  Company,
+  Role,
+} = require('../../../database/models');
+
 class UserData extends SharedData {
-  constructor(Model) {
-    super(Model);
-    this.Model = Model;
+  constructor() {
+    super(User, [Company, Role]);
   }
 
   createUser(UserObject, CompanyId, RoleId) {
@@ -53,6 +58,24 @@ class UserData extends SharedData {
       throw error;
     }
   }
+
+  async getAll() {
+    const arr = await this.Model.findAll({
+      raw: true,
+      include: this.includes,
+    });
+
+    return arr;
+  }
+  // async getUser(email) {
+  //   const user = await super.getById(email);
+  //   const companyData = await user.getCompany({
+  //     raw: true,
+  //   });
+  //   const roleData = await user.getRole({
+  //     raw: true,
+  //   });
+  // }
 }
 
 module.exports = UserData;

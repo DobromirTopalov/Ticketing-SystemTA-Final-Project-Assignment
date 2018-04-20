@@ -9,8 +9,9 @@ const {
 } = require('../../../database/models');
 
 class SharedData {
-  constructor(Model) {
+  constructor(Model, includes = []) {
     this.Model = Model;
+    this.includes = includes;
   }
 
   getAll() {
