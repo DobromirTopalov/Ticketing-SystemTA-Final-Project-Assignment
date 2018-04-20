@@ -9,8 +9,9 @@ const {
 } = require('../../../database/models');
 
 class SharedData {
-  constructor(Model) {
+  constructor(Model, includes = []) {
     this.Model = Model;
+    this.includes = includes;
   }
 
   getAll() {
@@ -26,7 +27,7 @@ class SharedData {
       where: {
         id: SomeId,
       },
-      raw: true,
+      // raw: true,
     });
 
     return result;

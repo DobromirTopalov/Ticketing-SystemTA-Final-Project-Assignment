@@ -6,6 +6,8 @@ class TeamController {
   getTeams() {
     return async (req, res, next) => {
       const teams = await this.data.teams.getAll();
+      const company = teams.getCompany();
+      teams.company = company;
       console.log('asd');
       return res.status(401).send({
         teams,
