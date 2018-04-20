@@ -59,23 +59,14 @@ class UserData extends SharedData {
     }
   }
 
-  async getAll() {
-    const arr = await this.Model.findAll({
-      raw: true,
+  getAll() {
+    const arr = this.Model.findAll({
+      // raw: true,
       include: this.includes,
     });
 
     return arr;
   }
-  // async getUser(email) {
-  //   const user = await super.getById(email);
-  //   const companyData = await user.getCompany({
-  //     raw: true,
-  //   });
-  //   const roleData = await user.getRole({
-  //     raw: true,
-  //   });
-  // }
 }
 
 module.exports = UserData;

@@ -21,7 +21,6 @@ class UsersController {
       return res.status(401).send({
         user,
       });
-      // return user;
     };
   }
 }
