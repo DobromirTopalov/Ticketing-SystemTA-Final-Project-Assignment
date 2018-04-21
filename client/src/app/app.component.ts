@@ -2,8 +2,6 @@ import { AuthService } from './core/auth.service';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit, Input } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
-import { Phone } from './models/phone';
-import { DisplayType } from './models/display-type.enum';
 import { NgForm, FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
 
 @Component({

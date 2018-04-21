@@ -13,18 +13,17 @@ import { ClickOutsideModule } from 'ng-click-outside';
 import { ToastrModule } from 'ngx-toastr';
 
 import { AppComponent } from './app.component';
-import { PhoneListComponent } from './phones/phone-list.component';
-import { PhoneViewComponent } from './phones/phone-view.component';
-import { PhoneDetailsComponent } from './phones/details/phone-details.component';
 import { BoldDirective } from './shared/bold.directive';
 import { EllipsisPipe } from './shared/ellipsis.pipe';
 import { MyNgIfDirective } from './shared/my-ng-if.directive';
 import { SharedModule } from './shared';
-import { PhonesModule } from './phones/phone.module';
 import { HomeComponent } from './home/home.component';
 import { AppConfig } from './config/app.config';
 
 import { JwtModule } from '@auth0/angular-jwt';
+import { TicketsModule } from './features/tickets/ticket.module';
+import { NavFieldComponent } from './features/nav-field/nav-field.component';
+import { MessagesComponent } from './features/messages/messages.component';
 
 export function tokenGetter() {
   return localStorage.getItem('access_token');
@@ -33,14 +32,16 @@ export function tokenGetter() {
 @NgModule({
   declarations: [
     AppComponent,
-    HomeComponent
+    HomeComponent,
+    NavFieldComponent,
+    MessagesComponent
   ],
   imports: [
     ToastrModule.forRoot(),
-    PhonesModule,
     AuthModule,
     BrowserModule,
     AppRoutingModule,
+    TicketsModule,
     CoreModule,
     HttpClientModule,
     JwtModule.forRoot({

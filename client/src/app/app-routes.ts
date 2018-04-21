@@ -1,17 +1,17 @@
-import { RegisterComponent } from './auth/register.component';
-import { PhoneDetailsComponent } from './phones/details/phone-details.component';
 import { Routes } from '@angular/router';
 import { HomeComponent } from './home/home.component';
-import { PhoneListComponent } from './phones/phone-list.component';
+import { RegisterComponent } from './auth/register.component';
 import { LoginComponent } from './auth/login.component';
+import { TicketsComponent } from './features/tickets/tickets.component';
+import { DetailsComponent } from './features/tickets/details/details.component';
 
 export const ROUTES: Routes = [
   { path: 'home', component: HomeComponent },
   { path: '', redirectTo: 'home', pathMatch: 'full' },
   {
-    path: 'phones', children: [
-      { path: '', component: PhoneListComponent, pathMatch: 'full' },
-      { path: ':id', component: PhoneDetailsComponent }
+    path: 'tickets', children: [
+      { path: '', component: TicketsComponent, pathMatch: 'full' },
+      { path: ':id', component: DetailsComponent }
     ]
   },
   { path: 'register', component: RegisterComponent },

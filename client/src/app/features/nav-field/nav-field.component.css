@@ -1,0 +1,18 @@
+.menu a {
+  display: inline-block;
+  text-decoration: none;
+  background-color: purple;
+  border: solid 1px;
+  border-radius: 3px;
+  padding: 8px;
+  color: white;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-size: 18px;
+}
+
+.menu a:hover {
+  border: solid 1px;
+  border-color: purple;
+  background-color: white;
+  color: purple;
+}

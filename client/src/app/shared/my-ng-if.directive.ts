@@ -5,16 +5,17 @@ import { Directive, TemplateRef, ViewContainerRef, Input } from '@angular/core';
 })
 export class MyNgIfDirective {
 
-  constructor(private templRef: TemplateRef<any>, private vcref: ViewContainerRef) { }
+  constructor(private templeteRef: TemplateRef<any>,
+              private viewContainerRef: ViewContainerRef) { }
   hasView = false;
 
   @Input()
   set appMyNgIf(value: number) {
-    if (value > 5 && !this.hasView) {
-      this.vcref.createEmbeddedView(this.templRef);
+    if(value > 5 && !this.hasView) {
+      this.viewContainerRef.createEmbeddedView(this.templeteRef);
       this.hasView = true;
-    } else {
-      this.vcref.clear();
+    } else if(value < 5 && this.hasView){
+      this.viewContainerRef.clear();
       this.hasView = false;
     }
   }
