@@ -18,6 +18,7 @@ class SharedData {
   getAll() {
     const result = this.Model.findAll({
       include: this.includes,
+      paranoid: true,
       // raw: true,
     });
 
@@ -30,10 +31,54 @@ class SharedData {
         id: SomeId,
       },
       include: this.includes,
+      paranoid: true,
       // raw: true,
     });
 
     return result;
+  }
+
+  getByParam(paramModel) {
+    return this.Model.findOne({
+      where: paramModel,
+      include: this.includes,
+      paranoid: true,
+      // raw: true,
+    });
+  }
+
+  getAllByParam(paramModel) {
+    return this.Model.findAll({
+      where: paramModel,
+      include: this.includes,
+      paranoid: true,
+      // raw: true,
+    });
+  }
+
+  // create(modelObj) {
+  //   return this.Model.create(modelObj);
+  // }
+
+  findOrCreate(modelObj) {
+    return this.Model.findCreateFind({
+      where: modelObj,
+      paranoid: true,
+    });
+  }
+
+  update(modelObj, paramObj) {
+    return this.Model.update(modelObj, {
+      where: paramObj,
+      paranoid: true,
+    });
+  }
+
+  delete(modelObj) {
+    return this.Model.destroy({
+      where: modelObj,
+      paranoid: true,
+    });
   }
 }
 

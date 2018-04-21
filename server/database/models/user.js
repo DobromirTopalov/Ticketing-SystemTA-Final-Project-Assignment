@@ -25,15 +25,18 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: true,
     },
-  }, {});
+  }, {
+    timestamps: true,
+    paranoid: true,
+  });
   User.associate = (models) => {
     const {
       Company,
       Role,
     } = models;
 
-    User.belongsTo(Company);
-    User.belongsTo(Role);
+    User.belongsTo(Company, { onDelete: 'cascade' });
+    User.belongsTo(Role, { onDelete: 'cascade' });
   };
 
   return User;

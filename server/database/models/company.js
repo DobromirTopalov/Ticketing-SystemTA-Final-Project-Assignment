@@ -21,7 +21,10 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: true,
     },
-  }, {});
+  }, {
+    timestamps: true,
+    paranoid: true,
+  });
   Company.associate = (models) => {
   };
 

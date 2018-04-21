@@ -7,8 +7,8 @@ const init = (app, data) => {
   const controller = new TicketController(data);
 
   router
-  .get('/api/tickets', controller.getTickets())
-  .get('/api/tickets/:id', controller.getById());
+  .get('/api/tickets', controller.getAll())
+  .get('/api/tickets/:id', controller.getByParameter());
 
   app.use('/', router);
 };

@@ -13,7 +13,10 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: true,
     },
-  }, {});
+  }, {
+    timestamps: true,
+    paranoid: true,
+  });
   Team.associate = (models) => {
     const {
       User,
@@ -24,14 +27,17 @@ module.exports = (sequelize, DataTypes) => {
       as: 'teamLeaderId',
       foreignKey: 'TeamLeaderId',
       allowNull: false,
+      onDelete: 'cascade',
     });
 
-    Team.belongsTo(Company);
+    Team.belongsTo(Company, { onDelete: 'cascade' });
     Team.belongsToMany(User, {
       through: 'TeamUser',
+      onDelete: 'cascade',
     });
     User.belongsToMany(Team, {
       through: 'TeamUser',
+      onDelete: 'cascade',
     });
   };
 

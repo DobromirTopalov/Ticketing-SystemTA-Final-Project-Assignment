@@ -23,7 +23,7 @@ var Sequelize = require('sequelize');
 var info = {
     "revision": 1,
     "name": "noname",
-    "created": "2018-04-18T22:37:42.479Z",
+    "created": "2018-04-21T15:51:01.272Z",
     "comment": ""
 };
 
@@ -49,6 +49,9 @@ var migrationCommands = [{
                 "updatedAt": {
                     "type": Sequelize.DATE,
                     "allowNull": false
+                },
+                "deletedAt": {
+                    "type": Sequelize.DATE
                 }
             },
             {}
@@ -76,6 +79,9 @@ var migrationCommands = [{
                 "updatedAt": {
                     "type": Sequelize.DATE,
                     "allowNull": false
+                },
+                "deletedAt": {
+                    "type": Sequelize.DATE
                 }
             },
             {}
@@ -103,6 +109,9 @@ var migrationCommands = [{
                 "updatedAt": {
                     "type": Sequelize.DATE,
                     "allowNull": false
+                },
+                "deletedAt": {
+                    "type": Sequelize.DATE
                 }
             },
             {}
@@ -146,6 +155,9 @@ var migrationCommands = [{
                 "updatedAt": {
                     "type": Sequelize.DATE,
                     "allowNull": false
+                },
+                "deletedAt": {
+                    "type": Sequelize.DATE
                 }
             },
             {}
@@ -194,10 +206,13 @@ var migrationCommands = [{
                     "type": Sequelize.DATE,
                     "allowNull": false
                 },
+                "deletedAt": {
+                    "type": Sequelize.DATE
+                },
                 "CompanyId": {
                     "type": Sequelize.INTEGER,
                     "onUpdate": "CASCADE",
-                    "onDelete": "SET NULL",
+                    "onDelete": "cascade",
                     "references": {
                         "model": "Companies",
                         "key": "id"
@@ -207,7 +222,7 @@ var migrationCommands = [{
                 "RoleId": {
                     "type": Sequelize.INTEGER,
                     "onUpdate": "CASCADE",
-                    "onDelete": "SET NULL",
+                    "onDelete": "cascade",
                     "references": {
                         "model": "Roles",
                         "key": "id"
@@ -257,10 +272,13 @@ var migrationCommands = [{
                     "type": Sequelize.DATE,
                     "allowNull": false
                 },
+                "deletedAt": {
+                    "type": Sequelize.DATE
+                },
                 "UserId": {
                     "type": Sequelize.INTEGER,
                     "onUpdate": "CASCADE",
-                    "onDelete": "SET NULL",
+                    "onDelete": "cascade",
                     "references": {
                         "model": "Users",
                         "key": "id"
@@ -302,10 +320,13 @@ var migrationCommands = [{
                     "type": Sequelize.DATE,
                     "allowNull": false
                 },
+                "deletedAt": {
+                    "type": Sequelize.DATE
+                },
                 "TeamLeaderId": {
                     "type": Sequelize.INTEGER,
                     "onUpdate": "CASCADE",
-                    "onDelete": "SET NULL",
+                    "onDelete": "cascade",
                     "references": {
                         "model": "Users",
                         "key": "id"
@@ -315,7 +336,7 @@ var migrationCommands = [{
                 "CompanyId": {
                     "type": Sequelize.INTEGER,
                     "onUpdate": "CASCADE",
-                    "onDelete": "SET NULL",
+                    "onDelete": "cascade",
                     "references": {
                         "model": "Companies",
                         "key": "id"
@@ -353,10 +374,13 @@ var migrationCommands = [{
                     "type": Sequelize.DATE,
                     "allowNull": false
                 },
+                "deletedAt": {
+                    "type": Sequelize.DATE
+                },
                 "TeamId": {
                     "type": Sequelize.INTEGER,
                     "onUpdate": "CASCADE",
-                    "onDelete": "SET NULL",
+                    "onDelete": "cascade",
                     "references": {
                         "model": "Teams",
                         "key": "id"
@@ -366,7 +390,7 @@ var migrationCommands = [{
                 "StatusId": {
                     "type": Sequelize.INTEGER,
                     "onUpdate": "CASCADE",
-                    "onDelete": "SET NULL",
+                    "onDelete": "cascade",
                     "references": {
                         "model": "Statuses",
                         "key": "id"
@@ -376,7 +400,7 @@ var migrationCommands = [{
                 "LabelId": {
                     "type": Sequelize.INTEGER,
                     "onUpdate": "CASCADE",
-                    "onDelete": "SET NULL",
+                    "onDelete": "cascade",
                     "references": {
                         "model": "Labels",
                         "key": "id"
@@ -386,7 +410,7 @@ var migrationCommands = [{
                 "RequesterId": {
                     "type": Sequelize.INTEGER,
                     "onUpdate": "CASCADE",
-                    "onDelete": "SET NULL",
+                    "onDelete": "cascade",
                     "references": {
                         "model": "Users",
                         "key": "id"
@@ -396,7 +420,7 @@ var migrationCommands = [{
                 "AssigneeId": {
                     "type": Sequelize.INTEGER,
                     "onUpdate": "CASCADE",
-                    "onDelete": "SET NULL",
+                    "onDelete": "cascade",
                     "references": {
                         "model": "Users",
                         "key": "id"
@@ -406,7 +430,7 @@ var migrationCommands = [{
                 "EscalationContactId": {
                     "type": Sequelize.INTEGER,
                     "onUpdate": "CASCADE",
-                    "onDelete": "SET NULL",
+                    "onDelete": "cascade",
                     "references": {
                         "model": "Users",
                         "key": "id"
@@ -444,10 +468,13 @@ var migrationCommands = [{
                     "type": Sequelize.DATE,
                     "allowNull": false
                 },
+                "deletedAt": {
+                    "type": Sequelize.DATE
+                },
                 "UserId": {
                     "type": Sequelize.INTEGER,
                     "onUpdate": "CASCADE",
-                    "onDelete": "SET NULL",
+                    "onDelete": "cascade",
                     "references": {
                         "model": "Users",
                         "key": "id"
@@ -457,7 +484,7 @@ var migrationCommands = [{
                 "TicketId": {
                     "type": Sequelize.INTEGER,
                     "onUpdate": "CASCADE",
-                    "onDelete": "SET NULL",
+                    "onDelete": "cascade",
                     "references": {
                         "model": "Tickets",
                         "key": "id"
@@ -495,10 +522,13 @@ var migrationCommands = [{
                     "type": Sequelize.DATE,
                     "allowNull": false
                 },
+                "deletedAt": {
+                    "type": Sequelize.DATE
+                },
                 "UserId": {
                     "type": Sequelize.INTEGER,
                     "onUpdate": "CASCADE",
-                    "onDelete": "SET NULL",
+                    "onDelete": "cascade",
                     "references": {
                         "model": "Users",
                         "key": "id"
@@ -508,7 +538,7 @@ var migrationCommands = [{
                 "TicketId": {
                     "type": Sequelize.INTEGER,
                     "onUpdate": "CASCADE",
-                    "onDelete": "SET NULL",
+                    "onDelete": "cascade",
                     "references": {
                         "model": "Tickets",
                         "key": "id"
@@ -535,7 +565,7 @@ var migrationCommands = [{
                 "TeamId": {
                     "type": Sequelize.INTEGER,
                     "onUpdate": "CASCADE",
-                    "onDelete": "CASCADE",
+                    "onDelete": "cascade",
                     "references": {
                         "model": "Teams",
                         "key": "id"
@@ -545,7 +575,7 @@ var migrationCommands = [{
                 "UserId": {
                     "type": Sequelize.INTEGER,
                     "onUpdate": "CASCADE",
-                    "onDelete": "CASCADE",
+                    "onDelete": "cascade",
                     "references": {
                         "model": "Users",
                         "key": "id"
@@ -572,7 +602,7 @@ var migrationCommands = [{
                 "TicketId": {
                     "type": Sequelize.INTEGER,
                     "onUpdate": "CASCADE",
-                    "onDelete": "CASCADE",
+                    "onDelete": "cascade",
                     "references": {
                         "model": "Tickets",
                         "key": "id"
@@ -582,7 +612,7 @@ var migrationCommands = [{
                 "UserId": {
                     "type": Sequelize.INTEGER,
                     "onUpdate": "CASCADE",
-                    "onDelete": "CASCADE",
+                    "onDelete": "cascade",
                     "references": {
                         "model": "Users",
                         "key": "id"

@@ -5,7 +5,10 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: false,
     },
-  }, {});
+  }, {
+    timestamps: true,
+    paranoid: true,
+  });
   Label.associate = (models) => {
   };
 

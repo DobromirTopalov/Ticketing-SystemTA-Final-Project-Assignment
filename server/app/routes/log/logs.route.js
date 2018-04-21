@@ -9,10 +9,10 @@ const init = (app, data) => {
   const controller = new LogController(data);
 
   router
-    .get('/api/logs', controller.getLogs())
-    .get('/api/logs/:id', controller.getById())
-    .get('/api/logs/user/:UserId', controller.getByUserId())
-    .get('/api/logs/ticket/:TicketId', controller.getByTicketId());
+    .get('/api/logs', controller.getAll())
+    .get('/api/logs/:id', controller.getByParameter())
+    .get('/api/logs/user/:UserId', controller.getByParameter())
+    .get('/api/logs/ticket/:TicketId', controller.getByParameter());
 
   app.use('/', router);
 };

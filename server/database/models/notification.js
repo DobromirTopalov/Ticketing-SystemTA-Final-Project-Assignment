@@ -21,13 +21,16 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: true,
     },
-  }, {});
+  }, {
+    timestamps: true,
+    paranoid: true,
+  });
   Notification.associate = (models) => {
     const {
       User,
     } = models;
 
-    Notification.belongsTo(User);
+    Notification.belongsTo(User, { onDelete: 'cascade' });
   };
 
   return Notification;

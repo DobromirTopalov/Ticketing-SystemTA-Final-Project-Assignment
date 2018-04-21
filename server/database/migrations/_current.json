@@ -25,13 +25,16 @@
                     "allowNull": false,
                     "seqType": "Sequelize.DATE"
                 },
+                "deletedAt": {
+                    "seqType": "Sequelize.DATE"
+                },
                 "UserId": {
                     "allowNull": true,
                     "references": {
                         "model": "Users",
                         "key": "id"
                     },
-                    "onDelete": "SET NULL",
+                    "onDelete": "cascade",
                     "onUpdate": "CASCADE",
                     "seqType": "Sequelize.INTEGER"
                 },
@@ -41,7 +44,7 @@
                         "model": "Tickets",
                         "key": "id"
                     },
-                    "onDelete": "SET NULL",
+                    "onDelete": "cascade",
                     "onUpdate": "CASCADE",
                     "seqType": "Sequelize.INTEGER"
                 }
@@ -84,6 +87,9 @@
                 "updatedAt": {
                     "allowNull": false,
                     "seqType": "Sequelize.DATE"
+                },
+                "deletedAt": {
+                    "seqType": "Sequelize.DATE"
                 }
             },
             "indexes": []
@@ -107,6 +113,9 @@
                 },
                 "updatedAt": {
                     "allowNull": false,
+                    "seqType": "Sequelize.DATE"
+                },
+                "deletedAt": {
                     "seqType": "Sequelize.DATE"
                 }
             },
@@ -137,13 +146,16 @@
                     "allowNull": false,
                     "seqType": "Sequelize.DATE"
                 },
+                "deletedAt": {
+                    "seqType": "Sequelize.DATE"
+                },
                 "UserId": {
                     "allowNull": true,
                     "references": {
                         "model": "Users",
                         "key": "id"
                     },
-                    "onDelete": "SET NULL",
+                    "onDelete": "cascade",
                     "onUpdate": "CASCADE",
                     "seqType": "Sequelize.INTEGER"
                 },
@@ -153,7 +165,7 @@
                         "model": "Tickets",
                         "key": "id"
                     },
-                    "onDelete": "SET NULL",
+                    "onDelete": "cascade",
                     "onUpdate": "CASCADE",
                     "seqType": "Sequelize.INTEGER"
                 }
@@ -197,13 +209,16 @@
                     "allowNull": false,
                     "seqType": "Sequelize.DATE"
                 },
+                "deletedAt": {
+                    "seqType": "Sequelize.DATE"
+                },
                 "UserId": {
                     "allowNull": true,
                     "references": {
                         "model": "Users",
                         "key": "id"
                     },
-                    "onDelete": "SET NULL",
+                    "onDelete": "cascade",
                     "onUpdate": "CASCADE",
                     "seqType": "Sequelize.INTEGER"
                 }
@@ -230,6 +245,9 @@
                 "updatedAt": {
                     "allowNull": false,
                     "seqType": "Sequelize.DATE"
+                },
+                "deletedAt": {
+                    "seqType": "Sequelize.DATE"
                 }
             },
             "indexes": []
@@ -253,6 +271,9 @@
                 },
                 "updatedAt": {
                     "allowNull": false,
+                    "seqType": "Sequelize.DATE"
+                },
+                "deletedAt": {
                     "seqType": "Sequelize.DATE"
                 }
             },
@@ -287,13 +308,16 @@
                     "allowNull": false,
                     "seqType": "Sequelize.DATE"
                 },
+                "deletedAt": {
+                    "seqType": "Sequelize.DATE"
+                },
                 "TeamLeaderId": {
                     "allowNull": true,
                     "references": {
                         "model": "Users",
                         "key": "id"
                     },
-                    "onDelete": "SET NULL",
+                    "onDelete": "cascade",
                     "onUpdate": "CASCADE",
                     "seqType": "Sequelize.INTEGER"
                 },
@@ -303,7 +327,7 @@
                         "model": "Companies",
                         "key": "id"
                     },
-                    "onDelete": "SET NULL",
+                    "onDelete": "cascade",
                     "onUpdate": "CASCADE",
                     "seqType": "Sequelize.INTEGER"
                 }
@@ -335,13 +359,16 @@
                     "allowNull": false,
                     "seqType": "Sequelize.DATE"
                 },
+                "deletedAt": {
+                    "seqType": "Sequelize.DATE"
+                },
                 "TeamId": {
                     "allowNull": true,
                     "references": {
                         "model": "Teams",
                         "key": "id"
                     },
-                    "onDelete": "SET NULL",
+                    "onDelete": "cascade",
                     "onUpdate": "CASCADE",
                     "seqType": "Sequelize.INTEGER"
                 },
@@ -351,7 +378,7 @@
                         "model": "Statuses",
                         "key": "id"
                     },
-                    "onDelete": "SET NULL",
+                    "onDelete": "cascade",
                     "onUpdate": "CASCADE",
                     "seqType": "Sequelize.INTEGER"
                 },
@@ -361,7 +388,7 @@
                         "model": "Labels",
                         "key": "id"
                     },
-                    "onDelete": "SET NULL",
+                    "onDelete": "cascade",
                     "onUpdate": "CASCADE",
                     "seqType": "Sequelize.INTEGER"
                 },
@@ -371,7 +398,7 @@
                         "model": "Users",
                         "key": "id"
                     },
-                    "onDelete": "SET NULL",
+                    "onDelete": "cascade",
                     "onUpdate": "CASCADE",
                     "seqType": "Sequelize.INTEGER"
                 },
@@ -381,7 +408,7 @@
                         "model": "Users",
                         "key": "id"
                     },
-                    "onDelete": "SET NULL",
+                    "onDelete": "cascade",
                     "onUpdate": "CASCADE",
                     "seqType": "Sequelize.INTEGER"
                 },
@@ -391,7 +418,7 @@
                         "model": "Users",
                         "key": "id"
                     },
-                    "onDelete": "SET NULL",
+                    "onDelete": "cascade",
                     "onUpdate": "CASCADE",
                     "seqType": "Sequelize.INTEGER"
                 }
@@ -439,13 +466,16 @@
                     "allowNull": false,
                     "seqType": "Sequelize.DATE"
                 },
+                "deletedAt": {
+                    "seqType": "Sequelize.DATE"
+                },
                 "CompanyId": {
                     "allowNull": true,
                     "references": {
                         "model": "Companies",
                         "key": "id"
                     },
-                    "onDelete": "SET NULL",
+                    "onDelete": "cascade",
                     "onUpdate": "CASCADE",
                     "seqType": "Sequelize.INTEGER"
                 },
@@ -455,7 +485,7 @@
                         "model": "Roles",
                         "key": "id"
                     },
-                    "onDelete": "SET NULL",
+                    "onDelete": "cascade",
                     "onUpdate": "CASCADE",
                     "seqType": "Sequelize.INTEGER"
                 }
@@ -479,7 +509,7 @@
                         "model": "Teams",
                         "key": "id"
                     },
-                    "onDelete": "CASCADE",
+                    "onDelete": "cascade",
                     "onUpdate": "CASCADE",
                     "seqType": "Sequelize.INTEGER"
                 },
@@ -489,7 +519,7 @@
                         "model": "Users",
                         "key": "id"
                     },
-                    "onDelete": "CASCADE",
+                    "onDelete": "cascade",
                     "onUpdate": "CASCADE",
                     "seqType": "Sequelize.INTEGER"
                 }
@@ -513,7 +543,7 @@
                         "model": "Tickets",
                         "key": "id"
                     },
-                    "onDelete": "CASCADE",
+                    "onDelete": "cascade",
                     "onUpdate": "CASCADE",
                     "seqType": "Sequelize.INTEGER"
                 },
@@ -523,7 +553,7 @@
                         "model": "Users",
                         "key": "id"
                     },
-                    "onDelete": "CASCADE",
+                    "onDelete": "cascade",
                     "onUpdate": "CASCADE",
                     "seqType": "Sequelize.INTEGER"
                 }

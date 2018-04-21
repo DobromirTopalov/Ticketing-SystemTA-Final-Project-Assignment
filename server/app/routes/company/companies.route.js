@@ -9,9 +9,9 @@ const init = (app, data) => {
   const controller = new CompanyController(data);
 
   router
-    .get('/api/companies', controller.getCompanies())
-    .get('/api/companies/:id', controller.getById())
-    .get('/api/companies/:name', controller.getByName());
+    .get('/api/companies', controller.getAll())
+    .get('/api/companies/:id', controller.getByParameter())
+    .get('/api/companies/:name', controller.getByParameter());
 
   app.use('/', router);
 };

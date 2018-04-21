@@ -9,9 +9,11 @@ const init = (app, data) => {
   const controller = new UsersController(data);
 
   router
-    .get('/api/users', controller.getUsers())
-    .get('/api/users/:email', controller.getByEmail());
-
+    .get('/api/users', controller.getAll())
+    .get('/api/users/:email', controller.getByParameter())
+    .get('/api/create/user', controller.createUser())
+    .get('/api/update/user', controller.updateUser())
+    .get('/api/delete/user', controller.deleteUser());
   app.use('/', router);
 };
 

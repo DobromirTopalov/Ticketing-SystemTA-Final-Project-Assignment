@@ -9,9 +9,9 @@ const init = (app, data) => {
   const controller = new NotificationController(data);
 
   router
-    .get('/api/notifications', controller.getNotifications())
-    .get('/api/notifications/:id', controller.getById())
-    .get('/api/notifications/user/:UserId', controller.getByUserId());
+    .get('/api/notifications', controller.getAll())
+    .get('/api/notifications/:id', controller.getByParameter())
+    .get('/api/notifications/user/:UserId', controller.getByParameter());
 
   app.use('/', router);
 };

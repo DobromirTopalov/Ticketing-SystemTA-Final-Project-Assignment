@@ -9,10 +9,10 @@ const init = (app, data) => {
   const controller = new CommentaryController(data);
 
   router
-    .get('/api/commentaries', controller.getCommentaries())
-    .get('/api/commentaries/:id', controller.getById())
-    .get('/api/commentaries/user/:UserId', controller.getByUserId())
-    .get('/api/commentaries/ticket/:TicketId', controller.getByTicketId());
+    .get('/api/commentaries', controller.getAll())
+    .get('/api/commentaries/:id', controller.getByParameter())
+    .get('/api/commentaries/user/:UserId', controller.getByParameter())
+    .get('/api/commentaries/ticket/:TicketId', controller.getByParameter());
 
   app.use('/', router);
 };

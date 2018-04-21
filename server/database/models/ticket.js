@@ -9,7 +9,10 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: false,
     },
-  }, {});
+  }, {
+    timestamps: true,
+    paranoid: true,
+  });
   Ticket.associate = (models) => {
     const {
       User,
@@ -18,33 +21,38 @@ module.exports = (sequelize, DataTypes) => {
       Label,
     } = models;
 
-    Ticket.belongsTo(Team);
-    Ticket.belongsTo(Status);
-    Ticket.belongsTo(Label);
+    Ticket.belongsTo(Team, { onDelete: 'cascade' });
+    Ticket.belongsTo(Status, { onDelete: 'cascade' });
+    Ticket.belongsTo(Label, { onDelete: 'cascade' });
 
     Ticket.belongsToMany(User, {
       through: 'TicketUser',
+      onDelete: 'cascade',
     });
     User.belongsToMany(Ticket, {
       through: 'TicketUser',
+      onDelete: 'cascade',
     });
 
     Ticket.belongsTo(User, {
       as: 'requesterId',
       foreignKey: 'RequesterId',
       allowNull: false,
+      onDelete: 'cascade',
     });
 
     Ticket.belongsTo(User, {
       as: 'assigneeId',
       foreignKey: 'AssigneeId',
       allowNull: false,
+      onDelete: 'cascade',
     });
 
     Ticket.belongsTo(User, {
       as: 'escalationContactId',
       foreignKey: 'EscalationContactId',
       allowNull: true,
+      onDelete: 'cascade',
     });
   };
 

@@ -10,36 +10,29 @@ class AuthController {
     this.data = data;
   }
 
-  getUsers() {
-    return async (req, res, next) => {
-      const usersFound = await this.data.users.getAll();
-
-      return res.status(401).send({
-        usersFound,
-      });
-    };
-  }
-
   login() {
     return async (req, res, next) => {
-      let userFound = await this.data.users.getAll().map((element) => element.dataValues);
-      userFound = userFound.find((x) => x.email === req.body.email);
+      const user = await this.data.users.getByParam({
+        email: req.body.email,
+      });
 
-      if (userFound) {
-        bcrypt.compare(req.body.password, userFound.password, (err, response) => {
+      if (user) {
+        bcrypt.compare(req.body.password, user.password, (err, response) => {
           if (response) {
-            const expire = moment(new Date()).add(config.JWT_EXPIRE_TIME, 'seconds').unix();
+            const expire = moment(new Date())
+                            .add(config.JWT_EXPIRE_TIME, 'seconds').unix();
+
             const payload = {
-              sub: userFound.id,
-              email: userFound.email,
-              password: userFound.password,
+              sub: user.id,
+              email: user.email,
               exp: expire,
               iss: config.JWT_ISS,
+              role: user.Role.name,
             };
 
             const secret = config.JWT_SECRET;
-
             const token = jwt.encode(payload, secret);
+
 
             res.status(200).send({
               token: token,
@@ -47,8 +40,8 @@ class AuthController {
           }
         });
       } else {
-        return res.status(401).send({
-          err: 'User already exist',
+        res.status(401).send({
+          err: 'Access denied!',
         });
       }
     };
@@ -56,26 +49,30 @@ class AuthController {
 
   register() {
     return async (req, res) => {
-      let userFound = await this.data.users.getAll().map((element) => element.dataValues);
-      userFound = userFound.find((x) => x.email === req.body.email);
+      const foundUser = await this.data.users.getByParam({
+        email: req.body.email,
+      });
 
-      if (!userFound) {
+      // TO DO: fix register form/models/logic
+      if (!foundUser) {
         const user = {
           id: uuid(),
-          email: req.body.email,
-          password: '',
+          firstName: req.body.firstName || 'FirstName',
+          lastName: req.body.lastName || 'LastName',
+          CompanyId: req.body.company || 1,
+          RoleId: 6,
+          email: req.body.email || 'default@mail.com',
+          password: '123456',
         };
         bcrypt.hash(req.body.password, null, null, async (err, hash) => {
           user.password = hash;
-          const userFound2 = await this.data.users.createUser(user, 3, 1);
-          console.log(userFound2);
+          await this.data.users.findOrCreate(user);
         });
-
 
         res.status(200).send({});
       } else {
         res.status(401).send({
-          err: 'User already exist',
+          err: 'User already exist!',
         });
       }
     };

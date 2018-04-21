@@ -7,9 +7,9 @@ const init = (app, data) => {
   const controller = new TeamController(data);
 
   router
-  .get('/api/teams', controller.getTeams())
-  .get('/api/teams/:id', controller.getById())
-  .get('/api/teams/:name', controller.getByName());
+  .get('/api/teams', controller.getAll())
+  .get('/api/teams/:id', controller.getByParameter())
+  .get('/api/teams/name/:name', controller.getByParameter());
 
   app.use('/', router);
 };
