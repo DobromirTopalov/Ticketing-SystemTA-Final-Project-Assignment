@@ -37,6 +37,7 @@ export function tokenGetter() {
     MessagesComponent
   ],
   imports: [
+    SharedModule,
     ToastrModule.forRoot(),
     AuthModule,
     BrowserModule,
