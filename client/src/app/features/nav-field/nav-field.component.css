@@ -1,5 +1,4 @@
-/* .menu a {
-  display: inline-block;
+.menu a {
   text-decoration: none;
   background-color: rgba(128, 0, 128, 0.699);
   border: solid 1px;
@@ -20,4 +19,18 @@
   border-color: purple;
   background-color: white;
   color: purple;
-} */
+}
+
+.fill-remaining-space {
+  /* This fills the remaining space, by using flexbox.
+     Every toolbar row uses a flexbox row layout. */
+  flex: 1 1 auto;
+}
+
+.mat-sidenav-container {
+  background: rgba(0, 0, 0, 0.08);
+}
+
+.blank-grow {
+  flex: 1 1 auto;
+}
