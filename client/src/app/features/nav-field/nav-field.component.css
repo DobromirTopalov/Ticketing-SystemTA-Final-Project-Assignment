@@ -1,7 +1,7 @@
-.menu a {
+/* .menu a {
   display: inline-block;
   text-decoration: none;
-  background-color: purple;
+  background-color: rgba(128, 0, 128, 0.699);
   border: solid 1px;
   border-radius: 3px;
   padding: 8px;
@@ -10,9 +10,14 @@
   font-size: 18px;
 }
 
+.menu {
+  width: 100%;
+  background-color: purple;
+}
+
 .menu a:hover {
   border: solid 1px;
   border-color: purple;
   background-color: white;
   color: purple;
-}
+} */

@@ -4,7 +4,6 @@ import { CommonModule } from '@angular/common';
 import { MessageService } from './message.service';
 import { TicketsService } from './tickets.service';
 
-
 @NgModule({
   providers: [
     // Shorthand

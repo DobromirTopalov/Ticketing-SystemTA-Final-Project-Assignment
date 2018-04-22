@@ -10,9 +10,7 @@ import { NgForm, FormGroup, FormControl, FormBuilder, Validators } from '@angula
   styleUrls: ['./app.component.css'],
 })
 export class AppComponent {
-
   constructor(private http: HttpClient, private authService: AuthService) { }
-
 
   testAuth(): void {
     this.http.get<any>('http://localhost:3200/test').subscribe(x => {

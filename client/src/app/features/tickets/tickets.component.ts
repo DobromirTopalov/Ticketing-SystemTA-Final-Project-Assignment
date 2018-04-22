@@ -14,8 +14,7 @@ export class TicketsComponent implements OnInit {
 
   ngOnInit() {
     this.ticketsService.getAll().subscribe(data => {
-      this.tickets = [{name: 'gosho'},{name: 'gosho2'},{name: 'gosho3'}];
-      const values = Object.keys(data).map(it => data[it])[0];
+      const values = Object.keys(data).map((iterator) => data[iterator])[0];
       this.tickets = values;
     });
   }

@@ -1,13 +1,14 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { BoldDirective } from './bold.directive';
 import { EllipsisPipe } from './ellipsis.pipe';
 import { MyNgIfDirective } from './my-ng-if.directive';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { MatButtonModule, MatCardModule, MatSelectModule, MatFormFieldModule, MatInputModule } from '@angular/material';
+import { MatButtonModule, MatCardModule, MatSelectModule, MatFormFieldModule, MatInputModule, MatGridListModule, MatToolbarModule } from '@angular/material';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
+// TODO check this out later
+import { CommonModule } from '@angular/common';
 @NgModule({
   imports: [
     FormsModule,
@@ -17,6 +18,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     MatSelectModule,
     MatFormFieldModule,
     MatInputModule,
+    MatGridListModule,
+    MatToolbarModule,
     FlexLayoutModule,
     BrowserAnimationsModule
   ],
@@ -36,6 +39,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     MatSelectModule,
     MatFormFieldModule,
     MatInputModule,
+    MatGridListModule,
+    MatToolbarModule,
     FlexLayoutModule,
     BrowserAnimationsModule
   ]
