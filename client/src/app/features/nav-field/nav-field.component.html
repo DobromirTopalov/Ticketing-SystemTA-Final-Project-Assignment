@@ -1,15 +1,4 @@
-<!-- <div class="menu">
-  <ul>
-    <a [routerLink]="['/home']" routerLinkActive="active">Home</a>
-    <a *ngIf="isAuth()" [routerLink]="['/tickets']" routerLinkActive="active">Tickets</a>
-    <a *ngIf="!isAuth()" [routerLink]="['/register']" routerLinkActive="active">Register</a>
-    <a *ngIf="!isAuth()" [routerLink]="['/login']" routerLinkActive="active">Login</a>
-    <a *ngIf="isAuth()" [routerLink]="['/']" (click)="logout()">Logout</a>
-  </ul>
-</div> -->
-
-
-<div class="menu" style="height: 90vh">
+<div class="menu" style="height: 89vh">
 
   <mat-toolbar color="primary">
 
@@ -58,12 +47,14 @@
 
     </mat-sidenav>
 
+
+    <!-- Main content inside tags below because of responsive navbar -->
     <mat-sidenav-content fxFlexFill>
+
       <router-outlet></router-outlet>
+
     </mat-sidenav-content>
 
   </mat-sidenav-container>
-  <!-- <mat-footer-content>ARE WE</mat-footer-content> -->
-  <!-- <mat-toolbar-row>THIS IS GONNA BE OUR FOO</mat-toolbar-row> -->
 
 </div>

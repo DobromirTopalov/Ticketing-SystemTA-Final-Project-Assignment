@@ -9,7 +9,7 @@ import { TicketsService } from '../../core/tickets.service';
 })
 export class TicketsComponent implements OnInit {
   @Input()
-  tickets: any;
+  tickets: Ticket[];
   constructor(private ticketsService: TicketsService) { }
 
   ngOnInit() {
