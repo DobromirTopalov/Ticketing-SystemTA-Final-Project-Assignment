@@ -15,6 +15,9 @@ import { TicketsModule } from './features/tickets/ticket.module';
 import { NavFieldComponent } from './features/nav-field/nav-field.component';
 import { MessagesComponent } from './features/messages/messages.component';
 import { SharedModule } from './shared/index';
+import { TeamsComponent } from './features/teams/teams.component';
+import { TeamDetailsComponent } from './features/teams/details/team-details.component';
+import { SingleTeamComponent } from './features/teams/single-team/single-team.component';
 
 export function tokenGetter() {
   return localStorage.getItem('access_token');
@@ -25,7 +28,10 @@ export function tokenGetter() {
     AppComponent,
     HomeComponent,
     NavFieldComponent,
-    MessagesComponent
+    MessagesComponent,
+    TeamsComponent,
+    TeamDetailsComponent,
+    SingleTeamComponent
   ],
   imports: [
     SharedModule,

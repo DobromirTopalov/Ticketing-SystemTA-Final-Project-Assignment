@@ -1,0 +1,29 @@
+<!-- <div *ngFor="let team of teams">
+  <app-team-details [team]="team"></app-team-details>
+  <hr>
+</div> -->
+
+<mat-grid-list [cols]="columnNum" [rowHeight]="rowHeightRatio">
+  <div *ngFor="let team of teams">
+
+    <!-- <a href="/teams/{{team.id}}"> -->
+      <mat-grid-tile (click)="nav(team.id)">
+        <app-team-details [team]="team"></app-team-details>
+      </mat-grid-tile>
+
+  </div>
+</mat-grid-list>
+<!-- <mat-grid-list cols="2" rowHeight="2:1">
+  <div *ngFor="let team of teams">
+    <mat-grid-tile>
+      <app-team-details [team]="team"></app-team-details>
+    </mat-grid-tile>
+  </div>
+</mat-grid-list> -->
+
+<!-- <mat-grid-list cols="2" rowHeight="2:1">
+  <mat-grid-tile>1</mat-grid-tile>
+  <mat-grid-tile>2</mat-grid-tile>
+  <mat-grid-tile>3</mat-grid-tile>
+  <mat-grid-tile>4</mat-grid-tile>
+</mat-grid-list> -->

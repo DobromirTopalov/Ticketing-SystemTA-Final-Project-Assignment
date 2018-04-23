@@ -1,0 +1,11 @@
+<div class="list-container" (click)="onShowTeam()">
+  <p>Name: {{team.name}}</p>
+  <p>Description: {{team.description}}</p>
+  <p>Team Leader: {{team.teamLeaderId.firstName}} {{team.teamLeaderId.lastName}}</p>
+  <p>Company: {{team.Company.name}}</p>
+  <p>Members:
+    <span *ngFor="let member of team.Users">
+      <span>{{member.firstName}} {{member.lastName}}; </span>
+    </span>
+  </p>
+</div>
