@@ -29,7 +29,6 @@ export class LoginComponent implements OnInit {
 
   login(): void {
     this.auth.login(this.loginForm.value, { observe: 'response', responseType: 'json' }).subscribe((x: HttpResponse<{token: string}>) => {
-      console.log(x.body);
       localStorage.setItem('access_token', x.body.token);
       this.toastr.success(`${this.loginForm.get('email').value} registered!`);
     },
