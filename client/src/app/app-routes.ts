@@ -4,11 +4,13 @@ import { RegisterComponent } from './auth/register.component';
 import { LoginComponent } from './auth/login.component';
 import { TicketsComponent } from './features/tickets/tickets.component';
 import { DetailsComponent } from './features/tickets/details/details.component';
+import { AuthGuard } from './core/auth-guard';
 import { TeamsComponent } from './features/teams/teams.component';
 import { SingleTeamComponent } from './features/teams/single-team/single-team.component';
 
 export const ROUTES: Routes = [
   { path: 'home', component: HomeComponent },
+  { path: 'homeSofia', component: HomeComponent, canActivate: [AuthGuard] },
   { path: '', redirectTo: 'home', pathMatch: 'full' },
   {
     path: 'tickets', children: [

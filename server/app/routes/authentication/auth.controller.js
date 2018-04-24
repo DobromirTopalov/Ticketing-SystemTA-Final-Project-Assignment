@@ -1,5 +1,4 @@
 const bcrypt = require('bcrypt-nodejs');
-const uuid = require('uuid/v4');
 const jwt = require('jwt-simple');
 const moment = require('moment');
 
@@ -23,7 +22,7 @@ class AuthController {
                             .add(config.JWT_EXPIRE_TIME, 'seconds').unix();
 
             const payload = {
-              sub: user.id,
+              id: user.id,
               email: user.email,
               exp: expire,
               iss: config.JWT_ISS,
@@ -32,7 +31,6 @@ class AuthController {
 
             const secret = config.JWT_SECRET;
             const token = jwt.encode(payload, secret);
-
 
             res.status(200).send({
               token: token,
@@ -53,16 +51,22 @@ class AuthController {
         email: req.body.email,
       });
 
+      const company = await this.data.companies.getByParam({
+        name: req.body.company,
+      });
+
+      const role = await this.data.companies.getByParam({
+        name: req.body.role,
+      });
       // TO DO: fix register form/models/logic
       if (!foundUser) {
         const user = {
-          id: uuid(),
           firstName: req.body.firstName || 'FirstName',
           lastName: req.body.lastName || 'LastName',
-          CompanyId: req.body.company || 1,
+          CompanyId: company.id || 1,
           RoleId: 6,
           email: req.body.email || 'default@mail.com',
-          password: '123456',
+          password: '123123',
         };
         bcrypt.hash(req.body.password, null, null, async (err, hash) => {
           user.password = hash;

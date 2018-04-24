@@ -1,3 +1,4 @@
+const passport = require('passport');
 const {
   Router,
 } = require('express');
@@ -9,9 +10,17 @@ const init = (app, data) => {
   const controller = new CompanyController(data);
 
   router
-    .get('/api/companies', controller.getAll())
-    .get('/api/companies/:id', controller.getByParameter())
-    .get('/api/companies/:name', controller.getByParameter());
+    .get('/api/companies', passport.authenticate('jwt', {
+      session: false,
+    }), controller.getAll())
+
+    .get('/api/companies/:id', passport.authenticate('jwt', {
+      session: false,
+    }), controller.getByParameter())
+
+    .get('/api/companies/:name', passport.authenticate('jwt', {
+      session: false,
+    }), controller.getByParameter());
 
   app.use('/', router);
 };

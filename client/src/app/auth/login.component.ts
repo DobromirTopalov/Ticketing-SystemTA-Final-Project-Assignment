@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { User } from '../models/users/user';
-import { FormGroup, FormBuilder } from '@angular/forms';
+import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
 import { AuthService } from '../core/auth.service';
 import { ToastrService } from 'ngx-toastr';
 import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
@@ -27,9 +27,15 @@ export class LoginComponent implements OnInit {
     });
   }
 
+  email = new FormControl('', [Validators.required, Validators.email]);
+  getErrorMessage() {
+    return this.email.hasError('required') ? 'You must enter a value' :
+      this.email.hasError('email') ? 'Not a valid email' :
+        '';
+  }
+
   login(): void {
     this.auth.login(this.loginForm.value, { observe: 'response', responseType: 'json' }).subscribe((x: HttpResponse<{token: string}>) => {
-      console.log(x.body);
       localStorage.setItem('access_token', x.body.token);
       this.toastr.success(`${this.loginForm.get('email').value} registered!`);
     },

@@ -1,3 +1,4 @@
+const passport = require('passport');
 const {
   Router,
 } = require('express');
@@ -9,10 +10,21 @@ const init = (app, data) => {
   const controller = new LogController(data);
 
   router
-    .get('/api/logs', controller.getAll())
-    .get('/api/logs/:id', controller.getByParameter())
-    .get('/api/logs/user/:UserId', controller.getByParameter())
-    .get('/api/logs/ticket/:TicketId', controller.getByParameter());
+    .get('/api/logs', passport.authenticate('jwt', {
+      session: false,
+    }), controller.getAll())
+
+    .get('/api/logs/:id', passport.authenticate('jwt', {
+      session: false,
+    }), controller.getByParameter())
+
+    .get('/api/logs/user/:UserId', passport.authenticate('jwt', {
+      session: false,
+    }), controller.getByParameter())
+
+    .get('/api/logs/ticket/:TicketId', passport.authenticate('jwt', {
+      session: false,
+    }), controller.getByParameter());
 
   app.use('/', router);
 };

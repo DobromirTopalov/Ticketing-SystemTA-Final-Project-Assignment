@@ -18,7 +18,18 @@ const usersdata = new UserData(User);
 
 const create = () => {
   return new JwtStrategy(options, async (jwtPayload, done) => {
-    const userFound = await usersdata.getByUserId(jwtPayload.sub);
+    const userFound = await usersdata.getById(jwtPayload.id);
+
+    if (userFound) {
+      return done(null, userFound);
+    }
+    return done('Not authenticated', false);
+  });
+};
+
+const createAdmin = () => {
+  return new JwtStrategy(options, async (jwtPayload, done) => {
+    const userFound = await usersdata.getById(jwtPayload.id);
 
     if (userFound) {
       return done(null, userFound);
@@ -29,4 +40,5 @@ const create = () => {
 
 module.exports = {
   create,
+  createAdmin,
 };
