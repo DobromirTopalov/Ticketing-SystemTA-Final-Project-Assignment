@@ -1,0 +1,9 @@
+mat-grid-tile {
+  background: salmon;
+}
+
+.container {
+  text-align: center;
+  display: block;
+  overflow: auto;
+}

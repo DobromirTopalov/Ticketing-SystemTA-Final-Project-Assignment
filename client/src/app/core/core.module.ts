@@ -3,9 +3,11 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MessageService } from './message.service';
 import { TicketsService } from './tickets.service';
-import { HTTP_INTERCEPTORS } from '@angular/common/http';
+// import { HTTP_INTERCEPTORS } from '@angular/common/http';
 // import { TokenInterceptor } from '../auth/token.interceptor';
 import { AuthGuard } from './auth-guard';
+import { TeamsService } from './teams.service';
+import { UsersService } from './users.service';
 
 @NgModule({
   providers: [
@@ -20,6 +22,8 @@ import { AuthGuard } from './auth-guard';
     //   useClass: TokenInterceptor,
     //   multi: true
     // },
+    { provide: TeamsService, useClass:TeamsService },
+    UsersService,
   ]
 })
 export class CoreModule { }

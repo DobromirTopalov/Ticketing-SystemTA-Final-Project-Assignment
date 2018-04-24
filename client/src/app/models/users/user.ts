@@ -4,7 +4,7 @@ export class User {
   firstName: string;
   lastName: string;
   avatar: string;
-  company: string;
-  role: string;
+  CompanyId: number;
+  role: number;
 
 }
