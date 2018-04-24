@@ -17,6 +17,7 @@ export class SingleTeamComponent implements OnInit {
   id: number;
   @Input()
   search = '';
+  companyId: number;
   userFound: User;
   companyUsers: User[];
   users: User[];
@@ -29,7 +30,7 @@ export class SingleTeamComponent implements OnInit {
     media: ObservableMedia,
     private activatedRoute: ActivatedRoute,
     private router: Router) {
-      media.asObservable()
+    media.asObservable()
       .subscribe((change: MediaChange) => {
         // alert(change.mqAlias);
         // console.log(change.mqAlias);
@@ -57,20 +58,32 @@ export class SingleTeamComponent implements OnInit {
           .subscribe(data => {
             const team = Object.keys(data).map((iterator) => data[iterator])[0];
             this.team = team;
-            console.log(this.team);
+            // console.log(this.team);
+            this.companyId = this.team.CompanyId;
+            console.log(this.companyId);
           });
       });
     console.log(this.team);
     this.usersService.getAll().subscribe(data => {
       const users = Object.keys(data).map((iterator) => data[iterator])[0];
       this.users = users;
-      const companyUsers = this.users.filter((x) => x.CompanyId === 1);
+      const companyUsers = this.users.filter((x) => {
+        ((x.CompanyId === this.companyId) &&
+        this.team.Users.forEach((user) => {
+          x.id !== user.id;
+        }));
+      });
       this.companyUsers = companyUsers;
+      console.log(this.companyUsers);
     });
   }
 
-  ngAfterViewInit(){
+  ngAfterViewInit() {
 
+  }
+
+  onSearch(): void {
+    this.filterBySearch();
   }
 
   private filterBySearch(): void {
@@ -80,9 +93,10 @@ export class SingleTeamComponent implements OnInit {
       x.firstName.toLowerCase().indexOf(this.search) >= 0 ||
       x.lastName.toLowerCase().indexOf(this.search) >= 0 ||
       x.email.toLowerCase().indexOf(this.search) >= 0);
+    console.log(this.companyUsers);
   }
 
-  navToUser(id: number): void{
+  navToUser(id: number): void {
     this.router.navigate(['/users', id])
   }
 

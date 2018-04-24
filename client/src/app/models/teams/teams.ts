@@ -1,3 +1,5 @@
+import { User } from "../users/user";
+
 export interface Team {
   id: number;
   name: string;
@@ -5,10 +7,10 @@ export interface Team {
   teamImgUrl: string;
   createdAt: string;
   updatedAt: string;
-  deletedAt: any;
+  deletedAt: null | string;
   teamLeaderId: number;
-  companyId: number;
-  Users: object[];
+  CompanyId: number;
+  Users: User[];
   Company: object;
   teamLeader: object;
 }

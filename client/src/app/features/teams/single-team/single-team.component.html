@@ -1,48 +1,52 @@
 <div class="container">
-  <a href="#">
-    <button mat-raised-button>{{team?.name}}'s Tickets</button>
-  </a>
+  <div>
+    <a href="#">
+      <button mat-raised-button>{{team?.name}}'s Tickets</button>
+    </a>
 
-  <a href="#">
-    <button mat-raised-button>Create a Ticket</button>
-  </a>
+    <a href="#">
+      <button mat-raised-button>Create a Ticket</button>
+    </a>
+  </div>
 
-  <button mat-raised-button disabled type="submit">Invite Members</button>
-  <input matInput placeholder="Search" (input)="onSearch()" [(ngModel)]="search">
+  <div>
+    <button mat-raised-button disabled type="submit">Invite Members</button>
+    <input matInput placeholder="Search" (input)="onSearch()" [(ngModel)]="search">
 
-  <a href="#">
-    <button mat-raised-button>Leave Team</button>
-  </a>
+    <a href="#">
+      <button mat-raised-button>Leave Team</button>
+    </a>
+  </div>
 
-  <mat-grid-list [cols]="columnNum" [rowHeight]="rowHeightRatio">
-    <mat-grid-tile>
-      <span>Team Name: </span>
-      <h3> {{team?.name}}</h3>
-    </mat-grid-tile>
-    <mat-grid-tile>
-      <span>Description: {{team?.description}}</span>
-    </mat-grid-tile>
-    <mat-grid-tile>
-      <span>Company: {{team?.Company?.name}}</span>
-    </mat-grid-tile>
-    <mat-grid-tile (click)="navToUser(team?.teamLeaderId?.id)">
-      <span>
-        <!-- <a [routerLink]="['/users/team?.teamLeaderId?.id']">Team Leader: {{team?.teamLeaderId?.firstName}} {{team?.teamLeaderId?.lastName}}</a> -->
-        Team Leader: {{team?.teamLeaderId?.firstName}} {{team?.teamLeaderId?.lastName}}
-      </span>
-    </mat-grid-tile>
-  </mat-grid-list>
-
-  <h3>{{team?.name}}'s Members:</h3>
-
-  <mat-grid-list [cols]="columnNum" [rowHeight]="rowHeightRatio">
-    <div *ngFor="let member of team?.Users">
-      <mat-grid-tile (click)="navToUser(member?.id)">
+    <mat-grid-list [cols]="columnNum" [rowHeight]="rowHeightRatio">
+      <mat-grid-tile>
+        <span>Team Name: </span>
+        <h3> {{team?.name}}</h3>
+      </mat-grid-tile>
+      <mat-grid-tile>
+        <span>Description: {{team?.description}}</span>
+      </mat-grid-tile>
+      <mat-grid-tile>
+        <span>Company: {{team?.Company?.name}}</span>
+      </mat-grid-tile>
+      <mat-grid-tile (click)="navToUser(team?.teamLeaderId?.id)">
         <span>
-          {{member.firstName}} {{member.lastName}}
-          <!-- <a href="/users/{{member.id}}">{{member.firstName}} {{member.lastName}}</a> -->
+          <!-- <a [routerLink]="['/users/team?.teamLeaderId?.id']">Team Leader: {{team?.teamLeaderId?.firstName}} {{team?.teamLeaderId?.lastName}}</a> -->
+          Team Leader: {{team?.teamLeaderId?.firstName}} {{team?.teamLeaderId?.lastName}}
         </span>
       </mat-grid-tile>
-    </div>
-  </mat-grid-list>
-</div>
+    </mat-grid-list>
+
+    <h3>{{team?.name}}'s Members:</h3>
+
+    <mat-grid-list [cols]="columnNum" [rowHeight]="rowHeightRatio">
+      <div *ngFor="let member of team?.Users">
+        <mat-grid-tile (click)="navToUser(member?.id)">
+          <span>
+            {{member.firstName}} {{member.lastName}}
+            <!-- <a href="/users/{{member.id}}">{{member.firstName}} {{member.lastName}}</a> -->
+          </span>
+        </mat-grid-tile>
+      </div>
+    </mat-grid-list>
+  </div>
