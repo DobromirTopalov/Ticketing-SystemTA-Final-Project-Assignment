@@ -1,3 +1,4 @@
+const passport = require('passport');
 const { Router } = require('express');
 
 const TicketController = require('./tickets.controller');
@@ -7,8 +8,13 @@ const init = (app, data) => {
   const controller = new TicketController(data);
 
   router
-  .get('/api/tickets', controller.getAll())
-  .get('/api/tickets/:id', controller.getByParameter());
+  .get('/api/tickets', passport.authenticate('jwt', {
+    session: false,
+  }), controller.getAll())
+
+  .get('/api/tickets/:id', passport.authenticate('jwt', {
+    session: false,
+  }), controller.getByParameter());
 
   app.use('/', router);
 };

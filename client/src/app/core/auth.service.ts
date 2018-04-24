@@ -29,15 +29,6 @@ export class AuthService {
     return !!token && !this.jwtService.isTokenExpired(token) && decoded.iss === this.appConfig.jwt_issuer;
   }
 
-  // getToken() : string {
-  //   const token = this.jwtService.tokenGetter();
-  //   if (!token) {
-  //     return 'No token found!';
-  //   }
-  //   const decoded = this.jwtService.decodeToken(token);
-  //   return decoded;
-  // }
-
   public getToken(): string {
     return localStorage.getItem('access_token');
   }

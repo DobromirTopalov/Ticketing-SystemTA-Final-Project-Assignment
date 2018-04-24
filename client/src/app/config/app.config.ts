@@ -6,4 +6,5 @@ export class AppConfig {
     this.apiUrl = 'http://localhost:3200/api';
     this.jwt_issuer = 'telerik';
   }
+
 }

@@ -14,6 +14,11 @@ export class TicketsService {
   constructor(private httpClient: HttpClient, private appConfig: AppConfig) { }
 
   getAll(): Observable<Ticket[]> {
+    this.httpClient.get(`${this.appConfig.apiUrl}/tickets`)
+    .subscribe(
+      data => console.log(data, 'BAHTI'),
+      err => console.log(err)
+    );
     return this.httpClient.get(`${this.appConfig.apiUrl}/tickets`).map(x => <Ticket[]>(x));
   }
 

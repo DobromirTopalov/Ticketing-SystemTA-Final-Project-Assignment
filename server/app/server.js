@@ -10,16 +10,16 @@ require('./routes').init(app, data);
 
 const passport = require('passport');
 const strategy = require('./config/jwt-strategy');
-passport.use(strategy.create());
+passport.use('jwt', strategy.create());
+passport.use('jwt-admin', strategy.createAdmin());
 
-// app.get('/test', passport.authenticate('jwt', {
-//   session: false,
-// }), (req, res) => {
-//   console.log('before res');
-//   res.send({
-//     authenticated: true,
-//   });
-// });
+app.get('/test', passport.authenticate('jwt-admin', {
+  session: false,
+}), (req, res) => {
+  res.send({
+    authenticated: true,
+  });
+});
 
 app.listen(config.PORT, () => console
   .log(`Server is running on localhost port: ${config.PORT}!`));

@@ -3,7 +3,7 @@ import { BoldDirective } from './bold.directive';
 import { EllipsisPipe } from './ellipsis.pipe';
 import { MyNgIfDirective } from './my-ng-if.directive';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { MatButtonModule, MatCardModule, MatSelectModule, MatFormFieldModule, MatInputModule, MatToolbarModule, MatSidenavModule, MatIconModule, MatGridListModule } from '@angular/material';
+import { MatButtonModule, MatCardModule, MatSelectModule, MatFormFieldModule, MatInputModule, MatToolbarModule, MatSidenavModule, MatIconModule, MatGridListModule, MatDividerModule, MatListModule, MatRadioModule } from '@angular/material';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
@@ -15,12 +15,15 @@ import { CommonModule } from '@angular/common';
     ReactiveFormsModule,
     MatButtonModule,
     MatCardModule,
+    MatDividerModule,
     MatSelectModule,
     MatFormFieldModule,
     MatInputModule,
     MatGridListModule,
     MatToolbarModule,
     MatIconModule,
+    MatListModule,
+    MatRadioModule,
     MatSidenavModule,
     MatToolbarModule,
     FlexLayoutModule,
@@ -44,10 +47,13 @@ import { CommonModule } from '@angular/common';
     MatInputModule,
     MatGridListModule,
     MatToolbarModule,
+    MatDividerModule,
     MatIconModule,
     MatSidenavModule,
+    MatRadioModule,
     MatToolbarModule,
     FlexLayoutModule,
+    MatListModule,
     BrowserAnimationsModule
   ]
 })

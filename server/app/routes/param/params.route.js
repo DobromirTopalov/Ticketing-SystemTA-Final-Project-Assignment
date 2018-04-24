@@ -1,3 +1,4 @@
+const passport = require('passport');
 const {
   Router,
 } = require('express');
@@ -10,9 +11,17 @@ const init = (app, data) => {
   const controller = new ParamController(data);
 
   router
-    .get('/api/statuses', controller.getParam('statuses'))
-    .get('/api/labels', controller.getParam('labels'))
-    .get('/api/roles', controller.getParam('roles'));
+    .get('/api/statuses', passport.authenticate('jwt', {
+      session: false,
+    }), controller.getParam('statuses'))
+
+    .get('/api/labels', passport.authenticate('jwt', {
+      session: false,
+    }), controller.getParam('labels'))
+
+    .get('/api/roles', passport.authenticate('jwt', {
+      session: false,
+    }), controller.getParam('roles'));
 
   app.use('/', router);
 };

@@ -1,7 +1,7 @@
 import { HttpClient, HttpErrorResponse, HttpResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { User } from '../models/users/user';
-import { FormGroup, FormBuilder } from '@angular/forms';
+import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import 'rxjs/add/operator/map';
 import { AuthService } from '../core/auth.service';
@@ -22,9 +22,20 @@ export class RegisterComponent implements OnInit {
 
   ngOnInit() {
     this.regForm = this.formBuilder.group({
+      firstName: '',
+      lastName: '',
+      company: '',
       email: '',
-      password: ''
+      password: '',
+      confirmPassword: '',
+      terms: '',
     });
+  }
+  email = new FormControl('', [Validators.required, Validators.email]);
+  getErrorMessage() {
+    return this.email.hasError('required') ? 'You must enter a value' :
+      this.email.hasError('email') ? 'Not a valid email' :
+        '';
   }
 
   register(): void {
