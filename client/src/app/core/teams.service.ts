@@ -23,14 +23,10 @@ export class TeamsService {
   }
 
   addUserToTeam(userId: number, teamId: number, options?: HttpOptions): Observable<Object> {
-    console.log('inside service');
-    console.log(teamId, userId);
     return this.httpClient.post(`${this.appConfig.apiUrl}/teams/${teamId}`, { UserId: userId, TeamId: teamId }, options);
   }
 
   userLeaveTeam(userId: number, teamId: number, options?: HttpOptions): Observable<Object> {
-    console.log(userId, teamId);
-    console.log('leaving on client');
     return this.httpClient.post(`${this.appConfig.apiUrl}/teams/${teamId}/leave`, { UserId: userId, TeamId: teamId }, options);
   }
 }

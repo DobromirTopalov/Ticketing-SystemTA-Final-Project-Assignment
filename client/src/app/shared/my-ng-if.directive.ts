@@ -6,15 +6,15 @@ import { Directive, TemplateRef, ViewContainerRef, Input } from '@angular/core';
 export class MyNgIfDirective {
 
   constructor(private templeteRef: TemplateRef<any>,
-              private viewContainerRef: ViewContainerRef) { }
+    private viewContainerRef: ViewContainerRef) { }
   hasView = false;
 
   @Input()
   set appMyNgIf(value: number) {
-    if(value > 0 && !this.hasView) {
+    if (value > 0 && !this.hasView) {
       this.viewContainerRef.createEmbeddedView(this.templeteRef);
       this.hasView = true;
-    } else if(value === 0 && this.hasView){
+    } else if (value === 0 && this.hasView) {
       this.viewContainerRef.clear();
       this.hasView = false;
     }

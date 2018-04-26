@@ -1,22 +1,23 @@
 <div class="container">
   <div>
-    <a href="#">
-      <button mat-raised-button>{{team?.name}}'s Tickets</button>
-    </a>
+    <button *ngIf="!enableButtons()" disabled mat-raised-button>{{team?.name}}'s Tickets</button>
+    <button *ngIf="enableButtons()" mat-raised-button>{{team?.name}}'s Tickets</button>
 
-    <a href="#">
-      <button mat-raised-button>Create a Ticket</button>
-    </a>
+    <button *ngIf="enableButtons()" mat-raised-button>Create a Ticket</button>
+    <button *ngIf="!enableButtons()" mat-raised-button disabled>Create a Ticket</button>
   </div>
 
   <div>
-      <button mat-raised-button (click)="leaveTeam()">Leave Team</button>
+    <!-- <button mat-raised-button (click)="leaveTeam()">Leave Team</button> -->
+    <button *ngIf="!enableButtons()" mat-raised-button disabled>Leave Team</button>
+    <button *ngIf="enableButtons()" mat-raised-button (click)="leaveTeam()">Leave Team</button>
   </div>
 
   <mat-grid-list [cols]="columnNum" [rowHeight]="rowHeightRatio">
     <mat-grid-tile>
-      <span>Team Name: </span>
-      <h3> {{team?.name}}</h3>
+      <span>Team Name:
+        <b>{{team?.name}}</b>
+      </span>
     </mat-grid-tile>
     <mat-grid-tile>
       <span>Description: {{team?.description}}</span>
@@ -26,7 +27,6 @@
     </mat-grid-tile>
     <mat-grid-tile (click)="navToUser(team?.teamLeaderId?.id)">
       <span>
-        <!-- <a [routerLink]="['/users/team?.teamLeaderId?.id']">Team Leader: {{team?.teamLeaderId?.firstName}} {{team?.teamLeaderId?.lastName}}</a> -->
         Team Leader: {{team?.teamLeaderId?.firstName}} {{team?.teamLeaderId?.lastName}}
       </span>
     </mat-grid-tile>
@@ -39,18 +39,34 @@
       <mat-grid-tile (click)="navToUser(member?.id)">
         <span>
           {{member.firstName}} {{member.lastName}}
-          <!-- <a href="/users/{{member.id}}">{{member.firstName}} {{member.lastName}}</a> -->
         </span>
       </mat-grid-tile>
     </div>
   </mat-grid-list>
 
   <button *ngIf="!selected" mat-raised-button disabled type="submit">Invite Members</button>
-  <button *ngIf="selected" #invite mat-raised-button type="submit">Invite Members</button>
-  <input #inp matInput placeholder="Search" (input)="onSearch()" [(ngModel)]="search">
-  <button mat-raised-button (click)="clearFilter()">Clear Search</button>
+  <button *ngIf="selected" #invite mat-raised-button type="submit" (click)="inviteSelectedMember(selectedUser)">Invite Members</button>
+
+  <!-- <input #inp matInput placeholder="Search" (input)="onSearch()" [(ngModel)]="search"> -->
+  <!-- <input *ngIf="!enableButtons()" disabled matInput placeholder="Search"> -->
+  <input id="searchInput" #inp matInput placeholder="Search" (input)="onSearch()" [(ngModel)]="search">
+
+  <!-- <button mat-raised-button (click)="clearFilter()">Clear Search</button> -->
+  <button *ngIf="!enableButtons()" mat-raised-button disabled (click)="clearFilter()">Clear Search</button>
+  <button *ngIf="enableButtons()" mat-raised-button (click)="clearFilter()">Clear Search</button>
   <div *ngFor="let newMember of filteredUsers">
-    <span *appMyNgIf="inp.value.length" class="available-members" (click)="selectMember(newMember, invite)" appBold>{{newMember?.firstName}} {{newMember?.lastName}}</span>
+    <div *ngIf="!selected">
+      <div *ngIf="enableButtons()">
+        <span *appMyNgIf="inp.value.length" class="available-members" (click)="selectMember(newMember, invite)">{{newMember?.firstName}} {{newMember?.lastName}}</span>
+      </div>
+    </div>
+    <!-- <div *ngIf="enableButtons()">
+      <span *appMyNgIf="inp.value.length" class="available-members" (click)="selectMember(newMember, invite)" appBold>{{newMember?.firstName}} {{newMember?.lastName}}</span>
+    </div> -->
+  </div>
+  <div *ngIf="selected">
+    <div *ngIf="enableButtons()">
+      <span *appMyNgIf="inp.value.length" class="available-members">{{selectedMember?.firstName}} {{selectedMember?.lastName}}</span>
+    </div>
   </div>
 </div>
-

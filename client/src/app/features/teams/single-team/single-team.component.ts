@@ -8,6 +8,8 @@ import { UsersService } from '../../../core/users.service';
 import { NgModel } from '@angular/forms';
 import { AsyncPipe } from '@angular/common';
 import { JwtHelperService } from '@auth0/angular-jwt';
+import { Observable } from 'rxjs/Observable';
+import { TeamsModel } from '../../../models/teams/teamsModel';
 
 @Component({
   selector: 'app-single-team',
@@ -21,14 +23,14 @@ export class SingleTeamComponent implements OnInit {
   @Input()
   search = '';
   companyId: number;
-  userFound: User;
+  userLoggedIn: User;
   companyUsers: User[];
   filteredUsers: User[];
   users: User[];
-  @Input()
-  newMember: User;
   columnNum: number = 0;
   rowHeightRatio: string = '1:1';
+  @Input()
+  selectedMember: User;
 
   @Input()
   selected: boolean;
@@ -60,7 +62,10 @@ export class SingleTeamComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    // to do refactor code
+    this.showChanges();
+  }
+
+  private showChanges(): void {
     this.activatedRoute.params
       .subscribe(x => {
         this.id = x['id'];
@@ -69,86 +74,95 @@ export class SingleTeamComponent implements OnInit {
           .subscribe(data => {
             const team = Object.keys(data).map((iterator) => data[iterator])[0];
             this.team = team;
-            // console.log(this.team);
             this.companyId = this.team.CompanyId;
-            console.log(this.companyId);
+            const decodedToken = this.jwtService.decodeToken(localStorage.getItem('access_token'));
+            const userId = decodedToken.id;
+            this.userLoggedIn = this.team.Users.find(x => x.id === userId)
+            this.usersService
+              .getAll()
+              .subscribe(data => {
+                this.users = data.info;
+                let companyUsers = this.users
+                  .filter((x) => x.CompanyId === this.companyId);
+                this.companyUsers = companyUsers;
+                // console.log(this.companyUsers);
+                this.team.Users.forEach((teamMember) =>
+                  companyUsers = companyUsers
+                    .filter((companyUser) => companyUser.id !== teamMember.id));
+                this.filteredUsers = companyUsers;
+                // console.log(this.filteredUsers);
+                // console.log(this.selectedMember);
+              });
           });
       });
-    console.log(this.team);
-    this.usersService.getAll().subscribe(data => {
-
-      console.log(data)
-      console.log("------")
-
-      this.users = data.info;
-      let companyUsers = this.users.filter((x) => x.CompanyId === this.companyId);
-      console.log(this.team);
-      this.team.Users.forEach((teamMember) =>
-        companyUsers = companyUsers
-          .filter((companyUser) => companyUser.id !== teamMember.id));
-      // companyUsers = companyUsers.filter((x) => this.team.Users.forEach((user) => x.id === user.id));
-      this.companyUsers = companyUsers;
-      this.filteredUsers = companyUsers;
-      console.log(this.companyUsers);
-    });
-  }
-
-  ngAfterViewInit() {
-
   }
 
   onSearch(): void {
+    if (this.selected === true && this.search !== this.selectedMember.email) {
+      this.clearFilter();
+    }
+    // this.selected = false;
     this.filterBySearch();
   }
 
   private filterBySearch(): void {
+    // this.selected = false;
+    // this.search = '';
     this.search = this.search.toLowerCase().trim();
 
-    this.filteredUsers = this.companyUsers.filter(x =>
+    this.filteredUsers = this.filteredUsers.filter(x =>
       x.firstName.toLowerCase().indexOf(this.search) >= 0 ||
       x.lastName.toLowerCase().indexOf(this.search) >= 0 ||
       x.email.toLowerCase().indexOf(this.search) >= 0);
-    console.log(this.companyUsers);
+    // console.log(this.companyUsers);
   }
 
   clearFilter(): void {
-    this.search = '';
-    this.filteredUsers = this.companyUsers;
+    this.filteredUsers = this.filteredUsers;
     this.selected = false;
+    this.selectedMember = undefined;
+    this.search = '';
   }
 
   navToUser(id: number): void {
     this.router.navigate(['/users', id])
   }
-  showChanges(id: number): void {
-    this.router.navigate(['/teams', id])
-  }
 
   // to do break function into chunks to work display correctly
   selectMember(member: User, el: HTMLElement): void {
-    console.log(member);
-    console.log(el);
     this.selected = true;
-    this.teamsService.addUserToTeam(member.id, this.team.id)
-      .subscribe(
-        // x => console.log(x),
-        x => this.showChanges(this.team.id),
-        err => console.log(err)
-      );
-    // this.router.navigate(['/teams', this.team.id])
-    console.log(this.team.id);
-    console.log(member.id);
-    // el.setAttribute('disabled', 'true');
+    this.selectedMember = member;
+    this.search = `${this.selectedMember.email}`
+    // console.log(this.selectedMember);
+  }
+
+  inviteSelectedMember(): void {
+    this.selected = false;
+    this.teamsService.addUserToTeam(this.selectedMember.id, this.team.id)
+    .subscribe(
+      x => this.showChanges(),
+      err => console.log(err)
+    );
+    this.clearFilter();
   }
 
   // to do: remove button if user is not in team
+
+  enableButtons(): boolean {
+    // const decodedToken = this.jwtService.decodeToken(localStorage.getItem('access_token'));
+    // const userId: number = decodedToken.id;
+    // const user: User = this.team.Users.find(x => x.id === userId);
+    if (this.userLoggedIn) {
+      return true;
+    }
+    return false;
+  }
   leaveTeam(team: Team) {
-    const decodedToken = this.jwtService.decodeToken(localStorage.getItem('access_token'));
-    const userId = decodedToken.id;
-    console.log(userId);
+    // const decodedToken = this.jwtService.decodeToken(localStorage.getItem('access_token'));
+    const userId = this.userLoggedIn.id;
     this.teamsService.userLeaveTeam(userId, this.team.id)
       .subscribe(
-        x => this.showChanges(this.team.id),
+        x => this.showChanges(),
         err => console.log(err)
       );
   }

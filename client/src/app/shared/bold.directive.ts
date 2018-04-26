@@ -8,23 +8,26 @@ export class BoldDirective {
   constructor(private elRef: ElementRef, private renderer: Renderer2) {
   }
 
-  @HostListener('mouseenter')
-  in(): void {
-    const el: HTMLElement = this.elRef.nativeElement;
-    this.renderer.setStyle(el, 'font-weight', 'bold');
-  }
+  // @HostListener('mouseenter')
+  // in(): void {
+  //   const el: HTMLElement = this.elRef.nativeElement;
+  //   this.renderer.setStyle(el, 'font-weight', 'bold');
+  // }
 
   @HostListener('document:click')
   clickDom(): void {
-    const el: HTMLElement = this.elRef.nativeElement;
-    this.renderer.setStyle(el, 'font-weight', 'bold');
+    // const el: HTMLElement = this.elRef.nativeElement;
+    // console.log(el.innerHTML);
+    // const input = (<HTMLInputElement>document.getElementById("searchInput"));
+    // console.log(input.nodeValue);
+    // // input.nodeValue
   }
 
-  @HostListener('mouseleave')
-  out(): void {
-    const el: HTMLElement = this.elRef.nativeElement;
-    this.renderer.removeStyle(el, 'font-weight');
-  }
+  // @HostListener('mouseleave')
+  // out(): void {
+  //   const el: HTMLElement = this.elRef.nativeElement;
+  //   this.renderer.removeStyle(el, 'font-weight');
+  // }
 
 
 
