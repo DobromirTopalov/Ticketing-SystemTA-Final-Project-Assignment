@@ -7,3 +7,11 @@ mat-grid-tile {
   display: block;
   overflow: auto;
 }
+
+.available-members {
+  display: inline-block;
+  border: 1px solid black;
+  background-color: plum;
+  padding: 2px;
+  margin: 5px;
+}

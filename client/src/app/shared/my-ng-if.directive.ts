@@ -11,10 +11,10 @@ export class MyNgIfDirective {
 
   @Input()
   set appMyNgIf(value: number) {
-    if(value > 5 && !this.hasView) {
+    if(value > 0 && !this.hasView) {
       this.viewContainerRef.createEmbeddedView(this.templeteRef);
       this.hasView = true;
-    } else if(value < 5 && this.hasView){
+    } else if(value === 0 && this.hasView){
       this.viewContainerRef.clear();
       this.hasView = false;
     }

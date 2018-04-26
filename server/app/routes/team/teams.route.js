@@ -18,7 +18,15 @@ const init = (app, data) => {
 
   .get('/api/teams/name/:name', passport.authenticate('jwt', {
     session: false,
-  }), controller.getByParameter());
+  }), controller.getByParameter())
+
+  .post('/api/teams/:id', passport.authenticate('jwt', {
+    session: false,
+  }), controller.addUserToTeam())
+
+  .post('/api/teams/:id/leave', passport.authenticate('jwt', {
+    session: false,
+  }), controller.userLeaveTeam());
 
   app.use('/', router);
 };
