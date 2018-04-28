@@ -12,6 +12,7 @@
 .menu {
   width: 100%;
   background-color: purple;
+  align-content: center;
 }
 
 .menu a:hover {

@@ -98,7 +98,7 @@ export class SingleTicketComponent implements OnInit {
       this.statuses = data.result;
     });
 
-    // this.userService.getAll().subscribe((data) => {
+    // this.userService.getAllForTickets().subscribe((data) => {
       //   this.members = data.info;
       // });
 

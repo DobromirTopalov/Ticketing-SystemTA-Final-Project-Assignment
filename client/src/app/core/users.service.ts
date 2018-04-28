@@ -5,6 +5,8 @@ import { HttpClient } from '@angular/common/http';
 import { AppConfig } from '../config/app.config';
 import { Observable } from 'rxjs/Observable';
 import { UsersModel } from '../models/users/usersModel';
+import { UsersInCompanyModel } from '../models/users/usersInCompanyModel';
+
 
 @Injectable()
 export class UsersService {
@@ -14,8 +16,12 @@ export class UsersService {
     return this.httpClient.get(`${this.appConfig.apiUrl}/users`).map(x => <UsersModel>(x));
   }
 
-  getById(id: number): Observable<User> {
-    return this.httpClient.get(`${this.appConfig.apiUrl}/users/${id}`).map(x => <User>x);
+  getAllForTickets(): Observable<UsersInCompanyModel> {
+    return this.httpClient.get<UsersInCompanyModel>(`${this.appConfig.apiUrl}/users`);
+  }
+
+  getById(id: number): Observable<UsersInCompanyModel> {
+    return this.httpClient.get(`${this.appConfig.apiUrl}/users/${id}`).map(x => <UsersInCompanyModel>x);
   }
 
 }
