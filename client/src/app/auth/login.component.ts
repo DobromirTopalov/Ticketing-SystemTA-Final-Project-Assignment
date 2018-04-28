@@ -21,17 +21,22 @@ export class LoginComponent implements OnInit {
     private toastr: ToastrService) { }
 
   ngOnInit() {
+    const pattern = new RegExp(/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,32}$/);
     this.loginForm = this.formBuilder.group({
-      email: '',
-      password: ''
+      email: new FormControl('', [Validators.required, Validators.email]),
+      password: new FormControl('', [Validators.required, Validators.pattern(pattern)]),
     });
   }
 
   email = new FormControl('', [Validators.required, Validators.email]);
-  getErrorMessage() {
-    return this.email.hasError('required') ? 'You must enter a value' :
-      this.email.hasError('email') ? 'Not a valid email' :
-        '';
+  getErrorMessageEmail() {
+    return this.loginForm.get('email').hasError('required') ? 'You must enter a value' :
+    this.loginForm.get('email').hasError('email') ? 'Not a valid email' : '';
+  }
+
+  getErrorMessagePass() {
+    return this.loginForm.get('password').hasError('required') ? 'You must enter a value' :
+    this.loginForm.get('password').hasError('pattern') ? 'Password must have at least 6 characters and (1-9, a-z, A-Z)' : '';
   }
 
   login(): void {

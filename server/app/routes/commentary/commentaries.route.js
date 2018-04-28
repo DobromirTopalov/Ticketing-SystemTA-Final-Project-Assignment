@@ -24,7 +24,11 @@ const init = (app, data) => {
 
     .get('/api/commentaries/ticket/:TicketId', passport.authenticate('jwt', {
       session: false,
-    }), controller.getByParameter());
+    }), controller.getAllByParameter())
+
+    .post('/api/commentaries/ticket/:TicketId', passport.authenticate('jwt', {
+      session: false,
+    }), controller.createCommentary());
 
   app.use('/', router);
 };

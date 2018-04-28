@@ -1,0 +1,9 @@
+.centerTheBox {
+  position: relative;
+  top: 5%;
+  left: 50%;
+  /* bring your own prefixes */
+  transform: translate(-50%, -5%);
+
+  width: 80%;
+}

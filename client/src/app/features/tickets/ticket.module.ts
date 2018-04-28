@@ -4,12 +4,18 @@ import { SharedModule } from '../../shared';
 import { CommonModule } from '@angular/common';
 import { TicketsComponent } from './tickets.component';
 import { DetailsComponent } from './details/details.component';
+import { SingleTicketComponent } from './single-ticket/single-ticket.component';
+import { CommentaryListComponent } from '../commentary/commentary-list/commentary-list.component';
+import { CommentaryPostComponent } from '../commentary/commentary-post/commentary-post.component';
 
 
 @NgModule({
     declarations: [
       TicketsComponent,
-      DetailsComponent
+      DetailsComponent,
+      SingleTicketComponent,
+      CommentaryListComponent,
+      CommentaryPostComponent,
     ],
     imports: [
         CommonModule,
@@ -18,7 +24,10 @@ import { DetailsComponent } from './details/details.component';
     ],
     exports: [
       TicketsComponent,
-      DetailsComponent
+      DetailsComponent,
+      SingleTicketComponent,
+      CommentaryListComponent,
+      CommentaryPostComponent
     ]
 
 })

@@ -14,8 +14,11 @@ const init = (app, data) => {
 
   .get('/api/tickets/:id', passport.authenticate('jwt', {
     session: false,
-  }), controller.getByParameter());
+  }), controller.getByParameter())
 
+  .post('/api/tickets/:id', passport.authenticate('jwt', {
+    session: false,
+  }), controller.updateTicket());
   app.use('/', router);
 };
 

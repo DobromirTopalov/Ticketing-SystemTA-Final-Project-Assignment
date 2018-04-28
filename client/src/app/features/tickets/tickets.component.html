@@ -1,4 +1,18 @@
-<div *ngFor="let ticket of tickets">
-  <app-details [ticket]="ticket"></app-details>
-  <p>_______________________________________________________________________</p>
-</div>
+<mat-grid-list [cols]="columnNum" [rowHeight]="rowHeightRatio">
+    <button (click)="chooseMyTickets()">MY TICKETS</button>
+    <button (click)="chooseAssTickets()">ASS TICKETS</button>
+    <div *ngIf="switchTicketView">
+      <div *ngFor="let ticket of assignedTickets">
+        <mat-grid-tile (click)="nav(ticket.id)">
+          <app-details [ticket]="ticket"></app-details>
+        </mat-grid-tile>
+      </div>
+    </div>
+    <div *ngIf="!switchTicketView">
+        <div *ngFor="let ticket of requestedTickets">
+          <mat-grid-tile (click)="nav(ticket.id)">
+            <app-details [ticket]="ticket"></app-details>
+          </mat-grid-tile>
+        </div>
+      </div>
+  </mat-grid-list>

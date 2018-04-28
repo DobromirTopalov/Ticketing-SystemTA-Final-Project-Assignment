@@ -5,6 +5,7 @@ import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms'
 import { ToastrService } from 'ngx-toastr';
 import 'rxjs/add/operator/map';
 import { AuthService } from '../core/auth.service';
+import { matchOtherValidator } from '../shared/match-other-validator';
 
 @Component({
   selector: 'app-register',
@@ -13,7 +14,7 @@ import { AuthService } from '../core/auth.service';
 })
 export class RegisterComponent implements OnInit {
   user: User;
-
+  error: string;
   regForm: FormGroup;
 
   constructor(private formBuilder: FormBuilder,
@@ -21,33 +22,65 @@ export class RegisterComponent implements OnInit {
     private toastr: ToastrService) { }
 
   ngOnInit() {
+    const pattern = new RegExp(/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,32}$/);
     this.regForm = this.formBuilder.group({
-      firstName: '',
-      lastName: '',
-      company: '',
-      email: '',
-      password: '',
-      confirmPassword: '',
-      terms: '',
+      firstName: new FormControl('', [Validators.required, Validators.minLength(3), Validators.maxLength(21)]),
+      lastName: new FormControl('', [Validators.required, Validators.minLength(3), Validators.maxLength(21)]),
+      company: new FormControl('', [Validators.required]),
+      email: new FormControl('', [Validators.required, Validators.email]),
+      password: new FormControl('', [Validators.required, Validators.pattern(pattern)]),
+      confirmPassword: new FormControl('', [
+        Validators.required,
+        matchOtherValidator('password')
+      ]),
+      terms: new FormControl('', [Validators.required]),
     });
   }
-  email = new FormControl('', [Validators.required, Validators.email]);
-  getErrorMessage() {
-    return this.email.hasError('required') ? 'You must enter a value' :
-      this.email.hasError('email') ? 'Not a valid email' :
-        '';
+  // email = new FormControl('', [Validators.required, Validators.email]);
+  getErrorMessageEmail() {
+    return this.regForm.get('email').hasError('required') ? 'You must enter a value' :
+    this.regForm.get('email').hasError('email') ? 'Not a valid email' : '';
+  }
+  getErrorMessageNames() {
+    return this.regForm.get('firstName').hasError('required') ? 'You must enter a value' :
+    this.regForm.get('firstName').hasError('minLength') ? '' :
+    this.regForm.get('firstName').hasError('maxLength') ? 'Max 20 symbols allowed' : 'Min 3 symbols required';
   }
 
+  getErrorMessageNames2() {
+    return this.regForm.get('lastName').hasError('required') ? 'You must enter a value' :
+    this.regForm.get('lastName').hasError('minLength') ? '' :
+    this.regForm.get('lastName').hasError('maxLength') ? 'Max 20 symbols allowed' : 'Min 3 symbols required';
+  }
+
+  getErrorMessagePass() {
+    return this.regForm.get('password').hasError('required') ? 'You must enter a value' :
+    this.regForm.get('password').hasError('pattern') ? 'Password must have at least 6 characters and (1-9, a-z, A-Z)' : '';
+  }
+
+  getErrorMessagePass2() {
+    return this.regForm.get('confirmPassword').hasError('required') ? 'You must enter a value' :
+    this.regForm.get('confirmPassword').get('matchOtherValidator') ? '' : 'Passwords must match';
+  }
+
+  getErrorMessageCompany() {
+    return this.regForm.get('company').hasError('required') ? 'o' : '';
+  }
+  getErrorMessageTerms() {
+    return this.regForm.get('terms').hasError('required') ? 'You must accept terms' : '';
+  }
   register(): void {
     this.auth.register(this.regForm.value, { observe: 'response', responseType: 'json' }).subscribe((x: HttpResponse<string>) => {
-      console.log(x);
+      this.error = 'Registered successfully!';
       this.toastr.success(`${this.regForm.get('email').value} registered!`);
     },
       (err: HttpErrorResponse) => {
-        console.log(err);
+        this.error = err.error.err;
         if (err.status === 302) {
           this.toastr.error(err.error.err);
         }
       });
   }
+
+
 }

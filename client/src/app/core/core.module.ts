@@ -8,6 +8,7 @@ import { TicketsService } from './tickets.service';
 import { AuthGuard } from './auth-guard';
 import { TeamsService } from './teams.service';
 import { UsersService } from './users.service';
+import { ParamsService } from './params.service';
 
 @NgModule({
   providers: [
@@ -24,6 +25,7 @@ import { UsersService } from './users.service';
     // },
     { provide: TeamsService, useClass:TeamsService },
     UsersService,
+    ParamsService,
   ]
 })
 export class CoreModule { }

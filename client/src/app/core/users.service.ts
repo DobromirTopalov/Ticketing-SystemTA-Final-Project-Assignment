@@ -4,15 +4,14 @@ import { User } from '../models/users/user';
 import { HttpClient } from '@angular/common/http';
 import { AppConfig } from '../config/app.config';
 import { Observable } from 'rxjs/Observable';
+import { UsersModel } from '../models/users/usersModel';
 
 @Injectable()
 export class UsersService {
-  users: User[];
-
   constructor(private httpClient: HttpClient, private appConfig: AppConfig) { }
 
-  getAll(): Observable<User[]> {
-    return this.httpClient.get(`${this.appConfig.apiUrl}/users`).map(x => <User[]>(x));
+  getAll(): Observable<UsersModel> {
+    return this.httpClient.get(`${this.appConfig.apiUrl}/users`).map(x => <UsersModel>(x));
   }
 
   getById(id: number): Observable<User> {

@@ -7,6 +7,7 @@ import { DetailsComponent } from './features/tickets/details/details.component';
 import { AuthGuard } from './core/auth-guard';
 import { TeamsComponent } from './features/teams/teams.component';
 import { SingleTeamComponent } from './features/teams/single-team/single-team.component';
+import { SingleTicketComponent } from './features/tickets/single-ticket/single-ticket.component';
 
 export const ROUTES: Routes = [
   { path: 'home', component: HomeComponent },
@@ -15,7 +16,7 @@ export const ROUTES: Routes = [
   {
     path: 'tickets', children: [
       { path: '', component: TicketsComponent, pathMatch: 'full' },
-      { path: ':id', component: DetailsComponent }
+      { path: ':id', component: SingleTicketComponent}
     ]
   },
   {

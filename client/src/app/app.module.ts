@@ -31,7 +31,7 @@ export function tokenGetter() {
     MessagesComponent,
     TeamsComponent,
     TeamDetailsComponent,
-    SingleTeamComponent
+    SingleTeamComponent,
   ],
   imports: [
     SharedModule,
