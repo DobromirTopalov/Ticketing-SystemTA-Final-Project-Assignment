@@ -68,7 +68,7 @@ class SharedData {
   }
 
   update(modelObj, paramObj) {
-    console.log(modelObj, paramObj,'inside');
+    console.log(modelObj, paramObj, 'inside');
     return this.Model.update(modelObj, {
       where: paramObj,
       paranoid: true,
