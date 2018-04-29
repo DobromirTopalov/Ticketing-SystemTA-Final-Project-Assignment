@@ -334,6 +334,45 @@
             },
             "indexes": []
         },
+        "TeamUsers": {
+            "tableName": "TeamUsers",
+            "schema": {
+                "TeamId": {
+                    "primaryKey": true,
+                    "unique": "TeamUsers_UserId_TeamId_unique",
+                    "references": {
+                        "model": "Teams",
+                        "key": "id"
+                    },
+                    "onDelete": "cascade",
+                    "onUpdate": "CASCADE",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "UserId": {
+                    "primaryKey": true,
+                    "unique": "TeamUsers_UserId_TeamId_unique",
+                    "references": {
+                        "model": "Users",
+                        "key": "id"
+                    },
+                    "onDelete": "cascade",
+                    "onUpdate": "CASCADE",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "createdAt": {
+                    "allowNull": false,
+                    "seqType": "Sequelize.DATE"
+                },
+                "updatedAt": {
+                    "allowNull": false,
+                    "seqType": "Sequelize.DATE"
+                },
+                "deletedAt": {
+                    "seqType": "Sequelize.DATE"
+                }
+            },
+            "indexes": []
+        },
         "Tickets": {
             "tableName": "Tickets",
             "schema": {
@@ -425,6 +464,45 @@
             },
             "indexes": []
         },
+        "TicketUsers": {
+            "tableName": "TicketUsers",
+            "schema": {
+                "TicketId": {
+                    "primaryKey": true,
+                    "unique": "TicketUsers_UserId_TicketId_unique",
+                    "references": {
+                        "model": "Tickets",
+                        "key": "id"
+                    },
+                    "onDelete": "cascade",
+                    "onUpdate": "CASCADE",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "UserId": {
+                    "primaryKey": true,
+                    "unique": "TicketUsers_UserId_TicketId_unique",
+                    "references": {
+                        "model": "Users",
+                        "key": "id"
+                    },
+                    "onDelete": "cascade",
+                    "onUpdate": "CASCADE",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "createdAt": {
+                    "allowNull": false,
+                    "seqType": "Sequelize.DATE"
+                },
+                "updatedAt": {
+                    "allowNull": false,
+                    "seqType": "Sequelize.DATE"
+                },
+                "deletedAt": {
+                    "seqType": "Sequelize.DATE"
+                }
+            },
+            "indexes": []
+        },
         "Users": {
             "tableName": "Users",
             "schema": {
@@ -483,74 +561,6 @@
                     "allowNull": true,
                     "references": {
                         "model": "Roles",
-                        "key": "id"
-                    },
-                    "onDelete": "cascade",
-                    "onUpdate": "CASCADE",
-                    "seqType": "Sequelize.INTEGER"
-                }
-            },
-            "indexes": []
-        },
-        "TeamUser": {
-            "tableName": "TeamUser",
-            "schema": {
-                "createdAt": {
-                    "allowNull": false,
-                    "seqType": "Sequelize.DATE"
-                },
-                "updatedAt": {
-                    "allowNull": false,
-                    "seqType": "Sequelize.DATE"
-                },
-                "TeamId": {
-                    "primaryKey": true,
-                    "references": {
-                        "model": "Teams",
-                        "key": "id"
-                    },
-                    "onDelete": "cascade",
-                    "onUpdate": "CASCADE",
-                    "seqType": "Sequelize.INTEGER"
-                },
-                "UserId": {
-                    "primaryKey": true,
-                    "references": {
-                        "model": "Users",
-                        "key": "id"
-                    },
-                    "onDelete": "cascade",
-                    "onUpdate": "CASCADE",
-                    "seqType": "Sequelize.INTEGER"
-                }
-            },
-            "indexes": []
-        },
-        "TicketUser": {
-            "tableName": "TicketUser",
-            "schema": {
-                "createdAt": {
-                    "allowNull": false,
-                    "seqType": "Sequelize.DATE"
-                },
-                "updatedAt": {
-                    "allowNull": false,
-                    "seqType": "Sequelize.DATE"
-                },
-                "TicketId": {
-                    "primaryKey": true,
-                    "references": {
-                        "model": "Tickets",
-                        "key": "id"
-                    },
-                    "onDelete": "cascade",
-                    "onUpdate": "CASCADE",
-                    "seqType": "Sequelize.INTEGER"
-                },
-                "UserId": {
-                    "primaryKey": true,
-                    "references": {
-                        "model": "Users",
                         "key": "id"
                     },
                     "onDelete": "cascade",

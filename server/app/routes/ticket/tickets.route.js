@@ -2,10 +2,12 @@ const passport = require('passport');
 const { Router } = require('express');
 
 const TicketController = require('./tickets.controller');
+const TicketUserController = require('./ticketuser.controller');
 
 const init = (app, data) => {
   const router = new Router();
   const controller = new TicketController(data);
+  const controller2 = new TicketUserController(data);
 
   router
   .get('/api/tickets', passport.authenticate('jwt', {
@@ -16,9 +18,18 @@ const init = (app, data) => {
     session: false,
   }), controller.getByParameter())
 
+  .get('/api/tickets/users/:TicketId', passport.authenticate('jwt', {
+    session: false,
+  }), controller2.getAllByParameter())
+
+  .post('/api/tickets/create', passport.authenticate('jwt', {
+    session: false,
+  }), controller.createTicket())
+
   .post('/api/tickets/:id', passport.authenticate('jwt', {
     session: false,
   }), controller.updateTicket());
+
   app.use('/', router);
 };
 

@@ -8,7 +8,7 @@ const {
 
 class TeamUserData extends SharedData {
   constructor(Model) {
-    super(TeamUser, [Team, User]);
+    super(TeamUser);
   }
 }
 

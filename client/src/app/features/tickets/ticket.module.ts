@@ -7,6 +7,7 @@ import { DetailsComponent } from './details/details.component';
 import { SingleTicketComponent } from './single-ticket/single-ticket.component';
 import { CommentaryListComponent } from '../commentary/commentary-list/commentary-list.component';
 import { CommentaryPostComponent } from '../commentary/commentary-post/commentary-post.component';
+import { CreateTicketComponent } from './create-ticket/create-ticket.component';
 
 
 @NgModule({
@@ -16,6 +17,7 @@ import { CommentaryPostComponent } from '../commentary/commentary-post/commentar
       SingleTicketComponent,
       CommentaryListComponent,
       CommentaryPostComponent,
+      CreateTicketComponent,
     ],
     imports: [
         CommonModule,
@@ -27,7 +29,8 @@ import { CommentaryPostComponent } from '../commentary/commentary-post/commentar
       DetailsComponent,
       SingleTicketComponent,
       CommentaryListComponent,
-      CommentaryPostComponent
+      CommentaryPostComponent,
+      CreateTicketComponent,
     ]
 
 })

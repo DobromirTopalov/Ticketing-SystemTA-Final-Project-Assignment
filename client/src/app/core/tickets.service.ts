@@ -7,6 +7,7 @@ import { AppConfig } from '../config/app.config';
 import { TicketsModel } from '../models/tickets/ticketsModel';
 import { HttpOptions } from '../models/core/http-options';
 import { Ticket } from '../models/tickets/ticket';
+import { UsersInATeam } from '../models/users/usersInATeam';
 
 @Injectable()
 export class TicketsService {
@@ -35,6 +36,14 @@ export class TicketsService {
     return this.httpClient.post(`${this.appConfig.apiUrl}/tickets/${ticket.id}`, ticket, options);
   }
 
+  createInfo(ticket: Ticket, options?: HttpOptions): Observable<Object> {
+    this.httpClient.post(`${this.appConfig.apiUrl}/tickets/create`, ticket, options).subscribe(
+      data => console.log(data, 'Ticket created successfully'),
+      error => console.log(error),
+    );
+
+    return this.httpClient.post(`${this.appConfig.apiUrl}/tickets/create`, ticket, options);
+  }
   createComment(ticket: Ticket, commentary: any, options?: HttpOptions): Observable<Object> {
     // this.httpClient.post(`${this.appConfig.apiUrl}/commentaries/ticket/${ticket.id}`, commentary, options).subscribe(
     //   data => console.log(data, 'Ticket new comments added successfully'),
@@ -50,5 +59,9 @@ export class TicketsService {
     );
     console.log('inside:', ticketId);
     return this.httpClient.get(`${this.appConfig.apiUrl}/commentaries/ticket/${ticketId}`, options);
+  }
+
+  getAllTicketUsers(id: number): Observable<UsersInATeam> {
+    return this.httpClient.get(`${this.appConfig.apiUrl}/tickets/users/${id}`).map(x => <UsersInATeam>(x));
   }
 }

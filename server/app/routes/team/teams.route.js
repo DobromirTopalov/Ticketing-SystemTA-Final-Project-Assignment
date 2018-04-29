@@ -2,10 +2,12 @@ const passport = require('passport');
 const { Router } = require('express');
 
 const TeamController = require('./teams.controller');
+const TeamUserController = require('./teamuser.controller');
 
 const init = (app, data) => {
   const router = new Router();
   const controller = new TeamController(data);
+  const controller2 = new TeamUserController(data);
 
   router
   .get('/api/teams', passport.authenticate('jwt', {
@@ -19,6 +21,14 @@ const init = (app, data) => {
   .get('/api/teams/name/:name', passport.authenticate('jwt', {
     session: false,
   }), controller.getByParameter())
+
+  .get('/api/teams/users/:TeamId', passport.authenticate('jwt', {
+    session: false,
+  }), controller2.getAllByParameter())
+
+  .get('/api/teams/usersId/:UserId', passport.authenticate('jwt', {
+    session: false,
+  }), controller2.getByParameter())
 
   .post('/api/teams/:id', passport.authenticate('jwt', {
     session: false,

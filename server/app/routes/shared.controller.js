@@ -20,6 +20,7 @@ class SharedController extends Validator {
   // works not only for one, but other params too depending on route params
   getByParameter() {
     return async (req, res, next) => {
+      console.log(req.params);
       const info = await this.data[this.Model].getByParam(req.params);
 
       try {

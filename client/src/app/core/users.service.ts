@@ -21,7 +21,7 @@ export class UsersService {
   }
 
   getById(id: number): Observable<UsersInCompanyModel> {
-    return this.httpClient.get(`${this.appConfig.apiUrl}/users/${id}`).map(x => <UsersInCompanyModel>x);
+    return this.httpClient.get(`${this.appConfig.apiUrl}/users/id/${id}`).map(x => <UsersInCompanyModel>x);
   }
 
 }
