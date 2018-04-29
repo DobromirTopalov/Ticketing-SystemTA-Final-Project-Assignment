@@ -23,5 +23,8 @@ export class UsersService {
   getById(id: number): Observable<UsersInCompanyModel> {
     return this.httpClient.get(`${this.appConfig.apiUrl}/users/${id}`).map(x => <UsersInCompanyModel>x);
   }
+  getByEmail(email: string): Observable<UsersInCompanyModel> {
+    return this.httpClient.get(`${this.appConfig.apiUrl}/users/${email}`).map(x => <UsersInCompanyModel>x);
+  }
 
 }

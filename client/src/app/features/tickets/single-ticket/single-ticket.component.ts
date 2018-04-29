@@ -51,7 +51,7 @@ export class SingleTicketComponent implements OnInit {
   userId: number;
   requesterId: number;
   assigneeId: number;
-  teamLeaderId: Team;
+  teamLeaderId: Team[];
   constructor(private ticketsService: TicketsService,
     private activatedRoute: ActivatedRoute,
     private jwtService: JwtHelperService,
@@ -81,7 +81,7 @@ export class SingleTicketComponent implements OnInit {
       });
 
       this.teamService.getById(this.ticket.TeamId).subscribe((data) => {
-        this.teamLeaderId = data;
+        this.teamLeaderId = data.info;
       });
     });
 
