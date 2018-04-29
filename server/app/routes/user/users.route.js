@@ -18,6 +18,10 @@ const init = (app, data) => {
       session: false,
     }), controller.getByParameter())
 
+    .get('/api/users/id/:id', passport.authenticate('jwt', {
+      session: false,
+    }), controller.getByParameter())
+
     .get('/api/create/user', passport.authenticate('jwt', {
       session: false,
     }), controller.createUser())

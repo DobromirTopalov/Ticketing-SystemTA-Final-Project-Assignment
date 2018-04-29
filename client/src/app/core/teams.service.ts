@@ -29,8 +29,8 @@ export class TeamsService {
     return this.httpClient.get(`${this.appConfig.apiUrl}/teams`).map(x => <TeamsModel[]>(x));
   }
 
-  getById(id: number): Observable<TeamsModel> {
-    return this.httpClient.get(`${this.appConfig.apiUrl}/teams/${id}`).map(x => <TeamsModel>x);
+  getById(id: number): Observable<Team> {
+    return this.httpClient.get(`${this.appConfig.apiUrl}/teams/${id}`).map(x => <Team>x);
   }
 
   createNewTeam(name: string, description: string, teamImgUrl: string | null, CompanyId: number, TeamLeaderId: number, options?: HttpOptions): Observable<Object> {
@@ -87,4 +87,11 @@ export class TeamsService {
 
   //   return canViewTeam;
   // }
+  getAllTeamUsers(id: number): Observable<UsersModel> {
+    return this.httpClient.get(`${this.appConfig.apiUrl}/teams/users/${id}`).map(x => <UsersModel>(x));
+  }
+
+  getUserTeam(id: number): Observable<UsersModel> {
+    return this.httpClient.get(`${this.appConfig.apiUrl}/teams/usersId/${id}`).map(x => <UsersModel>(x));
+  }
 }

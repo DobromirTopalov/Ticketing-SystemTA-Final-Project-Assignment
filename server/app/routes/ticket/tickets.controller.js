@@ -17,6 +17,17 @@ class TicketController extends SharedController {
       });
     };
   }
+
+  createTicket() {
+    return async (req, res, next) => {
+      const result = await this.data.tickets.findOrCreate(req.body);
+
+      // return created object to api
+      return res.status(200).send({
+        result,
+      });
+    };
+  }
 }
 
 module.exports = TicketController;

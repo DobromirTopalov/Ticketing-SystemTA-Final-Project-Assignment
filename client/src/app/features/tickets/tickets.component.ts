@@ -45,16 +45,17 @@ export class TicketsComponent implements OnInit {
 
   ngOnInit() {
     const decodedToken = this.jwtService.decodeToken(localStorage.getItem('access_token'));
-    this.userId = decodedToken.id;
+    this.userId = +decodedToken.id;
 
     this.ticketsService.getAll().subscribe(data => {
       const tickets = Object.keys(data).map((iterator) => data[iterator])[0];
       this.tickets = tickets;
 
-      const assignedTickets = this.tickets.filter((ticket) => ticket.AssigneeId === 5);
+      const assignedTickets = this.tickets.filter((ticket) => ticket.AssigneeId === this.userId);
       this.assignedTickets = assignedTickets;
+      console.log(assignedTickets,'asdasd');
 
-      const requestedTickets = this.tickets.filter((ticket) => ticket.RequesterId === 5);
+      const requestedTickets = this.tickets.filter((ticket) => ticket.RequesterId === this.userId);
       this.requestedTickets = requestedTickets;
     });
   }
@@ -63,15 +64,15 @@ export class TicketsComponent implements OnInit {
     this.router.navigate(['/tickets', id])
   }
 
-  chooseMyTickets() {
+  chooseAssTickets() {
     this.switchTicketView = true;
-    const assignedTickets = this.tickets.filter((ticket) => ticket.AssigneeId === 5);
+    const assignedTickets = this.tickets.filter((ticket) => ticket.AssigneeId === this.userId);
     this.assignedTickets = assignedTickets;
   }
 
-  chooseAssTickets() {
+  chooseMyTickets() {
     this.switchTicketView = false;
-    const requestedTickets = this.tickets.filter((ticket) => ticket.RequesterId === 5);
+    const requestedTickets = this.tickets.filter((ticket) => ticket.RequesterId === this.userId);
     this.requestedTickets = requestedTickets;
   }
 }

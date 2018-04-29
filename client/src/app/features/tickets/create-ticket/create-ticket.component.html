@@ -1,0 +1,73 @@
+<div class="container centerTheBox">
+  <div fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxFlex class="contentResp" class="one" fxFlexFill>
+    <form [formGroup]="createTicketForm" (ngSubmit)="createTicket()">
+
+      <div fxFlex fxFlex="100" fxFlexAlign="center" class="two">
+        <textarea class="list-container description" matInput placeholder="Description:" formControlName="description">
+        </textarea>
+        <mat-error *ngIf="createTicketForm.controls['description'].errors || createTicketForm.controls['description'].pristine">{{getErrorMessageDescription()}}</mat-error>
+      </div>
+
+      <div fxFlex fxFlex="100" fxFlexAlign="center" class="three">
+        <mat-list class="formFrame centerDiv">
+
+          <mat-list-item>
+            <mat-select [(ngModel)]="setStatus" ngModel placeholder="NOT STARTED" formControlName="StatusId">
+              <mat-option *ngFor="let status of statuses" [value]="status?.id">
+                {{ status?.name }}
+              </mat-option>
+            </mat-select>
+            <mat-error *ngIf="createTicketForm.controls['StatusId'].errors || createTicketForm.controls['StatusId'].pristine">{{getGenericErrorMessage('StatusId')}}</mat-error>
+          </mat-list-item>
+
+          <mat-list-item>
+            <mat-select [(ngModel)]="setLabel" ngModel placeholder="HIGH PRIORITY" formControlName="LabelId">
+              <mat-option *ngFor="let label of labels" [value]="label?.id">
+                {{ label?.name }}
+              </mat-option>
+            </mat-select>
+            <mat-error *ngIf="createTicketForm.controls['LabelId'].errors || createTicketForm.controls['LabelId'].pristine">{{getGenericErrorMessage('LabelId')}}</mat-error>
+          </mat-list-item>
+
+        </mat-list>
+      </div>
+
+      <div fxFlex fxFlex="100" fxFlexAlign="center" class="four">
+        <mat-list class="formFrame centerDiv status">
+          <mat-list-item>
+            <input placeholder="Deadline" formControlName="deadline">
+            <!-- <material-datepicker [(date)]="yourModelDate"></material-datepicker> -->
+          </mat-list-item>
+          <mat-error *ngIf="createTicketForm.controls['deadline'].errors || createTicketForm.controls['deadline'].pristine">{{getGenericErrorMessage('deadline')}}</mat-error>
+        </mat-list>
+
+        <mat-list-item class="requesterAndassignee">
+          <mat-select [(ngModel)]="requesterId" ngModel placeholder="Requester" formControlName="RequesterId">
+            <mat-option *ngFor="let member of members" [value]="member.info?.id">
+              {{ member.info?.email }}
+            </mat-option>
+          </mat-select>
+          <mat-error *ngIf="createTicketForm.controls['RequesterId'].errors || createTicketForm.controls['RequesterId'].pristine">{{getGenericErrorMessage('RequesterId')}}</mat-error>
+        </mat-list-item>
+
+        <mat-list-item class="requesterAndassignee">
+          <mat-select [(ngModel)]="assigneeId" ngModel placeholder="Assignee" formControlName="AssigneeId">
+            <mat-option *ngFor="let member of members" [value]="member.info?.id">
+              {{ member.info?.email }}
+            </mat-option>
+          </mat-select>
+          <mat-error *ngIf="createTicketForm.controls['AssigneeId'].errors || createTicketForm.controls['AssigneeId'].pristine">{{getGenericErrorMessage('AssigneeId')}}</mat-error>
+        </mat-list-item>
+      </div>
+
+      <div fxFlex fxFlex="100" fxFlexAlign="center" class="six">Empty space
+        <br>
+        <br>
+        <hr>
+        <br>
+        <button type="submit" [disabled]="!createTicketForm.valid">SEND</button>
+      </div>
+
+    </form>
+  </div>
+</div>

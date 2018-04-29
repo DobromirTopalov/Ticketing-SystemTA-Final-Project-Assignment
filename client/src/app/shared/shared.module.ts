@@ -3,9 +3,10 @@ import { BoldDirective } from './bold.directive';
 import { EllipsisPipe } from './ellipsis.pipe';
 import { MyNgIfDirective } from './my-ng-if.directive';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { MatButtonModule, MatCardModule, MatSelectModule, MatFormFieldModule, MatInputModule, MatToolbarModule, MatSidenavModule, MatIconModule, MatGridListModule, MatDividerModule, MatListModule, MatRadioModule, MatDatepickerModule } from '@angular/material';
+import { MatButtonModule, MatCardModule, MatSelectModule, MatFormFieldModule, MatInputModule, MatToolbarModule, MatSidenavModule, MatIconModule, MatGridListModule, MatDividerModule, MatListModule, MatRadioModule } from '@angular/material';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { DatepickerModule } from 'angular2-material-datepicker';
 
 // TODO check this out later
 import { CommonModule } from '@angular/common';
@@ -13,6 +14,7 @@ import { CommonModule } from '@angular/common';
   imports: [
     FormsModule,
     ReactiveFormsModule,
+    // DatepickerModule,
     MatButtonModule,
     MatCardModule,
     MatDividerModule,
@@ -28,7 +30,6 @@ import { CommonModule } from '@angular/common';
     MatToolbarModule,
     FlexLayoutModule,
     BrowserAnimationsModule,
-    MatDatepickerModule,
   ],
   declarations: [
     BoldDirective,
@@ -41,6 +42,7 @@ import { CommonModule } from '@angular/common';
     MyNgIfDirective,
     FormsModule,
     ReactiveFormsModule,
+    // DatepickerModule,
     MatButtonModule,
     MatCardModule,
     MatSelectModule,
@@ -56,7 +58,6 @@ import { CommonModule } from '@angular/common';
     FlexLayoutModule,
     MatListModule,
     BrowserAnimationsModule,
-    MatDatepickerModule,
   ]
 })
 export class SharedModule { }

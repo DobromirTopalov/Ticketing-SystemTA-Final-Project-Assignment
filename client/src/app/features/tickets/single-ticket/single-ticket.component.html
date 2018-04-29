@@ -3,7 +3,7 @@
     <div fxFlex fxFlex="70" fxFlexAlign="center" class="two">
 
       <form [formGroup]="Description" (ngSubmit)="updateTicket()">
-        <textarea (click)="log()" [(ngModel)]="ticket && ticket.description" ngModel class="list-container description" matInput placeholder="Description:" formControlName="description">
+        <textarea [attr.disabled]="isClosed()" [(ngModel)]="ticket && ticket.description" ngModel class="list-container description" matInput placeholder="Description:" formControlName="description">
 
         </textarea>
       </form>
@@ -13,7 +13,7 @@
       <form [formGroup]="Stickers" (ngSubmit)="updateTicket()">
         <mat-list class="formFrame centerDiv">
         <mat-list-item>
-            <mat-select [(ngModel)]="ticket && ticket.Status.id" ngModel placeholder="Status" formControlName="StatusId">
+            <mat-select [disabled]="isClosed()" [(ngModel)]="ticket && ticket.Status.id" ngModel placeholder="{{defaultStatus}}" formControlName="StatusId">
               <!-- <mat-optgroup *ngFor="let group of pokemonGroups" [label]="group.name" [disabled]="group.disabled"> -->
                 <mat-option *ngFor="let status of statuses" [value]="status?.id">
                   {{ status?.name }}
@@ -23,7 +23,7 @@
           </mat-list-item>
 
           <mat-list-item>
-              <mat-select [(ngModel)]="ticket && ticket.Label.id" ngModel placeholder="Label" formControlName="LabelId">
+              <mat-select [disabled]="isClosed()" [(ngModel)]="ticket && ticket.Label.id" ngModel placeholder="Label" formControlName="LabelId">
                   <mat-option *ngFor="let label of labels" [value]="label?.id">
                     {{ label?.name }}
                   </mat-option>
@@ -39,7 +39,7 @@
         <form [formGroup]="Stickers" (ngSubmit)="updateTicket()">
       <mat-list class="formFrame centerDiv status">
             <mat-list-item>
-                <input [attr.disabled]="accessRights()" [(ngModel)]="ticket && ticket.deadline" ngModel placeholder="Deadline" formControlName="deadline">
+                <input [attr.disabled]="isClosed() || !accessRights() ? 'disabled' : null" [(ngModel)]="ticket && ticket.deadline" ngModel placeholder="Deadline" formControlName="deadline">
                 <!-- <p>
                     <mat-form-field>
                       <input matInput [matDatepicker]="dp3" placeholder="Input disabled" disabled>
@@ -53,7 +53,7 @@
 
 <form [formGroup]="Members" (ngSubmit)="updateTicket()">
             <mat-list-item class="requesterAndassignee">
-                <mat-select [disabled]="accessRights()" [(ngModel)]="ticket && ticket.requesterId.id" ngModel placeholder="Requester" formControlName="RequesterId">
+                <mat-select [disabled]="isClosed() || !accessRights()" [(ngModel)]="ticket && ticket.requesterId.id" ngModel placeholder="Requester" formControlName="RequesterId">
                     <mat-option *ngFor="let member of members" [value]="member?.id">
                       {{ member?.email }}
                     </mat-option>
@@ -61,7 +61,7 @@
               </mat-list-item>
 
               <mat-list-item class="requesterAndassignee">
-                  <mat-select [disabled]="accessRights()" [(ngModel)]="ticket && ticket.assigneeId.id" ngModel placeholder="Assignee" formControlName="AssigneeId">
+                  <mat-select [disabled]="isClosed() || !accessRights()" [(ngModel)]="ticket && ticket.assigneeId.id" ngModel placeholder="Assignee" formControlName="AssigneeId">
                     <mat-option *ngFor="let member of members" [value]="member?.id">
                       {{ member?.email }}
                     </mat-option>
@@ -71,7 +71,7 @@
               </div>
 
     <div fxFlex fxFlex="30" class="three">Empty space
-      <button type="submit" (click)="updateTicket()">SEND</button>
+      <button [disabled]="isClosed()" type="submit" (click)="updateTicket()">SEND</button>
     </div>
   </div>
 
@@ -80,10 +80,10 @@
       <app-commentary-list [commentsList]="comments"></app-commentary-list>
       <mat-list-item class="comment centerDiv">
         <form [formGroup]="Comment" (ngSubmit)="commentTicket()">
-          <input [(ngModel)]="commentary" ngModel formControlName="content" matInput placeholder="Comment" required>
+          <input [attr.disabled]="isClosed() ? 'disabled' : null" [(ngModel)]="commentary" ngModel formControlName="content" matInput placeholder="Comment" required>
         </form>
       </mat-list-item>
-          <button mat-raised-button color="primary" (click)="commentTicket()" class="post">POST</button>
+          <button [disabled]="isClosed()" mat-raised-button color="primary" (click)="commentTicket()" class="post">POST</button>
 
 
       <!-- <mat-list class="centerDiv">

@@ -35,8 +35,11 @@ export class SingleTicketComponent implements OnInit {
 
   ticketId: number;
   ticket: Ticket;
+  currentStatus: number;
   labels: Label[];
   statuses: Status[];
+  filteredStatuses: Status[];
+  defaultStatus: string;
   members: User[];
 
   commentary: Object;
@@ -48,10 +51,11 @@ export class SingleTicketComponent implements OnInit {
   Stickers: FormGroup;
   Comment: FormGroup;
 
-  userId: number;
   requesterId: number;
-  assigneeId: number;
-  teamLeaderId: Team[];
+  assigneeId:number;
+  userId: number;
+
+  teamLeaderId: number;
   constructor(private ticketsService: TicketsService,
     private activatedRoute: ActivatedRoute,
     private jwtService: JwtHelperService,
@@ -75,13 +79,16 @@ export class SingleTicketComponent implements OnInit {
 
     this.ticketsService.getById(this.ticketId).subscribe((data) => {
       this.ticket = data.info;
+      this.currentStatus = +data.info.StatusId;
+      this.defaultStatus = this.currentStatus === 1 ? 'COMPLETED' : 'Status';
+      this.requesterId = this.ticket.RequesterId;
 
       this.teamService.getAllUsers(this.ticket.TeamId).subscribe((data) => {
         this.members = data.info.Users;
       });
 
       this.teamService.getById(this.ticket.TeamId).subscribe((data) => {
-        this.teamLeaderId = data.info;
+        this.teamLeaderId = data['info']['teamLeaderId'].id;
       });
     });
 
@@ -96,6 +103,12 @@ export class SingleTicketComponent implements OnInit {
 
     this.paramService.getAllStatuses().subscribe((data) => {
       this.statuses = data.result;
+
+      if(!this.accessRights()) {
+        this.filteredStatuses = this.statuses.filter((status) => status.name !== 'COMPLETED' );
+        this.statuses = this.filteredStatuses;
+      }
+      console.log(this.statuses);
     });
 
     // this.userService.getAllForTickets().subscribe((data) => {
@@ -129,20 +142,40 @@ export class SingleTicketComponent implements OnInit {
   }
 
   updateTicket() {
-    const ticketObject = {
-      id: this.ticketId,
-      description: this.Description.value.description,
-      AssigneeId: this.Members.value.AssigneeId,
-      RequesterId: this.Members.value.RequesterId,
-      LabelId: this.Stickers.value.LabelId,
-      StatusId: this.Stickers.value.StatusId,
-      deadline: this.Stickers.value.deadline,
-      TeamId: this.ticket.TeamId,
-      EscalationContactId: this.ticket.EscalationContactId,
-    };
+    let ticketObject = <Ticket>{};
+
+    if (this.isClosed()) {
+      console.log('No access');
+      return;
+    }
+
+    if(this.accessRights()) {
+      ticketObject = {
+        id: this.ticketId,
+        description: this.Description.value.description,
+        AssigneeId: this.Members.value.AssigneeId,
+        RequesterId: this.Members.value.RequesterId,
+        LabelId: this.Stickers.value.LabelId,
+        StatusId: this.Stickers.value.StatusId,
+        deadline: this.Stickers.value.deadline,
+        TeamId: this.ticket.TeamId,
+        EscalationContactId: this.teamLeaderId,
+      };
+    } else {
+      ticketObject = {
+        id: this.ticketId,
+        description: this.Description.value.description,
+        LabelId: this.Stickers.value.LabelId,
+        StatusId: this.Stickers.value.StatusId,
+        deadline: this.ticket.deadline,
+        RequesterId: this.ticket.RequesterId,
+        AssigneeId: this.ticket.AssigneeId,
+        TeamId: this.ticket.TeamId,
+        EscalationContactId: this.teamLeaderId,
+      };
+    }
 
     console.log(ticketObject);
-
     this.ticketsService.updateInfo(ticketObject);
   }
 
@@ -169,8 +202,12 @@ export class SingleTicketComponent implements OnInit {
 
   }
 
+  isClosed() {
+    // console.log(this.currentStatus, 'kur');
+    return (this.currentStatus === 1);
+  }
+
   accessRights() {
-    // return (this.userId === this.ticket.RequesterId || this.userId === this.teamLeaderId.info.TeamLeaderId) ? false : true;
-    return false;
+    return (this.userId === this.requesterId || this.userId === this.teamLeaderId);
   }
 }

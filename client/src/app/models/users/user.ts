@@ -1,3 +1,5 @@
+import { UsersModel } from "./usersModel";
+
 export class User {
   id: number;
   email: string;
@@ -12,4 +14,7 @@ export class User {
   RoleId: number;
   Company: object;
   Role: object;
+  UserId: number;
+  info: User[];
+  TeamId: number;
 }

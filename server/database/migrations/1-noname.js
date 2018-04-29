@@ -14,16 +14,16 @@ var Sequelize = require('sequelize');
  * createTable "Teams", deps: [Users, Companies]
  * createTable "Tickets", deps: [Teams, Statuses, Labels, Users, Users, Users]
  * createTable "Commentaries", deps: [Users, Tickets]
+ * createTable "TeamUsers", deps: [Teams, Users]
  * createTable "Logs", deps: [Users, Tickets]
- * createTable "TeamUser", deps: [Teams, Users]
- * createTable "TicketUser", deps: [Tickets, Users]
+ * createTable "TicketUsers", deps: [Tickets, Users]
  *
  **/
 
 var info = {
     "revision": 1,
     "name": "noname",
-    "created": "2018-04-21T15:51:01.272Z",
+    "created": "2018-04-28T16:09:56.833Z",
     "comment": ""
 };
 
@@ -498,6 +498,48 @@ var migrationCommands = [{
     {
         fn: "createTable",
         params: [
+            "TeamUsers",
+            {
+                "TeamId": {
+                    "type": Sequelize.INTEGER,
+                    "onUpdate": "CASCADE",
+                    "onDelete": "cascade",
+                    "references": {
+                        "model": "Teams",
+                        "key": "id"
+                    },
+                    "unique": "TeamUsers_UserId_TeamId_unique",
+                    "primaryKey": true
+                },
+                "UserId": {
+                    "type": Sequelize.INTEGER,
+                    "onUpdate": "CASCADE",
+                    "onDelete": "cascade",
+                    "references": {
+                        "model": "Users",
+                        "key": "id"
+                    },
+                    "unique": "TeamUsers_UserId_TeamId_unique",
+                    "primaryKey": true
+                },
+                "createdAt": {
+                    "type": Sequelize.DATE,
+                    "allowNull": false
+                },
+                "updatedAt": {
+                    "type": Sequelize.DATE,
+                    "allowNull": false
+                },
+                "deletedAt": {
+                    "type": Sequelize.DATE
+                }
+            },
+            {}
+        ]
+    },
+    {
+        fn: "createTable",
+        params: [
             "Logs",
             {
                 "id": {
@@ -552,53 +594,8 @@ var migrationCommands = [{
     {
         fn: "createTable",
         params: [
-            "TeamUser",
+            "TicketUsers",
             {
-                "createdAt": {
-                    "type": Sequelize.DATE,
-                    "allowNull": false
-                },
-                "updatedAt": {
-                    "type": Sequelize.DATE,
-                    "allowNull": false
-                },
-                "TeamId": {
-                    "type": Sequelize.INTEGER,
-                    "onUpdate": "CASCADE",
-                    "onDelete": "cascade",
-                    "references": {
-                        "model": "Teams",
-                        "key": "id"
-                    },
-                    "primaryKey": true
-                },
-                "UserId": {
-                    "type": Sequelize.INTEGER,
-                    "onUpdate": "CASCADE",
-                    "onDelete": "cascade",
-                    "references": {
-                        "model": "Users",
-                        "key": "id"
-                    },
-                    "primaryKey": true
-                }
-            },
-            {}
-        ]
-    },
-    {
-        fn: "createTable",
-        params: [
-            "TicketUser",
-            {
-                "createdAt": {
-                    "type": Sequelize.DATE,
-                    "allowNull": false
-                },
-                "updatedAt": {
-                    "type": Sequelize.DATE,
-                    "allowNull": false
-                },
                 "TicketId": {
                     "type": Sequelize.INTEGER,
                     "onUpdate": "CASCADE",
@@ -607,6 +604,7 @@ var migrationCommands = [{
                         "model": "Tickets",
                         "key": "id"
                     },
+                    "unique": "TicketUsers_UserId_TicketId_unique",
                     "primaryKey": true
                 },
                 "UserId": {
@@ -617,7 +615,19 @@ var migrationCommands = [{
                         "model": "Users",
                         "key": "id"
                     },
+                    "unique": "TicketUsers_UserId_TicketId_unique",
                     "primaryKey": true
+                },
+                "createdAt": {
+                    "type": Sequelize.DATE,
+                    "allowNull": false
+                },
+                "updatedAt": {
+                    "type": Sequelize.DATE,
+                    "allowNull": false
+                },
+                "deletedAt": {
+                    "type": Sequelize.DATE
                 }
             },
             {}
