@@ -64,13 +64,13 @@ export class TicketsComponent implements OnInit {
     this.router.navigate(['/tickets', id])
   }
 
-  chooseMyTickets() {
+  chooseAssTickets() {
     this.switchTicketView = true;
     const assignedTickets = this.tickets.filter((ticket) => ticket.AssigneeId === this.userId);
     this.assignedTickets = assignedTickets;
   }
 
-  chooseAssTickets() {
+  chooseMyTickets() {
     this.switchTicketView = false;
     const requestedTickets = this.tickets.filter((ticket) => ticket.RequesterId === this.userId);
     this.requestedTickets = requestedTickets;

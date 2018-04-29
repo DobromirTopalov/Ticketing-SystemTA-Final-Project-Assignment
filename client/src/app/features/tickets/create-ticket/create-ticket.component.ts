@@ -21,12 +21,12 @@ import { Router } from '@angular/router';
 })
 export class CreateTicketComponent implements OnInit {
   createTicketForm: FormGroup;
-  userId: number = 5;
-  requesterId: number = this.userId;
-  assigneeId: number = this.userId;
+  userId: number;
+  requesterId: number;
+  assigneeId: number;
 
   teamLeader: User;
-  teamId: number = 4;
+  teamId: number;
   labels: Label[];
   statuses: Status[];
   setStatus: StatusType = 3;
@@ -45,26 +45,29 @@ export class CreateTicketComponent implements OnInit {
   ngOnInit() {
     const decodedToken = this.jwtService.decodeToken(localStorage.getItem('access_token'));
     this.userId = decodedToken.id;
+    this.requesterId = this.userId;
+    this.assigneeId = this.userId;
 
     const userList = this.teamService.getUserTeam(this.userId).subscribe((data)=> {
       const team = data.info;
       this.teamId = team['TeamId'];
-    }, error => { });
 
-    const teamInfo = this.teamService.getById(this.teamId).subscribe((data) => {
-      this.teamLeader = data['info']['teamLeaderId'];
-    });
-
-    this.teamService.getAllTeamUsers(this.teamId).subscribe((data)=> {
-      const users = data.info;
-
-      users.forEach((user) => {
-        this.userService.getById(+user.UserId).subscribe((data: User) => {
-          this.members.push(data);
-        });
+      const teamInfo = this.teamService.getById(this.teamId).subscribe((data) => {
+        this.teamLeader = data['info']['teamLeaderId'];
       });
 
-    });
+      this.teamService.getAllTeamUsers(this.teamId).subscribe((data)=> {
+        const users = data.info;
+
+        users.forEach((user) => {
+          this.userService.getById(+user.UserId).subscribe((data: User) => {
+            this.members.push(data);
+          });
+        });
+
+      });
+    }, error => { });
+
 
     this.paramService.getAllLabels().subscribe((data) => {
       this.labels = data.result;
