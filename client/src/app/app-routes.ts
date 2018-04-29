@@ -9,6 +9,7 @@ import { TeamsComponent } from './features/teams/teams.component';
 import { SingleTeamComponent } from './features/teams/single-team/single-team.component';
 import { SingleTicketComponent } from './features/tickets/single-ticket/single-ticket.component';
 import { CreateTicketComponent } from './features/tickets/create-ticket/create-ticket.component';
+import { CreateTeamComponent } from './features/teams/create-team/create-team.component';
 
 export const ROUTES: Routes = [
   { path: 'home', component: HomeComponent },
@@ -24,7 +25,8 @@ export const ROUTES: Routes = [
   {
     path: 'teams', children: [
       { path: '', component: TeamsComponent, pathMatch: 'full' },
-      { path: ':id', component: SingleTeamComponent }
+      { path: 'create', component: CreateTeamComponent },
+      { path: ':id', component: SingleTeamComponent },
     ]
   },
   { path: 'register', component: RegisterComponent },

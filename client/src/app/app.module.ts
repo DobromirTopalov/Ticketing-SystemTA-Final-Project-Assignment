@@ -18,6 +18,7 @@ import { SharedModule } from './shared/index';
 import { TeamsComponent } from './features/teams/teams.component';
 import { TeamDetailsComponent } from './features/teams/details/team-details.component';
 import { SingleTeamComponent } from './features/teams/single-team/single-team.component';
+import { CreateTeamComponent } from './features/teams/create-team/create-team.component';
 
 export function tokenGetter() {
   return localStorage.getItem('access_token');
@@ -32,6 +33,7 @@ export function tokenGetter() {
     TeamsComponent,
     TeamDetailsComponent,
     SingleTeamComponent,
+    CreateTeamComponent,
   ],
   imports: [
     SharedModule,

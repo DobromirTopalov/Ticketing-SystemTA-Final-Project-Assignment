@@ -1,16 +1,16 @@
 <div class="container">
   <div>
-    <button *ngIf="!enableButtons()" disabled mat-raised-button>{{team?.name}}'s Tickets</button>
-    <button *ngIf="enableButtons()" mat-raised-button>{{team?.name}}'s Tickets</button>
+    <!-- <button *ngIf="!enableButtons()" disabled mat-raised-button>{{team?.name}}'s Tickets</button> -->
+    <button [disabled]="!enableButtons()" mat-raised-button>{{team?.name}}'s Tickets</button>
 
-    <button *ngIf="enableButtons()" mat-raised-button>Create a Ticket</button>
-    <button *ngIf="!enableButtons()" mat-raised-button disabled>Create a Ticket</button>
+    <!-- <button *ngIf="enableButtons()" mat-raised-button>Create a Ticket</button> -->
+    <button [disabled]="!enableButtons()" mat-raised-button>Create a Ticket</button>
   </div>
 
   <div>
     <!-- <button mat-raised-button (click)="leaveTeam()">Leave Team</button> -->
-    <button *ngIf="!enableButtons()" mat-raised-button disabled>Leave Team</button>
-    <button *ngIf="enableButtons()" mat-raised-button (click)="leaveTeam()">Leave Team</button>
+    <!-- <button *ngIf="!enableButtons()" mat-raised-button disabled>Leave Team</button> -->
+    <button [disabled]="!enableButtons()" mat-raised-button (click)="leaveTeam()">Leave Team</button>
   </div>
 
   <mat-grid-list [cols]="columnNum" [rowHeight]="rowHeightRatio">
@@ -44,16 +44,16 @@
     </div>
   </mat-grid-list>
 
-  <button *ngIf="!selected" mat-raised-button disabled type="submit">Invite Members</button>
-  <button *ngIf="selected" #invite mat-raised-button type="submit" (click)="inviteSelectedMember(selectedUser)">Invite Members</button>
+  <!-- <button *ngIf="!selected" mat-raised-button disabled type="submit">Invite Members</button> -->
+  <button [disabled]="!selected" #invite mat-raised-button type="submit" (click)="inviteSelectedMember(selectedUser)">Invite Members</button>
 
   <!-- <input #inp matInput placeholder="Search" (input)="onSearch()" [(ngModel)]="search"> -->
   <!-- <input *ngIf="!enableButtons()" disabled matInput placeholder="Search"> -->
-  <input id="searchInput" #inp matInput placeholder="Search" (input)="onSearch()" [(ngModel)]="search">
+  <input id="searchInput" #inp matInput placeholder="Search" (input)="onSearch(inp.value)" [(ngModel)]="search">
 
   <!-- <button mat-raised-button (click)="clearFilter()">Clear Search</button> -->
-  <button *ngIf="!enableButtons()" mat-raised-button disabled (click)="clearFilter()">Clear Search</button>
-  <button *ngIf="enableButtons()" mat-raised-button (click)="clearFilter()">Clear Search</button>
+  <!-- <button *ngIf="!enableButtons()" mat-raised-button disabled (click)="clearFilter()">Clear Search</button> -->
+  <button [disabled]="!enableButtons()" mat-raised-button (click)="clearFilter()">Clear Search</button>
   <div *ngFor="let newMember of filteredUsers">
     <div *ngIf="!selected">
       <div *ngIf="enableButtons()">

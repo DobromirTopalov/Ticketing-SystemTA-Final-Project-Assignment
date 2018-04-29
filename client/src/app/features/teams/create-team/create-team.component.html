@@ -1,0 +1,38 @@
+<form [formGroup]="createTeamForm" (ngSubmit)="createTeam(createTeamForm)">
+
+  <div>
+    <b>Name:</b>
+    <input type="text" formControlName="name" matInput #name maxlength="100" placeholder="Team name" required>
+    <mat-hint align="end">{{name.value?.length || 0}}/20</mat-hint>
+    <mat-error *ngIf="createTeamForm.controls['name'].errors && !createTeamForm.controls['name'].pristine">{{displayErrorMessageName()}}</mat-error>
+  </div>
+  <div>
+    <b>Description:</b>
+    <input type="text" formControlName="description" matInput #description maxlength="100" placeholder="Team description" required>
+    <mat-hint align="end">{{description.value?.length || 0}}/100</mat-hint>
+    <mat-error *ngIf="createTeamForm.controls['description'].errors && !createTeamForm.controls['description'].pristine">{{displayErrorMessageDescription()}}</mat-error>
+  </div>
+  <div>
+    <b>Image:</b>
+    <input type="text" formControlName="teamImgUrl">
+  </div>
+
+  <div>
+    <button [disabled]="createTeamForm.controls.name.errors || createTeamForm.controls.description.errors" type="submit">Create a Team</button>
+  </div>
+
+</form>
+
+<!-- <mat-list-item>
+  <mat-form-field class="spacer">
+    <input matInput #inputFirst maxlength="20" placeholder="First Name" formControlName="firstName" required>
+    <mat-hint align="end">{{inputFirst.value?.length || 0}}/20</mat-hint>
+    <mat-error *ngIf="regForm.controls['firstName'].errors && !regForm.controls['firstName'].pristine">{{getErrorMessageNames()}}</mat-error>
+  </mat-form-field>
+
+  <mat-form-field class="spacer">
+    <input matInput #inputLast maxlength="20" placeholder="Last Name" formControlName="lastName" required>
+    <mat-hint align="end">{{inputLast.value?.length || 0}}/20</mat-hint>
+    <mat-error *ngIf="regForm.controls['lastName'].errors && !regForm.controls['lastName'].pristine">{{getErrorMessageNames2()}}</mat-error>
+  </mat-form-field>
+</mat-list-item> -->

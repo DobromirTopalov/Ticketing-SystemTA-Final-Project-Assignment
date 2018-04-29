@@ -25,8 +25,12 @@ export class SingleTeamComponent implements OnInit {
   companyId: number;
   userLoggedIn: User;
   companyUsers: User[];
+  filteredCompanyUsers: User[];
+  teamMembers: User[];
   filteredUsers: User[];
   users: User[];
+  teamLeaderId: number;
+  loggedUserId: number;
   columnNum: number = 0;
   rowHeightRatio: string = '1:1';
   @Input()
@@ -73,52 +77,59 @@ export class SingleTeamComponent implements OnInit {
           .getById(this.id)
           .subscribe(data => {
             const team = Object.keys(data).map((iterator) => data[iterator])[0];
+
             this.team = team;
+            console.log(this.team);
             this.companyId = this.team.CompanyId;
+            this.teamLeaderId = this.team.teamLeaderId['id'];
+            console.log(this.teamLeaderId);
+
             const decodedToken = this.jwtService.decodeToken(localStorage.getItem('access_token'));
-            const userId = decodedToken.id;
-            this.userLoggedIn = this.team.Users.find(x => x.id === userId)
+            this.loggedUserId = decodedToken.id;
+
+            this.userLoggedIn = this.team.Users.find(x => x.id === this.loggedUserId);
+            console.log(this.loggedUserId);
+
             this.usersService
               .getAll()
               .subscribe(data => {
                 this.users = data.info;
+
                 let companyUsers = this.users
                   .filter((x) => x.CompanyId === this.companyId);
+
                 this.companyUsers = companyUsers;
-                // console.log(this.companyUsers);
-                this.team.Users.forEach((teamMember) =>
-                  companyUsers = companyUsers
-                    .filter((companyUser) => companyUser.id !== teamMember.id));
-                this.filteredUsers = companyUsers;
-                // console.log(this.filteredUsers);
-                // console.log(this.selectedMember);
+                this.teamMembers = this.team.Users;
+                this.filteredCompanyUsers = this.companyUsers;
+
+                this.teamMembers.forEach((teamMember) => {
+                  this.filteredCompanyUsers = this.filteredCompanyUsers.filter((filtered) => filtered.id !== teamMember.id);
+                });
+                this.filteredUsers = this.filteredCompanyUsers;
               });
           });
       });
   }
 
   onSearch(): void {
-    if (this.selected === true && this.search !== this.selectedMember.email) {
+    if ((this.selected === true && this.search !== this.selectedMember.email)) {
       this.clearFilter();
     }
-    // this.selected = false;
-    this.filterBySearch();
+
+    this.filterBySearch(this.search);
   }
 
-  private filterBySearch(): void {
-    // this.selected = false;
-    // this.search = '';
-    this.search = this.search.toLowerCase().trim();
+  private filterBySearch(string: string): void {
+    this.search = string.toLowerCase().trim();
 
-    this.filteredUsers = this.filteredUsers.filter(x =>
+    this.filteredUsers = this.filteredCompanyUsers.filter(x =>
       x.firstName.toLowerCase().indexOf(this.search) >= 0 ||
       x.lastName.toLowerCase().indexOf(this.search) >= 0 ||
       x.email.toLowerCase().indexOf(this.search) >= 0);
-    // console.log(this.companyUsers);
   }
 
   clearFilter(): void {
-    this.filteredUsers = this.filteredUsers;
+    this.filteredUsers = this.filteredCompanyUsers;
     this.selected = false;
     this.selectedMember = undefined;
     this.search = '';
@@ -133,33 +144,31 @@ export class SingleTeamComponent implements OnInit {
     this.selected = true;
     this.selectedMember = member;
     this.search = `${this.selectedMember.email}`
-    // console.log(this.selectedMember);
   }
 
   inviteSelectedMember(): void {
     this.selected = false;
     this.teamsService.addUserToTeam(this.selectedMember.id, this.team.id)
-    .subscribe(
-      x => this.showChanges(),
-      err => console.log(err)
-    );
+      .subscribe(
+        x => this.showChanges(),
+        err => console.log(err)
+      );
+
     this.clearFilter();
   }
 
   // to do: remove button if user is not in team
 
   enableButtons(): boolean {
-    // const decodedToken = this.jwtService.decodeToken(localStorage.getItem('access_token'));
-    // const userId: number = decodedToken.id;
-    // const user: User = this.team.Users.find(x => x.id === userId);
-    if (this.userLoggedIn) {
+    if ((this.userLoggedIn) || (this.teamLeaderId === this.loggedUserId)) {
       return true;
     }
+
     return false;
   }
   leaveTeam(team: Team) {
-    // const decodedToken = this.jwtService.decodeToken(localStorage.getItem('access_token'));
     const userId = this.userLoggedIn.id;
+
     this.teamsService.userLeaveTeam(userId, this.team.id)
       .subscribe(
         x => this.showChanges(),

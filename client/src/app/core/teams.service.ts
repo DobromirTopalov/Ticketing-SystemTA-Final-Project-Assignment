@@ -25,6 +25,19 @@ export class TeamsService {
     return this.httpClient.get(`${this.appConfig.apiUrl}/teams/${id}`).map(x => <Team>x);
   }
 
+  createNewTeam(name: string, description: string, teamImgUrl: string | null, CompanyId: number, TeamLeaderId: number, options?: HttpOptions): Observable<Object> {
+    console.log(name, description, teamImgUrl, TeamLeaderId, CompanyId);
+    console.log(`${this.appConfig.apiUrl}/teams/create`);
+    return this.httpClient.post(`${this.appConfig.apiUrl}/teams/create`, {
+      name,
+      description,
+      teamImgUrl,
+      TeamLeaderId,
+      CompanyId,
+    },
+      options);
+  }
+
   addUserToTeam(userId: number, teamId: number, options?: HttpOptions): Observable<Object> {
     return this.httpClient.post(`${this.appConfig.apiUrl}/teams/${teamId}`, { UserId: userId, TeamId: teamId }, options);
   }
