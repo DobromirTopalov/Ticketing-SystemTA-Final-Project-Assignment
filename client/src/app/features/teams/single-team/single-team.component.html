@@ -1,4 +1,4 @@
-<div class="container">
+<div *ngIf="userLoggedIn" class="container">
   <div>
     <!-- <button *ngIf="!enableButtons()" disabled mat-raised-button>{{team?.name}}'s Tickets</button> -->
     <button [disabled]="!enableButtons()" mat-raised-button>{{team?.name}}'s Tickets</button>
@@ -37,9 +37,9 @@
   <mat-grid-list [cols]="columnNum" [rowHeight]="rowHeightRatio">
     <div *ngFor="let member of team?.Users">
       <mat-grid-tile (click)="navToUser(member?.id)">
-        <span>
+        <div>
           {{member.firstName}} {{member.lastName}}
-        </span>
+        </div>
       </mat-grid-tile>
     </div>
   </mat-grid-list>
@@ -69,4 +69,14 @@
       <span *appMyNgIf="inp.value.length" class="available-members">{{selectedMember?.firstName}} {{selectedMember?.lastName}}</span>
     </div>
   </div>
+  <button *ngIf="isLoggedUserTeamLeader()" mat-raised-button (click)="generateUserList()">Select New Team Leader</button>
+  <div *ngIf="generateCompanyUsersList">
+    <span *ngFor="let user of companyUsers">
+      <button (click)="promoteUser(user?.id)">{{user?.firstName}}{{user?.lastName}}</button>
+    </span>
+  </div>
+</div>
+
+<div *ngIf="!userLoggedIn" class="container">
+  <h1>You are not a member of this team.</h1>
 </div>
