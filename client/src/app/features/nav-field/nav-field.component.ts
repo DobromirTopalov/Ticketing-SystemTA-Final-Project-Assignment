@@ -3,20 +3,49 @@ import { AuthService } from '../../core/auth.service';
 import { MatIconRegistry } from '@angular/material';
 import { DomSanitizer } from '@angular/platform-browser';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { UsersService } from '../../core/users.service';
+import { ActivatedRoute, Router } from '@angular/router';
+import { JwtHelperService } from '@auth0/angular-jwt';
+import { User } from '../../models/users/user';
 
 @Component({
   selector: 'app-nav-field',
   templateUrl: './nav-field.component.html',
   styleUrls: ['./nav-field.component.css']
 })
-export class NavFieldComponent{
+export class NavFieldComponent {
 
+  loggedUser: User[];
+  loggedUserId: number;
+  routerLink: string;
   // constructor(private authService: AuthService){};
-  constructor(private http: HttpClient, private authService: AuthService, iconRegistry: MatIconRegistry, sanitizer: DomSanitizer) {
+  constructor(
+    private http: HttpClient,
+    private authService: AuthService,
+    private usersService: UsersService,
+    private activatedRoute: ActivatedRoute,
+    private router: Router,
+    private jwtService: JwtHelperService,
+    iconRegistry: MatIconRegistry,
+    sanitizer: DomSanitizer) {
     iconRegistry.addSvgIcon(
-        'hamburger',
-        sanitizer.bypassSecurityTrustResourceUrl('../../../assets/sidenavicon.svg'));
-  }  isAuth(): boolean {
+      'hamburger',
+      sanitizer.bypassSecurityTrustResourceUrl('../../../assets/sidenavicon.svg'));
+  }
+  ngOnInit() {
+    const decodedToken = this.jwtService.decodeToken(localStorage.getItem('access_token'));
+
+    this.loggedUserId = decodedToken.id;
+    this.routerLink = `/users/${this.loggedUserId}`;
+
+    this.usersService.getById(this.loggedUserId).subscribe(
+      data => {
+        this.loggedUser = data['info'];
+        console.log(this.loggedUser);
+      }
+    )
+  }
+  isAuth(): boolean {
     return this.authService.isAuthenticated();
   }
 

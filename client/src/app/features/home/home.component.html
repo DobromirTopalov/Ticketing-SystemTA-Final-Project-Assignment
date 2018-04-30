@@ -1,3 +1,15 @@
-<h1>Welcome to DRT</h1>
-
+<div>
+  <h1>Welcome to DRTickets!</h1>
+</div>
+<div>
+  <div *ngFor="let company of companies">
+    <span>
+      <h2>{{company?.name}}</h2>
+    </span>
+  </div>
+  <h2>are our partners!</h2>
+</div>
+<div>
+  <h3>{{users?.length}} users are using our services and {{tickets?.length}} tickets are helping them to perform better!</h3>
+</div>
 

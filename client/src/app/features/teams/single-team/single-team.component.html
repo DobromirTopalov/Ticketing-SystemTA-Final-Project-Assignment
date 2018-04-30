@@ -54,25 +54,25 @@
   <!-- <button mat-raised-button (click)="clearFilter()">Clear Search</button> -->
   <!-- <button *ngIf="!enableButtons()" mat-raised-button disabled (click)="clearFilter()">Clear Search</button> -->
   <button [disabled]="!enableButtons()" mat-raised-button (click)="clearFilter()">Clear Search</button>
-  <div *ngFor="let newMember of filteredUsers">
-    <div *ngIf="!selected">
-      <div *ngIf="enableButtons()">
-        <span *appMyNgIf="inp.value.length" class="available-members" (click)="selectMember(newMember, invite)">{{newMember?.firstName}} {{newMember?.lastName}}</span>
-      </div>
-    </div>
+  <div *ngIf="enableButtons()">
+    <span *ngIf="!selected">
+      <span *ngFor="let newMember of filteredUsers">
+        <button *appMyNgIf="inp.value.length" class="available-members" (click)="selectMember(newMember, invite)">{{newMember?.firstName}} {{newMember?.lastName}}</button>
+      </span>
+    </span>
     <!-- <div *ngIf="enableButtons()">
       <span *appMyNgIf="inp.value.length" class="available-members" (click)="selectMember(newMember, invite)" appBold>{{newMember?.firstName}} {{newMember?.lastName}}</span>
     </div> -->
   </div>
   <div *ngIf="selected">
-    <div *ngIf="enableButtons()">
-      <span *appMyNgIf="inp.value.length" class="available-members">{{selectedMember?.firstName}} {{selectedMember?.lastName}}</span>
-    </div>
+    <span *ngIf="enableButtons()">
+      <button *appMyNgIf="inp.value.length" class="available-members">{{selectedMember?.firstName}} {{selectedMember?.lastName}}</button>
+    </span>
   </div>
   <button *ngIf="isLoggedUserTeamLeader()" mat-raised-button (click)="generateUserList()">Select New Team Leader</button>
   <div *ngIf="generateCompanyUsersList">
     <span *ngFor="let user of companyUsers">
-      <button (click)="promoteUser(user?.id)">{{user?.firstName}}{{user?.lastName}}</button>
+      <button (click)="promoteUser(user?.id)">{{user?.firstName}} {{user?.lastName}}</button>
     </span>
   </div>
 </div>
