@@ -41,7 +41,8 @@ class TeamController extends SharedController {
 
       const team = await this.data.teams.getById(obj.TeamId);
       const user = await this.data.users.getById(obj.UserId);
-      const result = await team.addUsers([user]);
+      // const result = await team.addUsers([user]);
+      const result = await this.data.teamuser.findOrCreate(obj);
       console.log(result);
 
       // return created object to api
@@ -64,7 +65,8 @@ class TeamController extends SharedController {
 
       const team = await this.data.teams.getById(obj.TeamId);
       const user = await this.data.users.getById(obj.UserId);
-      const result = await team.removeUsers([user]);
+      // const result = await team.removeUsers([user]);
+      const result = await this.data.teamuser.delete(obj);
       console.log(result);
 
       // return created object to api

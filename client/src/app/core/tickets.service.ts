@@ -17,6 +17,8 @@ export class TicketsService {
   constructor(private httpClient: HttpClient, private appConfig: AppConfig) { }
 
   getAll(): Observable<TicketsModel[]> {
+    console.log('inside getallticks');
+    console.log(`${this.appConfig.apiUrl}/tickets`);
     this.httpClient.get(`${this.appConfig.apiUrl}/tickets`)
     .subscribe(
       data => console.log(data, 'Tickets subscribe for Interceptor'),

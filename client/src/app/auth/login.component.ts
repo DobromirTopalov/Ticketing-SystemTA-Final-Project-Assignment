@@ -4,6 +4,7 @@ import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms'
 import { AuthService } from '../core/auth.service';
 import { ToastrService } from 'ngx-toastr';
 import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -18,7 +19,8 @@ export class LoginComponent implements OnInit {
 
   constructor(private formBuilder: FormBuilder,
     private auth: AuthService,
-    private toastr: ToastrService) { }
+    private toastr: ToastrService,
+    private router: Router) { }
 
   ngOnInit() {
     const pattern = new RegExp(/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,32}$/);
@@ -31,24 +33,26 @@ export class LoginComponent implements OnInit {
   email = new FormControl('', [Validators.required, Validators.email]);
   getErrorMessageEmail() {
     return this.loginForm.get('email').hasError('required') ? 'You must enter a value' :
-    this.loginForm.get('email').hasError('email') ? 'Not a valid email' : '';
+      this.loginForm.get('email').hasError('email') ? 'Not a valid email' : '';
   }
 
   getErrorMessagePass() {
     return this.loginForm.get('password').hasError('required') ? 'You must enter a value' :
-    this.loginForm.get('password').hasError('pattern') ? 'Password must have at least 6 characters and (1-9, a-z, A-Z)' : '';
+      this.loginForm.get('password').hasError('pattern') ? 'Password must have at least 6 characters and (1-9, a-z, A-Z)' : '';
   }
 
   login(): void {
-    this.auth.login(this.loginForm.value, { observe: 'response', responseType: 'json' }).subscribe((x: HttpResponse<{token: string}>) => {
-      localStorage.setItem('access_token', x.body.token);
-      this.toastr.success(`${this.loginForm.get('email').value} registered!`);
-    },
-      (err: HttpErrorResponse) => {
-        if (err.status === 302) {
-          this.toastr.error(err.error.err);
-        }
-      });
+    this.auth.login(this.loginForm.value, { observe: 'response', responseType: 'json' })
+      .subscribe((x: HttpResponse<{ token: string }>) => {
+        localStorage.setItem('access_token', x.body.token);
+        this.toastr.success(`${this.loginForm.get('email').value} registered!`);
+        this.router.navigate(['/tickets']);
+      },
+        (err: HttpErrorResponse) => {
+          if (err.status === 302) {
+            this.toastr.error(err.error.err);
+          }
+        });
   }
 
 }

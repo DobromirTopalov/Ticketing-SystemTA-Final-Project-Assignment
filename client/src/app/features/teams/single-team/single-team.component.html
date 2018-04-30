@@ -1,10 +1,10 @@
 <div *ngIf="userLoggedIn" class="container">
   <div>
     <!-- <button *ngIf="!enableButtons()" disabled mat-raised-button>{{team?.name}}'s Tickets</button> -->
-    <button [disabled]="!enableButtons()" mat-raised-button>{{team?.name}}'s Tickets</button>
+    <button [disabled]="!enableButtons()" mat-raised-button (click)="navToTeamTickets()" >{{team?.name}}'s Tickets</button>
 
     <!-- <button *ngIf="enableButtons()" mat-raised-button>Create a Ticket</button> -->
-    <button [disabled]="!enableButtons()" mat-raised-button>Create a Ticket</button>
+    <button [disabled]="!enableButtons()" mat-raised-button (click)="navToCreateTicket()">Create a Ticket</button>
   </div>
 
   <div>

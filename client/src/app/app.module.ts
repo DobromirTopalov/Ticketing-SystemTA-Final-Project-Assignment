@@ -19,6 +19,7 @@ import { TeamsComponent } from './features/teams/teams.component';
 import { TeamDetailsComponent } from './features/teams/details/team-details.component';
 import { SingleTeamComponent } from './features/teams/single-team/single-team.component';
 import { CreateTeamComponent } from './features/teams/create-team/create-team.component';
+import { UsersModule } from './features/users/users.module';
 
 export function tokenGetter() {
   return localStorage.getItem('access_token');
@@ -36,6 +37,7 @@ export function tokenGetter() {
     CreateTeamComponent,
   ],
   imports: [
+    UsersModule,
     SharedModule,
     ToastrModule.forRoot(),
     AuthModule,

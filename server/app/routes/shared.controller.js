@@ -9,6 +9,7 @@ class SharedController extends Validator {
 
   getAll() {
     return async (req, res, next) => {
+      console.log('inside getALL on server');
       const info = await this.data[this.Model].getAll();
 
       return res.status(200).send({

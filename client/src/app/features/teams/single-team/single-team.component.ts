@@ -73,7 +73,7 @@ export class SingleTeamComponent implements OnInit {
   private showChanges(): void {
     this.activatedRoute.params
       .subscribe(x => {
-        this.id = x['id'];
+        this.id = +x['id'];
         this.teamsService
           .getById(this.id)
           .subscribe(data => {
@@ -209,6 +209,14 @@ export class SingleTeamComponent implements OnInit {
             err => console.log(err)),
         err => console.log(err)
       );
+  }
+
+  navToTeamTickets(): void {
+    this.router.navigate(['/teams', this.id, 'tickets']);
+  }
+
+  navToCreateTicket(): void {
+    this.router.navigate(['/tickets/opencreate']);
   }
 
 }

@@ -8,6 +8,7 @@ import { SingleTicketComponent } from './single-ticket/single-ticket.component';
 import { CommentaryListComponent } from '../commentary/commentary-list/commentary-list.component';
 import { CommentaryPostComponent } from '../commentary/commentary-post/commentary-post.component';
 import { CreateTicketComponent } from './create-ticket/create-ticket.component';
+import { TeamTicketsComponent } from './team-tickets/team-tickets.component';
 
 
 @NgModule({
@@ -18,6 +19,7 @@ import { CreateTicketComponent } from './create-ticket/create-ticket.component';
       CommentaryListComponent,
       CommentaryPostComponent,
       CreateTicketComponent,
+      TeamTicketsComponent,
     ],
     imports: [
         CommonModule,
