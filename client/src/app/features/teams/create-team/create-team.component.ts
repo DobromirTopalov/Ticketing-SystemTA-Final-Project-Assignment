@@ -67,10 +67,20 @@ export class CreateTeamComponent implements OnInit {
       TeamLeaderId,
       CompanyId,
     }
-    this.teamsService.createNewTeam(name, description, teamImgUrl, CompanyId, TeamLeaderId).subscribe(
-      x => this.router.navigate(['/teams', x['team'][0].id]),
-      err => console.log(err),
+    this.teamsService.createNewTeam(name, description, teamImgUrl, CompanyId, TeamLeaderId)
+      .subscribe(
+        x => this.teamsService.addUserToTeam(this.loggedUserId, x['team'][0].id)
+          // x => console.log(x['team'][0].id),
+          .subscribe(
+            y => this.router.navigate(['/teams', x['team'][0].id]),
+            err => console.log(err)
+          ),
+        err => console.log(err),
     );
+    // this.teamsService.createNewTeam(name, description, teamImgUrl, CompanyId, TeamLeaderId).subscribe(
+    //   x => this.router.navigate(['/teams', x['team'][0].id]),
+    //   err => console.log(err),
+    // );
     ;
   }
 

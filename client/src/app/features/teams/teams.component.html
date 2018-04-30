@@ -1,5 +1,5 @@
 <mat-grid-list [cols]="columnNum" [rowHeight]="rowHeightRatio">
-  <div *ngFor="let team of teams">
+  <div *ngFor="let team of filteredTeams">
 
     <mat-grid-tile (click)="nav(team.id)">
       <app-team-details [team]="team"></app-team-details>

@@ -31,6 +31,7 @@ export class SingleTeamComponent implements OnInit {
   users: User[];
   teamLeaderId: number;
   loggedUserId: number;
+  generateCompanyUsersList: boolean = false;
   columnNum: number = 0;
   rowHeightRatio: string = '1:1';
   @Input()
@@ -79,16 +80,17 @@ export class SingleTeamComponent implements OnInit {
             const team = Object.keys(data).map((iterator) => data[iterator])[0];
 
             this.team = team;
-            console.log(this.team);
+            // console.log(this.team);
             this.companyId = this.team.CompanyId;
             this.teamLeaderId = this.team.teamLeaderId['id'];
-            console.log(this.teamLeaderId);
+            // console.log(this.teamLeaderId);
 
             const decodedToken = this.jwtService.decodeToken(localStorage.getItem('access_token'));
             this.loggedUserId = decodedToken.id;
 
             this.userLoggedIn = this.team.Users.find(x => x.id === this.loggedUserId);
-            console.log(this.loggedUserId);
+            // console.log(this.userLoggedIn);
+            // console.log(this.loggedUserId);
 
             this.usersService
               .getAll()
@@ -105,6 +107,7 @@ export class SingleTeamComponent implements OnInit {
                 this.teamMembers.forEach((teamMember) => {
                   this.filteredCompanyUsers = this.filteredCompanyUsers.filter((filtered) => filtered.id !== teamMember.id);
                 });
+
                 this.filteredUsers = this.filteredCompanyUsers;
               });
           });
@@ -133,6 +136,7 @@ export class SingleTeamComponent implements OnInit {
     this.selected = false;
     this.selectedMember = undefined;
     this.search = '';
+    this.generateCompanyUsersList = false;
   }
 
   navToUser(id: number): void {
@@ -168,10 +172,41 @@ export class SingleTeamComponent implements OnInit {
   }
   leaveTeam(team: Team) {
     const userId = this.userLoggedIn.id;
+    if (userId === this.teamLeaderId) {
+      alert('You must choose another Team Leader before leaving team!')
+      return;
+    }
 
     this.teamsService.userLeaveTeam(userId, this.team.id)
       .subscribe(
         x => this.showChanges(),
+        err => console.log(err)
+      );
+  }
+
+  isLoggedUserTeamLeader(): boolean {
+    if (this.userLoggedIn.id !== this.teamLeaderId) {
+      return false;
+    }
+
+    return true;
+  }
+
+  generateUserList() {
+    // console.log('button');
+    this.generateCompanyUsersList = true;
+  }
+
+  promoteUser(id) {
+    this.teamsService.setNewTeamLeader(id, this.team.id)
+      .subscribe(
+        x => this.teamsService.addUserToTeam(id, this.team.id)
+          .subscribe(
+            y => {
+              this.generateCompanyUsersList = false;
+              this.showChanges();
+            },
+            err => console.log(err)),
         err => console.log(err)
       );
   }

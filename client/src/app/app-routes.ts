@@ -10,6 +10,8 @@ import { SingleTeamComponent } from './features/teams/single-team/single-team.co
 import { SingleTicketComponent } from './features/tickets/single-ticket/single-ticket.component';
 import { CreateTicketComponent } from './features/tickets/create-ticket/create-ticket.component';
 import { CreateTeamComponent } from './features/teams/create-team/create-team.component';
+// import { TeamGuard } from './core/team-guard';
+// import { TeamGuard } from './core/team-guard';
 
 export const ROUTES: Routes = [
   { path: 'home', component: HomeComponent },

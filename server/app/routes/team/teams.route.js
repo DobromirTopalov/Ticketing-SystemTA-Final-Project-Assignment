@@ -48,6 +48,10 @@ const init = (app, data) => {
       session: false,
     }), controller.addUserToTeam())
 
+    .post('/api/teams/:id/leader', passport.authenticate('jwt', {
+      session: false,
+    }), controller.setNewLeader())
+
     .post('/api/teams/:id/leave', passport.authenticate('jwt', {
       session: false,
     }), controller.userLeaveTeam());
