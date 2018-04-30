@@ -63,10 +63,10 @@ class AuthController {
         const user = {
           firstName: req.body.firstName || 'FirstName',
           lastName: req.body.lastName || 'LastName',
-          CompanyId: company.id || 1,
-          RoleId: 6,
+          CompanyId: req.body.company || 1,
+          RoleId: req.body.role || 6,
           email: req.body.email || 'default@mail.com',
-          password: '123123',
+          password: req.body.password || '123123',
         };
         bcrypt.hash(req.body.password, null, null, async (err, hash) => {
           user.password = hash;

@@ -6,6 +6,7 @@ import { AppConfig } from '../config/app.config';
 
 import { LabelsModel } from '../models/tickets/labelsModel';
 import { StatusModel } from '../models/tickets/statusModel';
+import { Company } from '../models/company/company';
 
 
 @Injectable()
@@ -34,5 +35,21 @@ export class ParamsService {
     return this.httpClient.get(`${this.appConfig.apiUrl}/statuses`).map(x => <StatusModel>(x));
   }
 
+  getAllCompanies(): Observable<Company[]> {
+    this.httpClient.get(`${this.appConfig.apiUrl}/companies`)
+    .subscribe(
+      data => console.log(data, 'Companies subscribe for Interceptor'),
+      err => console.log(err)
+    );
+    return this.httpClient.get(`${this.appConfig.apiUrl}/companies`).map(x => <Company[]>(x));
+  }
 
+  getAllRoles(): Observable<StatusModel> {
+    this.httpClient.get(`${this.appConfig.apiUrl}/roles`)
+    .subscribe(
+      data => console.log(data, 'Roles subscribe for Interceptor'),
+      err => console.log(err)
+    );
+    return this.httpClient.get(`${this.appConfig.apiUrl}/roles`).map(x => <StatusModel>(x));
+  }
 }

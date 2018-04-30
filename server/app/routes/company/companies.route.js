@@ -10,9 +10,7 @@ const init = (app, data) => {
   const controller = new CompanyController(data);
 
   router
-    .get('/api/companies', passport.authenticate('jwt', {
-      session: false,
-    }), controller.getAll())
+    .get('/api/companies', controller.getAll())
 
     .get('/api/companies/:id', passport.authenticate('jwt', {
       session: false,

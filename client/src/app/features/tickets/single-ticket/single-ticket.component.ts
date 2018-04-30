@@ -89,6 +89,16 @@ export class SingleTicketComponent implements OnInit {
 
       this.teamService.getById(this.ticket.TeamId).subscribe((data) => {
         this.teamLeaderId = data['info']['teamLeaderId'].id;
+
+        this.paramService.getAllStatuses().subscribe((data) => {
+          // console.log(this.userId,this.teamLeaderId);
+            if(!(this.userId === this.requesterId || this.userId === this.teamLeaderId)) {
+              this.filteredStatuses = data.result.filter((status) => status.name !== 'COMPLETED' );
+              // this.statuses = this.filteredStatuses;
+            }
+            this.statuses = this.filteredStatuses ? this.filteredStatuses : data.result;
+            // console.log(this.statuses, this.filteredStatuses, 'asddfg');
+          });
       });
     });
 
@@ -101,15 +111,7 @@ export class SingleTicketComponent implements OnInit {
       this.labels = data.result;
     });
 
-    this.paramService.getAllStatuses().subscribe((data) => {
-      this.statuses = data.result;
 
-      if(!this.accessRights()) {
-        this.filteredStatuses = this.statuses.filter((status) => status.name !== 'COMPLETED' );
-        this.statuses = this.filteredStatuses;
-      }
-      console.log(this.statuses);
-    });
 
     // this.userService.getAllForTickets().subscribe((data) => {
       //   this.members = data.info;
@@ -130,7 +132,6 @@ export class SingleTicketComponent implements OnInit {
     this.Comment = this.formBuilder.group({
       content: '',
     });
-
   }
 
   log() {
@@ -208,6 +209,8 @@ export class SingleTicketComponent implements OnInit {
   }
 
   accessRights() {
+    // console.log(this.userId,this.teamLeaderId);
+
     return (this.userId === this.requesterId || this.userId === this.teamLeaderId);
   }
 }
