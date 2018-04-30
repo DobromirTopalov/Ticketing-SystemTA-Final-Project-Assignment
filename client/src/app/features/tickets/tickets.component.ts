@@ -14,12 +14,14 @@ import { Router } from '@angular/router';
 export class TicketsComponent implements OnInit {
   @Input()
   tickets: Ticket[];
+  copyTickets: Ticket[];
   assignedTickets: Ticket[];
   requestedTickets: Ticket[];
   userId: number;
   columnNum: number;
   rowHeightRatio: string;
-
+  criteria; string = 'assigneeId';
+  sortOrder: string = 'asc';
   switchTicketView: boolean;
   constructor(private ticketsService: TicketsService, private auth: AuthService, private jwtService: JwtHelperService, media: ObservableMedia, private router: Router) {
     media.asObservable()
@@ -50,6 +52,7 @@ export class TicketsComponent implements OnInit {
     this.ticketsService.getAll().subscribe(data => {
       const tickets = Object.keys(data).map((iterator) => data[iterator])[0];
       this.tickets = tickets;
+      this.copyTickets = tickets;
 
       const assignedTickets = this.tickets.filter((ticket) => ticket.AssigneeId === this.userId);
       this.assignedTickets = assignedTickets;
@@ -64,15 +67,56 @@ export class TicketsComponent implements OnInit {
     this.router.navigate(['/tickets', id])
   }
 
+  onChange(collection): void {
+    console.log('inside sort');
+    collection = collection.sort((x, y) => {
+      const orderType = this.sortOrder === 'asc' ? 1 : -1;
+      let otherCriteria;
+      if (this.criteria === 'Label' || this.criteria === 'Status' || this.criteria === 'Team') {
+        otherCriteria = 'name';
+      } else {
+        otherCriteria = 'email';
+
+      }
+      let a = x[this.criteria][otherCriteria];
+      let b = y[this.criteria][otherCriteria];
+
+      console.log(this.criteria);
+      if (typeof x[this.criteria][otherCriteria] === 'string') {
+        a = x[this.criteria][otherCriteria].toLocaleLowerCase();
+        b = y[this.criteria][otherCriteria].toLocaleLowerCase();
+      }
+
+      if (a > b) {
+        return 1 * orderType;
+      } else if (a < b) {
+        return -1 * orderType;
+      } else {
+        return 0;
+      }
+    });
+
+    this.tickets = collection;
+  }
+
   chooseAssTickets() {
     this.switchTicketView = true;
+    this.tickets = this.copyTickets;
+
     const assignedTickets = this.tickets.filter((ticket) => ticket.AssigneeId === this.userId);
     this.assignedTickets = assignedTickets;
+    this.tickets = assignedTickets;
+    console.log(this.assignedTickets);
   }
 
   chooseMyTickets() {
     this.switchTicketView = false;
+    this.tickets = this.copyTickets;
+
     const requestedTickets = this.tickets.filter((ticket) => ticket.RequesterId === this.userId);
     this.requestedTickets = requestedTickets;
+    this.tickets = requestedTickets;
+
+    console.log(this.requestedTickets);
   }
 }

@@ -7,6 +7,10 @@ import 'rxjs/add/operator/map';
 import { AuthService } from '../core/auth.service';
 import { matchOtherValidator } from '../shared/match-other-validator';
 import { Router } from '@angular/router';
+import { ParamsService } from '../core/params.service';
+import { Label } from '../models/tickets/label';
+import { Status } from '../models/tickets/status';
+import { Company } from '../models/company/company';
 
 @Component({
   selector: 'app-register',
@@ -18,17 +22,31 @@ export class RegisterComponent implements OnInit {
   error: string;
   regForm: FormGroup;
 
+  roles: Label[];
+  companies: Company[];
   constructor(private formBuilder: FormBuilder,
     private auth: AuthService,
     private toastr: ToastrService,
-    private router: Router) { }
+    private router: Router,
+    private paramService: ParamsService) { }
 
   ngOnInit() {
+    this.paramService.getAllRoles().subscribe((data) => {
+      this.roles = data.result;
+      // console.log(this.roles);
+    });
+
+    this.paramService.getAllCompanies().subscribe((data) => {
+      this.companies = data['info'];
+      // console.log(this.companies);
+    });
+
     const pattern = new RegExp(/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,32}$/);
     this.regForm = this.formBuilder.group({
       firstName: new FormControl('', [Validators.required, Validators.minLength(3), Validators.maxLength(21)]),
       lastName: new FormControl('', [Validators.required, Validators.minLength(3), Validators.maxLength(21)]),
       company: new FormControl('', [Validators.required]),
+      role: new FormControl('', [Validators.required]),
       email: new FormControl('', [Validators.required, Validators.email]),
       password: new FormControl('', [Validators.required, Validators.pattern(pattern)]),
       confirmPassword: new FormControl('', [

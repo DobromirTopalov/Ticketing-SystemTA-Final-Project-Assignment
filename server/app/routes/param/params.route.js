@@ -19,9 +19,7 @@ const init = (app, data) => {
       session: false,
     }), controller.getParam('labels'))
 
-    .get('/api/roles', passport.authenticate('jwt', {
-      session: false,
-    }), controller.getParam('roles'));
+    .get('/api/roles', controller.getParam('roles'));
 
   app.use('/', router);
 };

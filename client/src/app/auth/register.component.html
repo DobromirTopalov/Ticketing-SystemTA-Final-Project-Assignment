@@ -45,13 +45,17 @@
         <!-- Company -->
         <mat-list-item class="personCompany">
           <mat-select placeholder="Company" formControlName="company" required>
-            <mat-option value="Telerik">Telerik</mat-option>
-            <mat-option value="CILF">CILF</mat-option>
-            <mat-option value="SecureO">SecureO</mat-option>
-            <mat-option value="TransTrans">TransTrans</mat-option>
-            <mat-option value="BinocularSOFT">BinocularSOFT</mat-option>
+            <mat-option *ngFor="let company of companies" [value]="company?.id">{{company?.name}}</mat-option>
           </mat-select>
           <mat-error *ngIf="regForm.controls['company'].errors">{{getErrorMessageCompany()}}</mat-error>
+        </mat-list-item>
+
+        <!-- Roles -->
+        <mat-list-item class="personCompany">
+          <mat-select placeholder="Role" formControlName="role" required>
+            <mat-option *ngFor="let role of roles" [value]="role?.id">{{role?.name}}</mat-option>
+          </mat-select>
+          <mat-error *ngIf="regForm.controls['role'].errors">{{getErrorMessageCompany()}}</mat-error>
         </mat-list-item>
 
         <label class="container">

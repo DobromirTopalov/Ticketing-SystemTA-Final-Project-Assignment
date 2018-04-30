@@ -1,3 +1,19 @@
+<mat-form-field fxFlex="20%">
+    <mat-select (change)="onChange(tickets)" [(ngModel)]="sortOrder" placeholder="Select Order">
+        <mat-option value="asc">Ascending</mat-option>
+        <mat-option value="desc">Descending</mat-option>
+    </mat-select>
+</mat-form-field>
+
+<mat-form-field fxFlex="20%">
+    <mat-select (change)="onChange(tickets)" [(ngModel)]="criteria" placeholder="Select Type">
+      <mat-option value="Team">Team</mat-option>
+        <mat-option value="Label">Label</mat-option>
+        <mat-option value="Status">Status</mat-option>
+        <mat-option value="assigneeId">Assignee</mat-option>
+    </mat-select>
+</mat-form-field>
+
 <mat-grid-list [cols]="columnNum" [rowHeight]="rowHeightRatio">
     <button (click)="chooseMyTickets()">MY TICKETS</button>
     <button (click)="chooseAssTickets()">ASS TICKETS</button>
