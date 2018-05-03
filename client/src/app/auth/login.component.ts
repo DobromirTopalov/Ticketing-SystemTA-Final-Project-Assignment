@@ -46,6 +46,8 @@ export class LoginComponent implements OnInit {
       .subscribe((x: HttpResponse<{ token: string }>) => {
         localStorage.setItem('access_token', x.body.token);
         this.toastr.success(`${this.loginForm.get('email').value} registered!`);
+        this.auth.getUser();
+        this.auth.isAuthenticated();
         this.router.navigate(['/tickets']);
       },
         (err: HttpErrorResponse) => {

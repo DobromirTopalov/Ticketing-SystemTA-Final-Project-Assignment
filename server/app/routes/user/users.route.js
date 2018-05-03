@@ -10,9 +10,10 @@ const init = (app, data) => {
   const controller = new UsersController(data);
 
   router
-    .get('/api/users', passport.authenticate('jwt', {
-      session: false,
-    }), controller.getAll())
+    .get('/api/users', controller.getAll())
+    // .get('/api/users', passport.authenticate('jwt', {
+    //   session: false,
+    // }), controller.getAll())
 
     .get('/api/users/:email', passport.authenticate('jwt', {
       session: false,

@@ -10,9 +10,10 @@ const init = (app, data) => {
   const controller2 = new TicketUserController(data);
 
   router
-  .get('/api/tickets', passport.authenticate('jwt', {
-    session: false,
-  }), controller.getAll())
+  .get('/api/tickets', controller.getAll())
+  // .get('/api/tickets', passport.authenticate('jwt', {
+  //   session: false,
+  // }), controller.getAll())
 
   .get('/api/tickets/:id', passport.authenticate('jwt', {
     session: false,

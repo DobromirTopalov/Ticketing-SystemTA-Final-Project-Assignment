@@ -15,7 +15,8 @@ import { User } from '../../models/users/user';
 })
 export class NavFieldComponent {
 
-  loggedUser: User[];
+  loggedUser: User;
+  isAuth: boolean;
   loggedUserId: number;
   routerLink: string;
   // constructor(private authService: AuthService){};
@@ -33,21 +34,29 @@ export class NavFieldComponent {
       sanitizer.bypassSecurityTrustResourceUrl('../../../assets/sidenavicon.svg'));
   }
   ngOnInit() {
-    const decodedToken = this.jwtService.decodeToken(localStorage.getItem('access_token'));
 
-    this.loggedUserId = decodedToken.id;
-    this.routerLink = `/users/${this.loggedUserId}`;
+    this.authService.user.subscribe(x=>{
+      this.loggedUser = x;
+    });
 
-    this.usersService.getById(this.loggedUserId).subscribe(
-      data => {
-        this.loggedUser = data['info'];
-        console.log(this.loggedUser);
-      }
-    )
+    this.authService.isAuth.subscribe(x=>{
+      this.isAuth = x;
+    });
+    // if (this.isAuth()) {
+
+    //   const decodedToken = this.jwtService.decodeToken(localStorage.getItem('access_token'));
+
+    //   // this.loggedUserId = decodedToken.id;
+    //   // this.routerLink = `/users/${this.loggedUserId}`;
+
+    //   // this.usersService.getById(this.loggedUserId).subscribe(
+    //   //   data => {
+    //   //     this.loggedUser = data['info'];
+    //   //     console.log(this.loggedUser);
+    //   //   });
+    // }
   }
-  isAuth(): boolean {
-    return this.authService.isAuthenticated();
-  }
+
 
   testAuth(): void {
     this.http.get<any>('http://localhost:3200/test').subscribe(x => {

@@ -101,6 +101,7 @@ export class RegisterComponent implements OnInit {
         this.error = 'Registered successfully!';
         this.toastr.success(`${this.regForm.get('email').value} registered!`);
         this.login(obj);
+
       },
         (err: HttpErrorResponse) => {
           this.error = err.error.err;
@@ -111,11 +112,13 @@ export class RegisterComponent implements OnInit {
   }
 
   login(obj): void {
-    // console.log(this.loginForm.value);
+    console.log('In login');
     this.auth.login(obj, { observe: 'response', responseType: 'json' })
       .subscribe((x: HttpResponse<{ token: string }>) => {
         localStorage.setItem('access_token', x.body.token);
         this.toastr.success(`${obj.email} registered!`);
+        this.auth.getUser();
+        this.auth.isAuthenticated();
         this.router.navigate(['/tickets']);
       },
         (err: HttpErrorResponse) => {
