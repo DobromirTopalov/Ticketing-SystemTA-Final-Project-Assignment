@@ -2,7 +2,9 @@
   <div *ngFor="let team of filteredTeams">
 
     <mat-grid-tile (click)="nav(team.id)">
+      <div class="in-tile">
       <app-team-details [team]="team"></app-team-details>
+      </div>
     </mat-grid-tile>
 
   </div>

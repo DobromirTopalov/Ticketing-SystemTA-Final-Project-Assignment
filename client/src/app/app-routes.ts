@@ -12,6 +12,7 @@ import { CreateTicketComponent } from './features/tickets/create-ticket/create-t
 import { CreateTeamComponent } from './features/teams/create-team/create-team.component';
 import { TeamTicketsComponent } from './features/tickets/team-tickets/team-tickets.component';
 import { SingleUserComponent } from './features/users/single-user.component';
+import { TestViewComponent } from './features/tickets/test-view/test-view.component';
 // import { TeamGuard } from './core/team-guard';
 // import { TeamGuard } from './core/team-guard';
 
@@ -47,6 +48,7 @@ export const ROUTES: Routes = [
   },
   { path: 'register', component: RegisterComponent },
   { path: 'login', component: LoginComponent },
+  { path: 'test', component: TestViewComponent },
   { path: '**', component: HomeComponent },
 
 ];
