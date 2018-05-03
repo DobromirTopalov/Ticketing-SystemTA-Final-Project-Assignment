@@ -9,6 +9,7 @@ import { CommentaryListComponent } from '../commentary/commentary-list/commentar
 import { CommentaryPostComponent } from '../commentary/commentary-post/commentary-post.component';
 import { CreateTicketComponent } from './create-ticket/create-ticket.component';
 import { TeamTicketsComponent } from './team-tickets/team-tickets.component';
+import { TestViewComponent } from './test-view/test-view.component';
 
 
 @NgModule({
@@ -20,6 +21,7 @@ import { TeamTicketsComponent } from './team-tickets/team-tickets.component';
       CommentaryPostComponent,
       CreateTicketComponent,
       TeamTicketsComponent,
+      TestViewComponent,
     ],
     imports: [
         CommonModule,
