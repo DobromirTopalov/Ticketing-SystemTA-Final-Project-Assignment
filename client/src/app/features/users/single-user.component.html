@@ -1,0 +1,9 @@
+<div *ngIf="showUser()">
+  <p>{{user?.firstName}} {{user?.lastName}}</p>
+  <p>{{user?.email}}</p>
+  <p>{{user?.Role.name}}</p>
+</div>
+
+<div *ngIf="!showUser()">
+  <h1>You can not reach this page!</h1>
+</div>

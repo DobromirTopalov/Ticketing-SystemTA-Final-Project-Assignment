@@ -6,6 +6,7 @@ import { ToastrService } from 'ngx-toastr';
 import 'rxjs/add/operator/map';
 import { AuthService } from '../core/auth.service';
 import { matchOtherValidator } from '../shared/match-other-validator';
+import { Router } from '@angular/router';
 import { ParamsService } from '../core/params.service';
 import { Label } from '../models/tickets/label';
 import { Status } from '../models/tickets/status';
@@ -25,8 +26,9 @@ export class RegisterComponent implements OnInit {
   companies: Company[];
   constructor(private formBuilder: FormBuilder,
     private auth: AuthService,
-    private paramService: ParamsService,
-    private toastr: ToastrService) { }
+    private toastr: ToastrService,
+    private router: Router,
+    private paramService: ParamsService) { }
 
   ngOnInit() {
     this.paramService.getAllRoles().subscribe((data) => {
@@ -57,28 +59,28 @@ export class RegisterComponent implements OnInit {
   // email = new FormControl('', [Validators.required, Validators.email]);
   getErrorMessageEmail() {
     return this.regForm.get('email').hasError('required') ? 'You must enter a value' :
-    this.regForm.get('email').hasError('email') ? 'Not a valid email' : '';
+      this.regForm.get('email').hasError('email') ? 'Not a valid email' : '';
   }
   getErrorMessageNames() {
     return this.regForm.get('firstName').hasError('required') ? 'You must enter a value' :
-    this.regForm.get('firstName').hasError('minLength') ? '' :
-    this.regForm.get('firstName').hasError('maxLength') ? 'Max 20 symbols allowed' : 'Min 3 symbols required';
+      this.regForm.get('firstName').hasError('minLength') ? '' :
+        this.regForm.get('firstName').hasError('maxLength') ? 'Max 20 symbols allowed' : 'Min 3 symbols required';
   }
 
   getErrorMessageNames2() {
     return this.regForm.get('lastName').hasError('required') ? 'You must enter a value' :
-    this.regForm.get('lastName').hasError('minLength') ? '' :
-    this.regForm.get('lastName').hasError('maxLength') ? 'Max 20 symbols allowed' : 'Min 3 symbols required';
+      this.regForm.get('lastName').hasError('minLength') ? '' :
+        this.regForm.get('lastName').hasError('maxLength') ? 'Max 20 symbols allowed' : 'Min 3 symbols required';
   }
 
   getErrorMessagePass() {
     return this.regForm.get('password').hasError('required') ? 'You must enter a value' :
-    this.regForm.get('password').hasError('pattern') ? 'Password must have at least 6 characters and (1-9, a-z, A-Z)' : '';
+      this.regForm.get('password').hasError('pattern') ? 'Password must have at least 6 characters and (1-9, a-z, A-Z)' : '';
   }
 
   getErrorMessagePass2() {
     return this.regForm.get('confirmPassword').hasError('required') ? 'You must enter a value' :
-    this.regForm.get('confirmPassword').get('matchOtherValidator') ? '' : 'Passwords must match';
+      this.regForm.get('confirmPassword').get('matchOtherValidator') ? '' : 'Passwords must match';
   }
 
   getErrorMessageCompany() {
@@ -88,16 +90,42 @@ export class RegisterComponent implements OnInit {
     return this.regForm.get('terms').hasError('required') ? 'You must accept terms' : '';
   }
   register(): void {
-    this.auth.register(this.regForm.value, { observe: 'response', responseType: 'json' }).subscribe((x: HttpResponse<string>) => {
-      this.error = 'Registered successfully!';
-      this.toastr.success(`${this.regForm.get('email').value} registered!`);
-    },
-      (err: HttpErrorResponse) => {
-        this.error = err.error.err;
-        if (err.status === 302) {
-          this.toastr.error(err.error.err);
-        }
-      });
+    const email = this.regForm.get('email').value;
+    const password = this.regForm.get('password').value;
+    const obj = {
+      email,
+      password,
+    };
+    this.auth.register(this.regForm.value, { observe: 'response', responseType: 'json' })
+      .subscribe((x: HttpResponse<string>) => {
+        this.error = 'Registered successfully!';
+        this.toastr.success(`${this.regForm.get('email').value} registered!`);
+        this.login(obj);
+
+      },
+        (err: HttpErrorResponse) => {
+          this.error = err.error.err;
+          if (err.status === 302) {
+            this.toastr.error(err.error.err);
+          }
+        });
+  }
+
+  login(obj): void {
+    console.log('In login');
+    this.auth.login(obj, { observe: 'response', responseType: 'json' })
+      .subscribe((x: HttpResponse<{ token: string }>) => {
+        localStorage.setItem('access_token', x.body.token);
+        this.toastr.success(`${obj.email} registered!`);
+        this.auth.getUser();
+        this.auth.isAuthenticated();
+        this.router.navigate(['/tickets']);
+      },
+        (err: HttpErrorResponse) => {
+          if (err.status === 302) {
+            this.toastr.error(err.error.err);
+          }
+        });
   }
 
 

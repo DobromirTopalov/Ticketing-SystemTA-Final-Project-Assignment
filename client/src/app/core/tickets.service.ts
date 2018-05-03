@@ -22,6 +22,14 @@ export class TicketsService {
     //   data => console.log(data, 'Tickets subscribe for Interceptor'),
     //   err => console.log(err)
     // );
+                    // Marto helped
+                    // console.log('inside getallticks');
+                    // console.log(`${this.appConfig.apiUrl}/tickets`);
+                    // this.httpClient.get(`${this.appConfig.apiUrl}/tickets`)
+                    // .subscribe(
+                    //   data => console.log(data, 'Tickets subscribe for Interceptor'),
+                    //   err => console.log(err)
+                    // );
     return this.httpClient.get(`${this.appConfig.apiUrl}/tickets`).map(x => <TicketsModel[]>(x));
   }
 

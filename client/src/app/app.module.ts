@@ -10,15 +10,12 @@ import { JwtModule } from '@auth0/angular-jwt';
 import { ToastrModule } from 'ngx-toastr';
 
 import { AppComponent } from './app.component';
-import { HomeComponent } from './features/home/home.component';
 import { TicketsModule } from './features/tickets/ticket.module';
-import { NavFieldComponent } from './features/nav-field/nav-field.component';
-import { MessagesComponent } from './features/messages/messages.component';
 import { SharedModule } from './shared/index';
-import { TeamsComponent } from './features/teams/teams.component';
-import { TeamDetailsComponent } from './features/teams/details/team-details.component';
-import { SingleTeamComponent } from './features/teams/single-team/single-team.component';
-import { CreateTeamComponent } from './features/teams/create-team/create-team.component';
+import { UsersModule } from './features/users/users.module';
+import { HomeModule } from './features/home/home.module';
+import { NavFieldModule } from './features/nav-field/nav-field.module';
+import { TeamsModule } from './features/teams/teams.module';
 
 export function tokenGetter() {
   return localStorage.getItem('access_token');
@@ -27,15 +24,12 @@ export function tokenGetter() {
 @NgModule({
   declarations: [
     AppComponent,
-    HomeComponent,
-    NavFieldComponent,
-    MessagesComponent,
-    TeamsComponent,
-    TeamDetailsComponent,
-    SingleTeamComponent,
-    CreateTeamComponent,
   ],
   imports: [
+    TeamsModule,
+    NavFieldModule,
+    HomeModule,
+    UsersModule,
     SharedModule,
     ToastrModule.forRoot(),
     AuthModule,

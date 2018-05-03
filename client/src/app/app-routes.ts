@@ -11,6 +11,9 @@ import { SingleTicketComponent } from './features/tickets/single-ticket/single-t
 import { CreateTicketComponent } from './features/tickets/create-ticket/create-ticket.component';
 import { CreateTeamComponent } from './features/teams/create-team/create-team.component';
 import { TicketGuard } from './core/ticket-guard';
+import { TeamTicketsComponent } from './features/tickets/team-tickets/team-tickets.component';
+import { SingleUserComponent } from './features/users/single-user.component';
+// import { TeamGuard } from './core/team-guard';
 // import { TeamGuard } from './core/team-guard';
 
 export const ROUTES: Routes = [
@@ -28,10 +31,23 @@ export const ROUTES: Routes = [
     path: 'teams', children: [
       { path: '', component: TeamsComponent, pathMatch: 'full' },
       { path: 'create', component: CreateTeamComponent },
-      { path: ':id', component: SingleTeamComponent },
+      // { path: ':id', component: SingleTeamComponent },
+      {
+        path: ':id', children: [
+          { path: '', component: SingleTeamComponent, pathMatch: 'full' },
+          { path: 'tickets', component: TeamTicketsComponent, },
+        ]
+      },
+    ]
+  },
+  {
+    path: 'users', children: [
+      { path: '', component: SingleUserComponent },
+      { path: ':id', component: SingleUserComponent },
     ]
   },
   { path: 'register', component: RegisterComponent },
   { path: 'login', component: LoginComponent },
-  { path: '**', component: HomeComponent }
+  { path: '**', component: HomeComponent },
+
 ];

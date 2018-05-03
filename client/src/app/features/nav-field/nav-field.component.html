@@ -2,7 +2,7 @@
 
   <mat-toolbar color="primary">
 
-    <span>Logo</span>
+    <a [routerLink]="['/home']" routerLinkActive="active">Logo</a>
     <span class="fill-remaining-space"></span>
 
     <span class="example-spacer"></span>
@@ -11,11 +11,14 @@
 
       <!-- The following menu items will be hidden on both SM and XS screen sizes -->
 
-      <a [routerLink]="['/home']" routerLinkActive="active">Home</a>
-      <a *ngIf="isAuth()" [routerLink]="['/tickets']" routerLinkActive="active">Tickets</a>
-      <a *ngIf="!isAuth()" [routerLink]="['/register']" routerLinkActive="active">Register</a>
-      <a *ngIf="!isAuth()" [routerLink]="['/login']" routerLinkActive="active">Login</a>
-      <a *ngIf="isAuth()" [routerLink]="['/']" (click)="logout()">Logout</a>
+      <!-- <a [routerLink]="['/home']" routerLinkActive="active">Home</a> -->
+      <a *ngIf="isAuth" [routerLink]="['/tickets']" routerLinkActive="active">Tickets</a>
+      <a *ngIf="isAuth" [routerLink]="['/teams']" routerLinkActive="active">My Teams</a>
+      <a *ngIf="isAuth" [routerLink]="['/teams/create']" routerLinkActive="active">Create a Team</a>
+      <a *ngIf="!isAuth" [routerLink]="['/register']" routerLinkActive="active">Register</a>
+      <a *ngIf="!isAuth" [routerLink]="['/login']" routerLinkActive="active">Login</a>
+      <a *ngIf="isAuth" [routerLink]=routerLink routerLinkActive="active">{{loggedUser?.email}}</a>
+      <a *ngIf="isAuth" [routerLink]="['/']" (click)="logout()">Logout</a>
 
     </div>
 
@@ -37,11 +40,14 @@
 
         <a (click)="sidenav.toggle()" href="#" mat-button>Close</a>
 
-        <a [routerLink]="['/home']" routerLinkActive="active">Home</a>
-        <a *ngIf="isAuth()" [routerLink]="['/tickets']" routerLinkActive="active">Tickets</a>
-        <a *ngIf="!isAuth()" [routerLink]="['/register']" routerLinkActive="active">Register</a>
-        <a *ngIf="!isAuth()" [routerLink]="['/login']" routerLinkActive="active">Login</a>
-        <a *ngIf="isAuth()" [routerLink]="['/']" (click)="logout()">Logout</a>
+        <!-- <a [routerLink]="['/home']" routerLinkActive="active">Home</a> -->
+        <a *ngIf="isAuth" [routerLink]="['/tickets']" routerLinkActive="active">Tickets</a>
+        <a *ngIf="isAuth" [routerLink]="['/teams']" routerLinkActive="active">My Teams</a>
+        <a *ngIf="isAuth" [routerLink]="['/teams/create']" routerLinkActive="active">Create a Team</a>
+        <a *ngIf="!isAuth" [routerLink]="['/register']" routerLinkActive="active">Register</a>
+        <a *ngIf="!isAuth" [routerLink]="['/login']" routerLinkActive="active">Login</a>
+        <a *ngIf="isAuth" [routerLink]=routerLink routerLinkActive="active">{{loggedUser?.email}}</a>
+        <a *ngIf="isAuth" [routerLink]="['/']" (click)="logout()">Logout</a>
 
       </div>
 
@@ -52,7 +58,7 @@
     <mat-sidenav-content class="mat-nav-content" fxFlexFill>
 
       <router-outlet></router-outlet>
-      <button (click)="testAuth()">Auth</button>
+      <!-- <button (click)="testAuth()">Auth</button> -->
 
     </mat-sidenav-content>
 
