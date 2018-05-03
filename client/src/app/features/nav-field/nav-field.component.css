@@ -28,10 +28,23 @@
   flex: 1 1 auto;
 }
 
-/* .mat-sidenav-container {
-  background: rgba(0, 0, 0, 0.08);
-} */
+.mat-sidenav-container {
+  background-color: rgba(0, 195, 255, 0.534);
+}
+
+.mat-sidenav-content {
+  background-color: #bfd2bf;
+}
+
+.mat-toolbar {
+  background-color: #395b50;
+  /* background-color: #9faf90; */
+}
 /*
 .blank-grow {
   flex: 1 1 auto;
 } */
+
+
+/* start designing */
+

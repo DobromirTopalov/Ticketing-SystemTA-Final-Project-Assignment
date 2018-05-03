@@ -9,6 +9,7 @@ import { AuthGuard } from './auth-guard';
 import { TeamsService } from './teams.service';
 import { UsersService } from './users.service';
 import { ParamsService } from './params.service';
+import { TicketGuard } from './ticket-guard';
 // import { TeamGuard } from './team-guard';
 
 @NgModule({
@@ -27,6 +28,7 @@ import { ParamsService } from './params.service';
     { provide: TeamsService, useClass:TeamsService },
     UsersService,
     ParamsService,
+    TicketGuard,
     // TeamGuard,
   ]
 })
