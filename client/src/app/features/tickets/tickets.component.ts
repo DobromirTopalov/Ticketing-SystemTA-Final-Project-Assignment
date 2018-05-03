@@ -5,6 +5,7 @@ import { AuthService } from '../../core/auth.service';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { ObservableMedia, MediaChange } from '@angular/flex-layout';
 import { Router } from '@angular/router';
+import { MatTableDataSource } from '@angular/material';
 
 @Component({
   selector: 'app-tickets',
@@ -20,30 +21,27 @@ export class TicketsComponent implements OnInit {
   userId: number;
   columnNum: number;
   rowHeightRatio: string;
-  criteria; string = 'assigneeId';
+  criteria: string = 'assigneeId';
   sortOrder: string = 'asc';
   switchTicketView: boolean;
+
+  displayedColumns = ['description', 'requester', 'assignee', 'status', 'label', 'deadline'];
+  ELEMENT_DATA: Element[] = [];
+  dataSource = new MatTableDataSource(this.ELEMENT_DATA);
+
+  applyFilter(filterValue: string) {
+    filterValue = filterValue.trim(); // Remove whitespace
+    filterValue = filterValue.toLowerCase(); // MatTableDataSource defaults to lowercase matches
+    this.dataSource.filter = filterValue;
+  }
+
   constructor(private ticketsService: TicketsService, private auth: AuthService, private jwtService: JwtHelperService, media: ObservableMedia, private router: Router) {
     media.asObservable()
     .subscribe((change: MediaChange) => {
-      // alert(change.mqAlias);
-      // console.log(change.mqAlias);
-      if (change.mqAlias == 'xs') {
         this.columnNum = 1;
-        this.rowHeightRatio = '2:1'
-      }
-      else if (change.mqAlias == 'sm') {
-        this.columnNum = 2;
-        this.rowHeightRatio = '1.5:1'
-      }
-      else {
-        this.columnNum = 2;
-        this.rowHeightRatio = '2:1'
-      }
+        this.rowHeightRatio = '20:1';
     });
   }
-
-
 
   ngOnInit() {
     const decodedToken = this.jwtService.decodeToken(localStorage.getItem('access_token'));
@@ -54,9 +52,16 @@ export class TicketsComponent implements OnInit {
       this.tickets = tickets;
       this.copyTickets = tickets;
 
+
       const assignedTickets = this.tickets.filter((ticket) => ticket.AssigneeId === this.userId);
       this.assignedTickets = assignedTickets;
-      console.log(assignedTickets,'asdasd');
+      this.tickets = assignedTickets;
+
+      this.assignedTickets.forEach((ticket) => {
+        const tableContent = {description: ticket.description, requester: ticket['requesterId'].email, assignee: ticket['assigneeId'].email, status: ticket['Status'].name, label: ticket['Label'].name, deadline: ticket.deadline, id: ticket.id};
+        this.ELEMENT_DATA.push(tableContent);
+      });
+      this.dataSource.data = this.ELEMENT_DATA;
 
       const requestedTickets = this.tickets.filter((ticket) => ticket.RequesterId === this.userId);
       this.requestedTickets = requestedTickets;
@@ -64,11 +69,11 @@ export class TicketsComponent implements OnInit {
   }
 
   nav(id: number): void{
-    this.router.navigate(['/tickets', id])
+    console.log('asdasd');
+    this.router.navigate(['/tickets', id]);
   }
 
   onChange(collection): void {
-    console.log('inside sort');
     collection = collection.sort((x, y) => {
       const orderType = this.sortOrder === 'asc' ? 1 : -1;
       let otherCriteria;
@@ -81,7 +86,6 @@ export class TicketsComponent implements OnInit {
       let a = x[this.criteria][otherCriteria];
       let b = y[this.criteria][otherCriteria];
 
-      console.log(this.criteria);
       if (typeof x[this.criteria][otherCriteria] === 'string') {
         a = x[this.criteria][otherCriteria].toLocaleLowerCase();
         b = y[this.criteria][otherCriteria].toLocaleLowerCase();
@@ -96,6 +100,12 @@ export class TicketsComponent implements OnInit {
       }
     });
 
+    this.ELEMENT_DATA = [];
+    collection.forEach((ticket) => {
+      const tableContent = {description: ticket.description, requester: ticket['requesterId'].email, assignee: ticket['assigneeId'].email, status: ticket['Status'].name, label: ticket['Label'].name, deadline: ticket.deadline, id: ticket.id};
+      this.ELEMENT_DATA.push(tableContent);
+    });
+    this.dataSource.data = this.ELEMENT_DATA;
     this.tickets = collection;
   }
 
@@ -103,20 +113,41 @@ export class TicketsComponent implements OnInit {
     this.switchTicketView = true;
     this.tickets = this.copyTickets;
 
+    this.ELEMENT_DATA = [];
     const assignedTickets = this.tickets.filter((ticket) => ticket.AssigneeId === this.userId);
     this.assignedTickets = assignedTickets;
+    this.assignedTickets.forEach((ticket) => {
+      const tableContent = {description: ticket.description, requester: ticket['requesterId'].email, assignee: ticket['assigneeId'].email, status: ticket['Status'].name, label: ticket['Label'].name, deadline: ticket.deadline, id: ticket.id};
+      this.ELEMENT_DATA.push(tableContent);
+    });
+    this.dataSource.data = this.ELEMENT_DATA;
+
     this.tickets = assignedTickets;
-    console.log(this.assignedTickets);
   }
 
   chooseMyTickets() {
     this.switchTicketView = false;
     this.tickets = this.copyTickets;
 
+    this.ELEMENT_DATA = [];
     const requestedTickets = this.tickets.filter((ticket) => ticket.RequesterId === this.userId);
     this.requestedTickets = requestedTickets;
+    this.requestedTickets.forEach((ticket) => {
+      const tableContent = {description: ticket.description, requester: ticket['requesterId'].email, assignee: ticket['assigneeId'].email, status: ticket['Status'].name, label: ticket['Label'].name, deadline: ticket.deadline, id: ticket.id};
+      this.ELEMENT_DATA.push(tableContent);
+    });
+    this.dataSource.data = this.ELEMENT_DATA;
+
     this.tickets = requestedTickets;
 
-    console.log(this.requestedTickets);
   }
+}
+
+export interface Element {
+  requester: string;
+  assignee: string;
+  description: string;
+  status: string;
+  label: string;
+  deadline: string;
 }

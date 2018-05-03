@@ -3,7 +3,7 @@ import { BoldDirective } from './bold.directive';
 import { EllipsisPipe } from './ellipsis.pipe';
 import { MyNgIfDirective } from './my-ng-if.directive';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { MatButtonModule, MatCardModule, MatSelectModule, MatFormFieldModule, MatInputModule, MatToolbarModule, MatSidenavModule, MatIconModule, MatGridListModule, MatDividerModule, MatListModule, MatRadioModule } from '@angular/material';
+import { MatButtonModule, MatCardModule, MatSelectModule, MatFormFieldModule, MatInputModule, MatToolbarModule, MatSidenavModule, MatIconModule, MatGridListModule, MatDividerModule, MatListModule, MatRadioModule, MatTableModule } from '@angular/material';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { DatepickerModule } from 'angular2-material-datepicker';
@@ -17,6 +17,7 @@ import { CommonModule } from '@angular/common';
     // DatepickerModule,
     MatButtonModule,
     MatCardModule,
+    MatTableModule,
     MatDividerModule,
     MatSelectModule,
     MatFormFieldModule,
@@ -46,6 +47,7 @@ import { CommonModule } from '@angular/common';
     MatButtonModule,
     MatCardModule,
     MatSelectModule,
+    MatTableModule,
     MatFormFieldModule,
     MatInputModule,
     MatGridListModule,
