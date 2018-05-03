@@ -142,6 +142,24 @@ export class SingleTicketComponent implements OnInit {
     console.log(this.comments);
   }
 
+  participate() {
+    const obj = {
+      TicketId: +this.ticketId,
+      UserId: +this.userId,
+    }
+
+    this.ticketsService.subscribeForTicket(obj);
+  }
+
+  departicipate() {
+    const obj = {
+      TicketId: +this.ticketId,
+      UserId: +this.userId,
+    }
+
+    this.ticketsService.desubscribeForTicket(obj);
+  }
+
   updateTicket() {
     let ticketObject = <Ticket>{};
 
@@ -177,7 +195,16 @@ export class SingleTicketComponent implements OnInit {
     }
 
     console.log(ticketObject);
-    this.ticketsService.updateInfo(ticketObject);
+    this.ticketsService.updateInfo(ticketObject).subscribe((data: Object) => {
+      this.ticketsService.subscribeForTicket({ TicketId: this.ticketId, UserId: this.requesterId}).subscribe((data) => {
+      });
+      this.ticketsService.subscribeForTicket({ TicketId: this.ticketId, UserId: this.assigneeId})
+    });
+
+    // this.ticketsService.updateInfo(ticketObject);
+      // this.ticketsService.subscribeForTicket({ TicketId: this.ticketId, UserId: this.requesterId}).subscribe(data =>
+      // console.log());
+      // this.ticketsService.subscribeForTicket({ TicketId: this.ticketId, UserId: this.assigneeId})
   }
 
   commentTicket() {

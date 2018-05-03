@@ -10,6 +10,7 @@ import { SingleTeamComponent } from './features/teams/single-team/single-team.co
 import { SingleTicketComponent } from './features/tickets/single-ticket/single-ticket.component';
 import { CreateTicketComponent } from './features/tickets/create-ticket/create-ticket.component';
 import { CreateTeamComponent } from './features/teams/create-team/create-team.component';
+import { TicketGuard } from './core/ticket-guard';
 import { TeamTicketsComponent } from './features/tickets/team-tickets/team-tickets.component';
 import { SingleUserComponent } from './features/users/single-user.component';
 import { TestViewComponent } from './features/tickets/test-view/test-view.component';
@@ -23,8 +24,8 @@ export const ROUTES: Routes = [
   {
     path: 'tickets', children: [
       { path: '', component: TicketsComponent, pathMatch: 'full' },
-      { path: 'opencreate', component: CreateTicketComponent },
-      { path: ':id', component: SingleTicketComponent },
+      { path: 'opencreate', component: CreateTicketComponent},
+      { path: ':id', component: SingleTicketComponent, canActivate: [TicketGuard]},
     ]
   },
   {

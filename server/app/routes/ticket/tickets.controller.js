@@ -10,7 +10,8 @@ class TicketController extends SharedController {
     return async (req, res, next) => {
       const result = await this.data.tickets.update(req.body, { id: req.body.id });
 
-      console.log(result);
+      // console.log(result);
+
       // return created object to api
       return res.status(200).send({
         result,

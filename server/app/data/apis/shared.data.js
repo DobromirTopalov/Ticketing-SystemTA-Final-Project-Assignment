@@ -56,9 +56,9 @@ class SharedData {
     });
   }
 
-  // create(modelObj) {
-  //   return this.Model.create(modelObj);
-  // }
+  create(modelObj) {
+    return this.Model.create(modelObj);
+  }
 
   findOrCreate(modelObj) {
     return this.Model.findCreateFind({

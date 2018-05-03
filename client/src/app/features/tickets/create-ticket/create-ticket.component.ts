@@ -111,8 +111,10 @@ export class CreateTicketComponent implements OnInit {
 
     console.log(ticketObject);
 
-    this.ticketsService.createInfo(<Ticket>ticketObject);
-
+    this.ticketsService.createInfo(<Ticket>ticketObject).subscribe((data: Object) => {
+      this.ticketsService.subscribeForTicket({ TicketId: +data['result'][0]['id'], UserId: +this.assigneeId})
+      this.ticketsService.subscribeForTicket({ TicketId: +data['result'][0]['id'], UserId: +this.requesterId})
+    });
   }
 
 }

@@ -27,6 +27,13 @@ const init = (app, data) => {
     session: false,
   }), controller.createTicket())
 
+  .post('/api/tickets/participate', passport.authenticate('jwt', {
+    session: false,
+  }), controller2.addTicketUser())
+
+  .post('/api/tickets/departicipate', passport.authenticate('jwt', {
+    session: false,
+  }), controller2.removeTicketUser())
   .post('/api/tickets/:id', passport.authenticate('jwt', {
     session: false,
   }), controller.updateTicket());
