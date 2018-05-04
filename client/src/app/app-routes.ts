@@ -25,7 +25,7 @@ export const ROUTES: Routes = [
     path: 'tickets', children: [
       { path: '', component: TicketsComponent, pathMatch: 'full' },
       { path: 'opencreate', component: CreateTicketComponent},
-      { path: ':id', component: SingleTicketComponent, canActivate: [TicketGuard]},
+      { path: ':id', component: SingleTicketComponent, canActivate: []},
     ]
   },
   {
