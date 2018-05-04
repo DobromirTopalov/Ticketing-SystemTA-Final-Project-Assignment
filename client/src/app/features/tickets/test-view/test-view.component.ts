@@ -65,7 +65,7 @@ export class TestViewComponent implements OnInit {
             { text: 'Assignee', cols: 5, rows: 1, color: 'red' },
             { text: 'Members', cols: 5, rows: 1, color: '#DDBDF1' },
             { text: 'Participate', cols: 5, rows: 1, color: 'green' },
-            { text: 'Comments', cols: 8, rows: 1, color: 'yellow' },
+            { text: 'Comments', cols: 10, rows: 1, color: 'yellow' },
           ];
         }
       });
