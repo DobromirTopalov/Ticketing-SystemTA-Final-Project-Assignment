@@ -1,115 +1,87 @@
-<div class="centerTheBox">
-  <div class="descriptionContainer">
-    <div class="descriptionSection six">
+<mat-grid-list [cols]="cols" [rowHeight]="rowHeight">
 
-      <form [formGroup]="Description" (ngSubmit)="updateTicket()">
-        <!-- <textarea [attr.disabled]="isClosed()" [(ngModel)]="ticket && ticket.description" ngModel class="list-container description" matInput placeholder="Description:" formControlName="description">
-        </textarea> -->
-        <mat-form-field class="descriptionBox">
-          <textarea class="description" matInput [attr.disabled]="isClosed()" [(ngModel)]="ticket && ticket.description" ngModel matInput placeholder="Description:" formControlName="description"></textarea>
+  <mat-grid-tile class="descContent" [colspan]="tiles[0].cols" [rowspan]="tiles[0].rows" [style.background]="tiles[0].color">
+    <form class="descForm" [formGroup]="Description" (ngSubmit)="updateTicket()">
+      <mat-form-field class="descField">
+        <textarea class="descArea" matInput [attr.disabled]="isClosed()" [(ngModel)]="ticket && ticket.description" ngModel matInput
+          placeholder="Description:" formControlName="description"></textarea>
+      </mat-form-field>
+    </form>
+  </mat-grid-tile>
+
+  <mat-grid-tile class="selectContent" [colspan]="tiles[1].cols" [rowspan]="tiles[1].rows" [style.background]="tiles[1].color">
+    <form class="selectForm" [formGroup]="Stickers" (ngSubmit)="updateTicket()">
+      <mat-form-field class="selectField">
+        <mat-select class="selectArea" [disabled]="isClosed()" [(ngModel)]="ticket && ticket.Status.id" ngModel placeholder="{{defaultStatus}}"
+          formControlName="StatusId">
+          <mat-option *ngFor="let status of statuses" [value]="status?.id">
+            {{ status?.name }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </form>
+  </mat-grid-tile>
+
+  <mat-grid-tile class="selectContent" [colspan]="tiles[2].cols" [rowspan]="tiles[2].rows" [style.background]="tiles[2].color">
+    <form class="selectForm" [formGroup]="Stickers" (ngSubmit)="updateTicket()">
+      <mat-form-field class="selectField">
+        <mat-select class="selectArea" [disabled]="isClosed()" [(ngModel)]="ticket && ticket.Label.id" ngModel placeholder="Label"
+          formControlName="LabelId">
+          <mat-option *ngFor="let label of labels" [value]="label?.id">
+            {{ label?.name }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </form>
+  </mat-grid-tile>
+
+  <mat-grid-tile class="selectContent" [colspan]="tiles[3].cols" [rowspan]="tiles[3].rows" [style.background]="tiles[3].color">
+    <form class="selectForm" [formGroup]="Members" (ngSubmit)="updateTicket()">
+      <mat-form-field class="selectField">
+        <mat-select class="selectArea" [disabled]="isClosed() || !accessRights()" [(ngModel)]="ticket && ticket.requesterId.id" ngModel
+          placeholder="Requester" formControlName="RequesterId">
+          <mat-option *ngFor="let member of members" [value]="member?.id">
+            {{ member?.email }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </form>
+  </mat-grid-tile>
+
+  <mat-grid-tile class="selectContent" [colspan]="tiles[4].cols" [rowspan]="tiles[4].rows" [style.background]="tiles[4].color">
+    <form class="selectForm" [formGroup]="Members" (ngSubmit)="updateTicket()">
+      <mat-form-field class="selectField">
+        <mat-select class="selectArea" [disabled]="isClosed() || !accessRights()" [(ngModel)]="ticket && ticket.assigneeId.id" ngModel
+          placeholder="Assignee" formControlName="AssigneeId">
+          <mat-option *ngFor="let member of members" [value]="member?.id">
+            {{ member?.email }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </form>
+  </mat-grid-tile>
+
+  <mat-grid-tile class="buttonsMPwrap" [colspan]="tiles[5].cols" [rowspan]="tiles[5].rows" [style.background]="tiles[5].color">
+    <div class="buttonsMP">
+      <button [disabled]="isClosed()" type="submit" mat-raised-button color="primary" (click)="updateTicket()">Save Changes</button>
+    </div>
+  </mat-grid-tile>
+
+  <mat-grid-tile class="buttonsMPwrap" [colspan]="tiles[6].cols" [rowspan]="tiles[6].rows" [style.background]="tiles[6].color">
+    <div>
+      <button [disabled]="isClosed()" mat-raised-button color="primary" (click)="participate()">Members</button>
+      <button [disabled]="isClosed()" mat-raised-button color="primary" (click)="participate()">Participate</button>
+    </div>
+  </mat-grid-tile>
+
+  <mat-grid-tile class="selectContent" [colspan]="tiles[7].cols" [rowspan]="tiles[7].rows" [style.background]="tiles[7].color">
+      <form class="commentaryForm" [formGroup]="Comment" (ngSubmit)="commentTicket()">
+        <mat-form-field class="commentaryField">
+          <input class="commentaryArea" [attr.disabled]="isClosed() ? 'disabled' : null" [(ngModel)]="commentary" ngModel formControlName="content" matInput placeholder="Comment" required>
         </mat-form-field>
       </form>
-    </div>
+      <button class="" [disabled]="isClosed()" mat-raised-button color="primary" (click)="commentTicket()" class="post">POST</button>
+  </mat-grid-tile>
 
-    <div fxFlex fxFlex="40" class="three">
-      <form [formGroup]="Stickers" (ngSubmit)="updateTicket()">
-        <mat-list class="formFrame centerDiv">
-        <mat-list-item>
-            <mat-select [disabled]="isClosed()" [(ngModel)]="ticket && ticket.Status.id" ngModel placeholder="{{defaultStatus}}" formControlName="StatusId">
-              <!-- <mat-optgroup *ngFor="let group of pokemonGroups" [label]="group.name" [disabled]="group.disabled"> -->
-                <mat-option *ngFor="let status of statuses" [value]="status?.id">
-                  {{ status?.name }}
-                </mat-option>
-              <!-- </mat-optgroup> -->
-            </mat-select>
-          </mat-list-item>
-
-          <mat-list-item>
-              <mat-select [disabled]="isClosed()" [(ngModel)]="ticket && ticket.Label.id" ngModel placeholder="Label" formControlName="LabelId">
-                  <mat-option *ngFor="let label of labels" [value]="label?.id">
-                    {{ label?.name }}
-                  </mat-option>
-                </mat-select>
-            </mat-list-item>
-        </mat-list>
-      </form>
-    </div>
-  </div>
-
-  <!-- nedei  <div fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxFlex class="contentResp" class="one" fxFlexFill>
-    <div fxFlex fxFlex="70" fxFlexAlign="center" class="two">
-        <form [formGroup]="Stickers" (ngSubmit)="updateTicket()">
-      <mat-list class="formFrame centerDiv status">
-            <mat-list-item>
-                <input [attr.disabled]="isClosed() || !accessRights() ? 'disabled' : null" [(ngModel)]="ticket && ticket.deadline" ngModel placeholder="Deadline" formControlName="deadline">
-                <!-- <p>
-                    <mat-form-field>
-                      <input matInput [matDatepicker]="dp3" placeholder="Input disabled" disabled>
-                      <mat-datepicker-toggle matSuffix [for]="dp3"></mat-datepicker-toggle>
-                      <mat-datepicker #dp3 disabled="false"></mat-datepicker>
-                    </mat-form-field>
-                  </p> -->
-              <!-- </mat-list-item>
-        </mat-list>
-nedei </form> -->
-
-<!--
-<form [formGroup]="Members" (ngSubmit)="updateTicket()">
-            <mat-list-item class="requesterAndassignee">
-                <mat-select [disabled]="isClosed() || !accessRights()" [(ngModel)]="ticket && ticket.requesterId.id" ngModel placeholder="Requester" formControlName="RequesterId">
-                    <mat-option *ngFor="let member of members" [value]="member?.id">
-                      {{ member?.email }}
-                    </mat-option>
-                </mat-select>
-              </mat-list-item>
-
-              <mat-list-item class="requesterAndassignee">
-                  <mat-select [disabled]="isClosed() || !accessRights()" [(ngModel)]="ticket && ticket.assigneeId.id" ngModel placeholder="Assignee" formControlName="AssigneeId">
-                    <mat-option *ngFor="let member of members" [value]="member?.id">
-                      {{ member?.email }}
-                    </mat-option>
-                  </mat-select>
-                </mat-list-item>
-              </form>
-              </div>
-
-    <div fxFlex fxFlex="30" class="three">Empty space
-      <button [disabled]="isClosed()" type="submit" (click)="updateTicket()">SEND</button>
-    </div>
-  </div> -->
-
-  <!-- <div fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxFlex class="contentResp" class="one" fxFlexFill>
-    <div fxFlex fxFlex="100" fxFlexAlign="center" class="two">
-      <app-commentary-list [commentsList]="comments"></app-commentary-list>
-      <mat-list-item class="comment centerDiv">
-        <form [formGroup]="Comment" (ngSubmit)="commentTicket()">
-          <input [attr.disabled]="isClosed() ? 'disabled' : null" [(ngModel)]="commentary" ngModel formControlName="content" matInput placeholder="Comment" required> -->
-        <!-- </form> -->
-      <!-- </mat-list-item>
-          <button [disabled]="isClosed()" mat-raised-button color="primary" (click)="commentTicket()" class="post">POST</button>
-          <button [disabled]="isClosed()" mat-raised-button color="primary" (click)="participate()" class="post">Participate</button> --> -->
-
-          <!-- krai -->
-      <!-- <mat-list class="centerDiv">
-        <mat-list-item>
-          <div class="commentsSection centerDiv">
-            <h3>Some text...</h3>
-          </div>
-        </mat-list-item>
-
-        <div class="centerDiv">
-          <form [formGroup]="Comment" (ngSubmit)="commentTicket()">
-          <mat-list-item class="comment centerDiv">
-
-            <input [(ngModel)]="" ngModel formControlName="content" matInput placeholder="Comment" required>
-          </form>
-            <button mat-raised-button color="primary" class="post">POST</button>
-                  </mat-list-item>
-
-                <mat-list-item class="comment">
-                  </mat-list-item>
-              </div>
-        </mat-list> -->
-    </div>
-  <!-- </div>
-</div> -->
+</mat-grid-list>
+<app-commentary-list [commentsList]="comments"></app-commentary-list>

@@ -2,6 +2,7 @@ import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { Router, ActivatedRoute } from '@angular/router';
 import { FormControl, FormGroup } from '@angular/forms';
+import { ObservableMedia, MediaChange } from '@angular/flex-layout';
 
 import { Ticket } from '../../../models/tickets/ticket';
 
@@ -56,6 +57,20 @@ export class SingleTicketComponent implements OnInit {
   userId: number;
 
   teamLeaderId: number;
+
+  rowHeight = '100px';
+  cols = 10;
+  tiles = [
+    { text: 'Description', cols: 6, rows: 2, color: 'lightblue' },
+    { text: 'Status', cols: 4, rows: 1, color: 'pink' },
+    { text: 'Label', cols: 4, rows: 1, color: 'lightgreen' },
+    { text: 'Requester', cols: 5, rows: 1, color: 'lightpink' },
+    { text: 'Assignee', cols: 5, rows: 1, color: '#DDBDF1' },
+    { text: 'Members', cols: 5, rows: 1, color: '#DDBDF1' },
+    { text: 'Participate', cols: 5, rows: 1, color: '#DDBDF1' },
+    { text: 'Comments', cols: 10, rows: 1, color: '#DDBDF1' },
+  ];
+
   constructor(private ticketsService: TicketsService,
     private activatedRoute: ActivatedRoute,
     private jwtService: JwtHelperService,
@@ -65,7 +80,54 @@ export class SingleTicketComponent implements OnInit {
     private userService: UsersService,
     private teamService: TeamsService,
     private formBuilder: FormBuilder,
+    media: ObservableMedia
   ) {
+    media.asObservable()
+    .subscribe((change: MediaChange) => {
+      if (change.mqAlias == 'xs') {
+        this.rowHeight = '80px';
+        this.cols = 10;
+        this.tiles = [
+          { text: 'Description', cols: 10, rows: 2, color: 'lightblue' },
+          { text: 'Status', cols: 10, rows: 1, color: 'pink' },
+          { text: 'Label', cols: 10, rows: 1, color: 'lightgreen' },
+          { text: 'Requester', cols: 10, rows: 1, color: 'lightpink' },
+          { text: 'Assignee', cols: 10, rows: 1, color: 'red' },
+          { text: 'Members', cols: 10, rows: 1, color: 'blue' },
+          { text: 'Participate', cols: 10, rows: 1, color: '#DDBDF1' },
+          { text: 'Comments', cols: 10, rows: 1, color: 'green' },
+        ];
+      }
+      else if (change.mqAlias == 'sm') {
+        this.rowHeight = '100px';
+        this.cols = 10;
+        this.tiles = [
+          { text: 'Description', cols: 10, rows: 2, color: 'lightblue' },
+          { text: 'Status', cols: 5, rows: 1, color: 'pink' },
+          { text: 'Label', cols: 5, rows: 1, color: 'lightgreen' },
+          { text: 'Requester', cols: 5, rows: 1, color: 'lightpink' },
+          { text: 'Assignee', cols: 5, rows: 1, color: 'red' },
+          { text: 'Members', cols: 5, rows: 1, color: '#DDBDF1' },
+          { text: 'Participate', cols: 5, rows: 1, color: 'blue' },
+          { text: 'Comments', cols: 10, rows: 1, color: 'green' },
+        ];
+      }
+      else {
+        this.rowHeight = '100px';
+        this.cols = 10;
+        this.tiles = [
+          { text: 'Description', cols: 6, rows: 2, color: '' },
+          { text: 'Status', cols: 4, rows: 1, color: '' },
+          { text: 'Label', cols: 4, rows: 1, color: '' },
+          { text: 'Requester', cols: 5, rows: 1, color: '' },
+          { text: 'Assignee', cols: 5, rows: 1, color: '' },
+          { text: 'Members', cols: 5, rows: 1, color: '' },
+          { text: 'Participate', cols: 5, rows: 1, color: '' },
+          { text: 'Comments', cols: 10, rows: 1, color: '' },
+        ];
+      }
+    });
+
   }
 
 

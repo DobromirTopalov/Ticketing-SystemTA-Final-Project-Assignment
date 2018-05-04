@@ -7,8 +7,6 @@ import { ObservableMedia, MediaChange } from '@angular/flex-layout';
   styleUrls: ['./test-view.component.css']
 })
 export class TestViewComponent implements OnInit {
-  // rowHeight: string;
-  // cols: number;
   rowHeight = '100px';
   cols = 10;
   tiles = [
@@ -24,8 +22,6 @@ export class TestViewComponent implements OnInit {
   constructor(media: ObservableMedia) {
     media.asObservable()
       .subscribe((change: MediaChange) => {
-        // alert(change.mqAlias);
-        // console.log(change.mqAlias);
         if (change.mqAlias == 'xs') {
           this.rowHeight = '80px';
           this.cols = 10;
@@ -65,7 +61,7 @@ export class TestViewComponent implements OnInit {
             { text: 'Assignee', cols: 5, rows: 1, color: 'red' },
             { text: 'Members', cols: 5, rows: 1, color: '#DDBDF1' },
             { text: 'Participate', cols: 5, rows: 1, color: 'green' },
-            { text: 'Comments', cols: 8, rows: 1, color: 'yellow' },
+            { text: 'Comments', cols: 10, rows: 1, color: 'yellow' },
           ];
         }
       });
