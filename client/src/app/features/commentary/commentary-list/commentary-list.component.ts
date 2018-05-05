@@ -14,7 +14,4 @@ export class CommentaryListComponent implements OnInit {
   ngOnInit() {
   }
 
-  showComments(ev){
-    console.log(ev,'inside listcomments');
-  }
 }

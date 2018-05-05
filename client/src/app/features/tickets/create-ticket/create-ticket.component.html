@@ -1,73 +1,80 @@
-<div class="container centerTheBox">
-  <div fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxFlex class="contentResp" class="one" fxFlexFill>
-    <form [formGroup]="createTicketForm" (ngSubmit)="createTicket()">
+<div class="descContent">
+    <mat-grid-list class="section example-container mat-elevation-z8" [cols]="cols" [rowHeight]="rowHeight">
 
-      <div fxFlex fxFlex="100" fxFlexAlign="center" class="two">
-        <textarea class="list-container description" matInput placeholder="Description:" formControlName="description">
-        </textarea>
-        <mat-error *ngIf="createTicketForm.controls['description'].errors || createTicketForm.controls['description'].pristine">{{getErrorMessageDescription()}}</mat-error>
+      <mat-grid-tile class="descContent" [colspan]="tiles[0].cols" [rowspan]="tiles[0].rows" [style.background]="tiles[0].color">
+        <div class="wrapDesc">
+        <form class="descForm" [formGroup]="createTicketForm">
+          <mat-form-field class="descField">
+            <textarea class="descArea" rows="6" matInput placeholder="Description:" formControlName="description"></textarea>
+          </mat-form-field>
+        </form>
+
+        <form class="dateForm" [formGroup]="createTicketForm">
+          <mat-form-field class="dateField">
+            <input class="dateArea" matInput [matDatepicker]="picker" formControlName="deadline" placeholder="Choose a date">
+              <mat-error *ngIf="createTicketForm.controls['deadline'].errors || createTicketForm.controls['deadline'].pristine">{{getGenericErrorMessage('deadline')}}</mat-error>
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+          </mat-form-field>
+        </form>
+
       </div>
-
-      <div fxFlex fxFlex="100" fxFlexAlign="center" class="three">
-        <mat-list class="formFrame centerDiv">
-
-          <mat-list-item>
-            <mat-select [(ngModel)]="setStatus" ngModel placeholder="NOT STARTED" formControlName="StatusId">
+      </mat-grid-tile>
+      <mat-grid-tile class="selectContent" [colspan]="tiles[1].cols" [rowspan]="tiles[1].rows" [style.background]="tiles[1].color">
+        <form class="selectForm" [formGroup]="createTicketForm">
+          <mat-form-field class="selectField">
+            <mat-select class="selectArea" [(ngModel)]="setStatus" ngModel placeholder="NOT STARTED" formControlName="StatusId">
               <mat-option *ngFor="let status of statuses" [value]="status?.id">
                 {{ status?.name }}
               </mat-option>
             </mat-select>
             <mat-error *ngIf="createTicketForm.controls['StatusId'].errors || createTicketForm.controls['StatusId'].pristine">{{getGenericErrorMessage('StatusId')}}</mat-error>
-          </mat-list-item>
+          </mat-form-field>
+        </form>
+      </mat-grid-tile>
 
-          <mat-list-item>
-            <mat-select [(ngModel)]="setLabel" ngModel placeholder="HIGH PRIORITY" formControlName="LabelId">
+      <mat-grid-tile class="selectContent" [colspan]="tiles[2].cols" [rowspan]="tiles[2].rows" [style.background]="tiles[2].color">
+        <form class="selectForm" [formGroup]="createTicketForm">
+          <mat-form-field class="selectField">
+            <mat-select class="selectArea" [(ngModel)]="setLabel" ngModel placeholder="HIGH PRIORITY" formControlName="LabelId">
               <mat-option *ngFor="let label of labels" [value]="label?.id">
                 {{ label?.name }}
               </mat-option>
             </mat-select>
             <mat-error *ngIf="createTicketForm.controls['LabelId'].errors || createTicketForm.controls['LabelId'].pristine">{{getGenericErrorMessage('LabelId')}}</mat-error>
-          </mat-list-item>
+          </mat-form-field>
+        </form>
+      </mat-grid-tile>
 
-        </mat-list>
-      </div>
+      <mat-grid-tile class="selectContent" [colspan]="tiles[3].cols" [rowspan]="tiles[3].rows" [style.background]="tiles[3].color">
+        <form class="selectForm" [formGroup]="createTicketForm">
+          <mat-form-field class="selectField">
+            <mat-select class="selectArea" placeholder="Requester" formControlName="RequesterId">
+              <mat-option *ngFor="let member of members" [value]="member?.info.id">
+                {{ member?.info.email }}
+              </mat-option>
+            </mat-select>
+            <mat-error *ngIf="createTicketForm.controls['RequesterId'].errors || createTicketForm.controls['RequesterId'].pristine">{{getGenericErrorMessage('RequesterId')}}</mat-error>
+          </mat-form-field>
+        </form>
+      </mat-grid-tile>
 
-      <div fxFlex fxFlex="100" fxFlexAlign="center" class="four">
-        <mat-list class="formFrame centerDiv status">
-          <mat-list-item>
-            <input placeholder="Deadline" formControlName="deadline">
-            <!-- <material-datepicker [(date)]="yourModelDate"></material-datepicker> -->
-          </mat-list-item>
-          <mat-error *ngIf="createTicketForm.controls['deadline'].errors || createTicketForm.controls['deadline'].pristine">{{getGenericErrorMessage('deadline')}}</mat-error>
-        </mat-list>
+      <mat-grid-tile class="selectContent" [colspan]="tiles[4].cols" [rowspan]="tiles[4].rows" [style.background]="tiles[4].color">
+        <form class="selectForm" [formGroup]="createTicketForm">
+          <mat-form-field class="selectField">
+            <mat-select class="selectArea" placeholder="Assignee" formControlName="AssigneeId">
+              <mat-option *ngFor="let member of members" [value]="member?.info.id">
+                {{ member?.info.email }}
+              </mat-option>
+            </mat-select>
+            <mat-error *ngIf="createTicketForm.controls['AssigneeId'].errors || createTicketForm.controls['AssigneeId'].pristine">{{getGenericErrorMessage('AssigneeId')}}</mat-error>
+          </mat-form-field>
+        </form>
+      </mat-grid-tile>
 
-        <mat-list-item class="requesterAndassignee">
-          <mat-select [(ngModel)]="requesterId" ngModel placeholder="Requester" formControlName="RequesterId">
-            <mat-option *ngFor="let member of members" [value]="member.info?.id">
-              {{ member.info?.email }}
-            </mat-option>
-          </mat-select>
-          <mat-error *ngIf="createTicketForm.controls['RequesterId'].errors || createTicketForm.controls['RequesterId'].pristine">{{getGenericErrorMessage('RequesterId')}}</mat-error>
-        </mat-list-item>
+      <mat-grid-tile class="selectContent" [colspan]="tiles[7].cols" [rowspan]="tiles[7].rows" [style.background]="tiles[7].color">
+        <button type="submit" mat-raised-button color="primary" [disabled]="!createTicketForm.valid" (click)="createTicket()">Create</button>
+      </mat-grid-tile>
 
-        <mat-list-item class="requesterAndassignee">
-          <mat-select [(ngModel)]="assigneeId" ngModel placeholder="Assignee" formControlName="AssigneeId">
-            <mat-option *ngFor="let member of members" [value]="member.info?.id">
-              {{ member.info?.email }}
-            </mat-option>
-          </mat-select>
-          <mat-error *ngIf="createTicketForm.controls['AssigneeId'].errors || createTicketForm.controls['AssigneeId'].pristine">{{getGenericErrorMessage('AssigneeId')}}</mat-error>
-        </mat-list-item>
-      </div>
-
-      <div fxFlex fxFlex="100" fxFlexAlign="center" class="six">Empty space
-        <br>
-        <br>
-        <hr>
-        <br>
-        <button type="submit" [disabled]="!createTicketForm.valid">SEND</button>
-      </div>
-
-    </form>
+    </mat-grid-list>
   </div>
-</div>

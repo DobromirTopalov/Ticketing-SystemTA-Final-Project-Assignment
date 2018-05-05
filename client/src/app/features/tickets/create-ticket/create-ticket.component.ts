@@ -13,6 +13,7 @@ import { StatusType } from '../../../models/tickets/statuses.enum';
 import { LabelType } from '../../../models/tickets/labels.enum';
 import { Ticket } from '../../../models/tickets/ticket';
 import { Router } from '@angular/router';
+import { ObservableMedia, MediaChange } from '@angular/flex-layout';
 
 @Component({
   selector: 'app-create-ticket',
@@ -35,12 +36,79 @@ export class CreateTicketComponent implements OnInit {
   members: User[] = [];
   users: User[];
   yourModelDate: string;
+
+  rowHeight = '100px';
+  cols = 10;
+  tiles = [
+    { text: 'Description', cols: 6, rows: 2, color: 'lightblue' },
+    { text: 'Status', cols: 4, rows: 1, color: 'pink' },
+    { text: 'Label', cols: 4, rows: 1, color: 'lightgreen' },
+    { text: 'Requester', cols: 5, rows: 1, color: 'lightpink' },
+    { text: 'Assignee', cols: 5, rows: 1, color: '#DDBDF1' },
+    { text: 'Members', cols: 5, rows: 1, color: '#DDBDF1' },
+    { text: 'Participate', cols: 5, rows: 1, color: '#DDBDF1' },
+    { text: 'Comments', cols: 10, rows: 1, color: '#DDBDF1' },
+  ];
+
+  style: string;
+
   constructor(private formBuilder: FormBuilder, private jwtService: JwtHelperService, private ticketsService: TicketsService,
     private paramService: ParamsService,
     private router: Router,
 
         private teamService: TeamsService,
-      private userService: UsersService) { }
+      private userService: UsersService,
+      media: ObservableMedia
+    ) {
+        media.asObservable()
+        .subscribe((change: MediaChange) => {
+          if (change.mqAlias == 'xs') {
+            this.style = 'width: 100%';
+            this.rowHeight = '80px';
+            this.cols = 10;
+            this.tiles = [
+              { text: 'Description', cols: 10, rows: 2, color: '' },
+              { text: 'Status', cols: 10, rows: 1, color: '' },
+              { text: 'Label', cols: 10, rows: 1, color: '' },
+              { text: 'Requester', cols: 10, rows: 1, color: '' },
+              { text: 'Assignee', cols: 10, rows: 1, color: '' },
+              { text: 'Members', cols: 10, rows: 1, color: '' },
+              { text: 'Participate', cols: 10, rows: 1, color: '' },
+              { text: 'Comments', cols: 10, rows: 1, color: '' },
+            ];
+          }
+          else if (change.mqAlias == 'sm') {
+            this.style = 'width: 100%';
+            this.rowHeight = '100px';
+            this.cols = 10;
+            this.tiles = [
+              { text: 'Description', cols: 10, rows: 2, color: '' },
+              { text: 'Status', cols: 5, rows: 1, color: '' },
+              { text: 'Label', cols: 5, rows: 1, color: '' },
+              { text: 'Requester', cols: 5, rows: 1, color: '' },
+              { text: 'Assignee', cols: 5, rows: 1, color: '' },
+              { text: 'Members', cols: 5, rows: 1, color: '' },
+              { text: 'Participate', cols: 5, rows: 1, color: '' },
+              { text: 'Comments', cols: 10, rows: 1, color: '' },
+            ];
+          }
+          else {
+            this.style = 'width: 60%';
+            this.rowHeight = '150px';
+            this.cols = 10;
+            this.tiles = [
+              { text: 'Description', cols: 6, rows: 2, color: '' },
+              { text: 'Status', cols: 4, rows: 1, color: '' },
+              { text: 'Label', cols: 4, rows: 1, color: '' },
+              { text: 'Requester', cols: 5, rows: 1, color: '' },
+              { text: 'Assignee', cols: 5, rows: 1, color: '' },
+              { text: 'Members', cols: 5, rows: 1, color: '' },
+              { text: 'Participate', cols: 5, rows: 1, color: '' },
+              { text: 'Comments', cols: 10, rows: 1, color: '' },
+            ];
+          }
+        });
+      }
 
   ngOnInit() {
     const decodedToken = this.jwtService.decodeToken(localStorage.getItem('access_token'));
@@ -64,7 +132,6 @@ export class CreateTicketComponent implements OnInit {
             this.members.push(data);
           });
         });
-
       });
     }, error => { });
 
