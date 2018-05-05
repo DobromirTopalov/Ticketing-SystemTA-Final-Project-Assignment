@@ -1,4 +1,5 @@
-<mat-grid-list [cols]="cols" [rowHeight]="rowHeight">
+<div class="descContent">
+<mat-grid-list class="section example-container mat-elevation-z8" [cols]="cols" [rowHeight]="rowHeight">
 
   <mat-grid-tile class="descContent" [colspan]="tiles[0].cols" [rowspan]="tiles[0].rows" [style.background]="tiles[0].color">
     <form class="descForm" [formGroup]="Description" (ngSubmit)="updateTicket()">
@@ -84,4 +85,7 @@
   </mat-grid-tile>
 
 </mat-grid-list>
-<app-commentary-list [commentsList]="comments"></app-commentary-list>
+</div>
+<div class="descContent">
+  <app-commentary-list class="commentaryList" [commentsList]="comments"></app-commentary-list>
+</div>

@@ -1,3 +1,7 @@
+.section {
+  width: 60%;
+}
+
 .descContent {
   display: flex;
   flex-direction: row;
@@ -91,7 +95,7 @@
 }
 
 .commentaryForm {
-  width: 40%;
+  width: 60%;
   height: 90%;
   padding-top: 24%;
 }
@@ -105,5 +109,8 @@
 .commentaryArea {
   width: 100%;
   height: 100%;
+}
 
+.commentaryList {
+  width: 70%;
 }
