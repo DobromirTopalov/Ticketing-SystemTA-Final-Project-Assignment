@@ -1,13 +1,15 @@
+
+
 mat-grid-tile {
   /* margin: 5px; */
-  background: whitesmoke;
+  /* background: whitesmoke; */
   /* border: 1px solid white; */
   /* border-radius: 10px; */
 }
-mat-grid-tile {
-  /* padding: 5px; */
-  background: salmon;
-  /* border: 1px solid white; */
-  border-radius: 100px;
 
+.in-tile {
+  width: 90%;
+  height: 90%;
+  background-color: tan;
 }
+
