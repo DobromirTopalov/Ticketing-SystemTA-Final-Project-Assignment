@@ -1,0 +1,10 @@
+.date {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+}
+
+.user {
+  font-weight: bold;
+  font-size: 20px;
+}
