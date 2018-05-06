@@ -32,8 +32,8 @@ export class SingleTeamComponent implements OnInit {
   teamLeaderId: number;
   loggedUserId: number;
   generateCompanyUsersList: boolean = false;
-  columnNum: number = 0;
-  rowHeightRatio: string = '1:1';
+  columnNum: number = 1;
+  rowHeightRatio: string = '5:1';
   @Input()
   selectedMember: User;
 

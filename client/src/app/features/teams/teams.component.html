@@ -1,25 +1,13 @@
-<mat-grid-list [cols]="columnNum" [rowHeight]="rowHeightRatio">
-  <div *ngFor="let team of filteredTeams">
+<!-- <mat-grid-list [cols]="columnNum" [rowHeight]="rowHeightRatio"> -->
+<div class="teams-wrapper">
+  <div class="cards-container">
+    <div fxLayout="column" fxLayoutAlign="center center" class="card-holder" *ngFor="let team of filteredTeams" (click)="nav(team.id)">
 
-    <mat-grid-tile (click)="nav(team.id)">
-      <div class="in-tile">
+      <!-- <mat-grid-tile (click)="nav(team.id)"> -->
       <app-team-details [team]="team"></app-team-details>
-      </div>
-    </mat-grid-tile>
+      <!-- </mat-grid-tile> -->
 
-  </div>
-</mat-grid-list>
-
-
-<!-- <div class="container" *ngFor="let team of teams">
-  <div fxLayout="row" (click)="nav(team.id)" fxLayoutWrap="wrap" fxLayout fxFlex class="contentResp">
-    <app-team-details [team]="team"></app-team-details>
-  </div>
-</div> -->
-<!-- <div class="container">
-  <div fxLayout="row" fxLayout.xs="column" fxLayoutWrap="wrap" fxLayout fxFlex class="contentResp">
-    <div fxLayout="column" class="blocks" fxFlex="100%" (click)="nav(team.id)" *ngFor="let team of teams">
-      <app-team-details [team]="team"></app-team-details>
     </div>
   </div>
-</div> -->
+</div>
+<!-- </mat-grid-list> -->

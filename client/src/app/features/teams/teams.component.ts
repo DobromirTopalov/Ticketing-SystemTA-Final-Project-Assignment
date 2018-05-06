@@ -37,8 +37,8 @@ export class TeamsComponent implements OnInit {
           this.rowHeightRatio = '1.5:1'
         }
         else {
-          this.columnNum = 2;
-          this.rowHeightRatio = '2:1'
+          this.columnNum = 3;
+          this.rowHeightRatio = '1:1'
         }
       });
   }

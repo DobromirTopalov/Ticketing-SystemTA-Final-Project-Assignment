@@ -1,27 +1,28 @@
-<form [formGroup]="createTeamForm" (ngSubmit)="createTeam(createTeamForm)">
+<div class="container">
+  <p class="title">Create a New Team</p>
+  <p class="small-text">(You will be selected as a Team Leader by default. You can add members and select a new team leader when visiting your team's page)</p>
+  <form [formGroup]="createTeamForm" (ngSubmit)="createTeam(createTeamForm)">
 
-  <div>
-    <b>Name:</b>
-    <input type="text" formControlName="name" matInput #name maxlength="100" placeholder="Team name" required>
-    <mat-hint align="end">{{name.value?.length || 0}}/20</mat-hint>
-    <mat-error *ngIf="createTeamForm.controls['name'].errors && !createTeamForm.controls['name'].pristine">{{displayErrorMessageName()}}</mat-error>
-  </div>
-  <div>
-    <b>Description:</b>
-    <input type="text" formControlName="description" matInput #description maxlength="100" placeholder="Team description" required>
-    <mat-hint align="end">{{description.value?.length || 0}}/100</mat-hint>
-    <mat-error *ngIf="createTeamForm.controls['description'].errors && !createTeamForm.controls['description'].pristine">{{displayErrorMessageDescription()}}</mat-error>
-  </div>
-  <div>
-    <b>Image:</b>
-    <input type="text" formControlName="teamImgUrl">
-  </div>
+    <mat-form-field>
+      <input type="text" formControlName="name" matInput #name maxlength="100" placeholder="Team name" required>
+      <mat-hint align="end">{{name.value?.length || 0}}/20</mat-hint>
+      <mat-error *ngIf="createTeamForm.controls['name'].errors && !createTeamForm.controls['name'].pristine">{{displayErrorMessageName()}}</mat-error>
+    </mat-form-field>
+    <mat-form-field>
+      <input type="text" formControlName="description" matInput #description maxlength="100" placeholder="Team description" required>
+      <mat-hint align="end">{{description.value?.length || 0}}/40</mat-hint>
+      <mat-error *ngIf="createTeamForm.controls['description'].errors && !createTeamForm.controls['description'].pristine">{{displayErrorMessageDescription()}}</mat-error>
+    </mat-form-field>
+    <mat-form-field>
+      <input type="text" matInput formControlName="teamImgUrl" placeholder="Image URL">
+    </mat-form-field>
 
-  <div>
-    <button [disabled]="createTeamForm.controls.name.errors || createTeamForm.controls.description.errors" type="submit">Create a Team</button>
-  </div>
+    <div>
+      <button mat-raised-button color="primary" [disabled]="createTeamForm.controls.name.errors || createTeamForm.controls.description.errors" type="submit">Create a Team</button>
+    </div>
 
-</form>
+  </form>
+</div>
 
 <!-- <mat-list-item>
   <mat-form-field class="spacer">

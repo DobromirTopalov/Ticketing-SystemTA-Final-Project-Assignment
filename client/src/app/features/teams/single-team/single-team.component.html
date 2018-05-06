@@ -1,35 +1,41 @@
 <div *ngIf="userLoggedIn" class="container">
   <div>
-    <!-- <button *ngIf="!enableButtons()" disabled mat-raised-button>{{team?.name}}'s Tickets</button> -->
-    <button [disabled]="!enableButtons()" mat-raised-button (click)="navToTeamTickets()" >{{team?.name}}'s Tickets</button>
+    <button [disabled]="!enableButtons()" mat-raised-button color="primary" (click)="navToTeamTickets()">{{team?.name}}'s Tickets</button>
 
-    <!-- <button *ngIf="enableButtons()" mat-raised-button>Create a Ticket</button> -->
-    <button [disabled]="!enableButtons()" mat-raised-button (click)="navToCreateTicket()">Create a Ticket</button>
+    <button [disabled]="!enableButtons()" mat-raised-button color="primary" (click)="navToCreateTicket()">Create a Ticket</button>
   </div>
 
   <div>
-    <!-- <button mat-raised-button (click)="leaveTeam()">Leave Team</button> -->
-    <!-- <button *ngIf="!enableButtons()" mat-raised-button disabled>Leave Team</button> -->
-    <button [disabled]="!enableButtons()" mat-raised-button (click)="leaveTeam()">Leave Team</button>
+    <button [disabled]="!enableButtons()" mat-raised-button color="warn" (click)="leaveTeam()">Leave Team</button>
   </div>
 
   <mat-grid-list [cols]="columnNum" [rowHeight]="rowHeightRatio">
     <mat-grid-tile>
-      <span>Team Name:
-        <b>{{team?.name}}</b>
-      </span>
+      <div class="inside-tile">
+        <p class="team-name">Team {{team?.name}}</p>
+      </div>
     </mat-grid-tile>
+
     <mat-grid-tile>
-      <span>Description: {{team?.description}}</span>
+      <div class="inside-tile">
+        <p>Description: {{team?.description}}</p>
+      </div>
     </mat-grid-tile>
+
     <mat-grid-tile>
-      <span>Company: {{team?.Company?.name}}</span>
+      <div class="inside-tile">
+        <p>Company: {{team?.Company?.name}}</p>
+      </div>
     </mat-grid-tile>
+
     <mat-grid-tile (click)="navToUser(team?.teamLeaderId?.id)">
-      <span>
-        Team Leader: {{team?.teamLeaderId?.firstName}} {{team?.teamLeaderId?.lastName}}
-      </span>
+      <div class="link-inside-tile">
+        <p>
+          Team Leader: {{team?.teamLeaderId?.firstName}} {{team?.teamLeaderId?.lastName}}
+        </p>
+      </div>
     </mat-grid-tile>
+
   </mat-grid-list>
 
   <h3>{{team?.name}}'s Members:</h3>
@@ -37,44 +43,47 @@
   <mat-grid-list [cols]="columnNum" [rowHeight]="rowHeightRatio">
     <div *ngFor="let member of team?.Users">
       <mat-grid-tile (click)="navToUser(member?.id)">
-        <div>
+        <div class="link-inside-tile">
           {{member.firstName}} {{member.lastName}}
         </div>
       </mat-grid-tile>
     </div>
   </mat-grid-list>
 
-  <!-- <button *ngIf="!selected" mat-raised-button disabled type="submit">Invite Members</button> -->
-  <button [disabled]="!selected" #invite mat-raised-button type="submit" (click)="inviteSelectedMember(selectedUser)">Invite Members</button>
+  <button [disabled]="!selected" #invite mat-raised-button color="primary" type="submit" (click)="inviteSelectedMember(selectedUser)">Invite Members</button>
 
-  <!-- <input #inp matInput placeholder="Search" (input)="onSearch()" [(ngModel)]="search"> -->
-  <!-- <input *ngIf="!enableButtons()" disabled matInput placeholder="Search"> -->
-  <input id="searchInput" #inp matInput placeholder="Search" (input)="onSearch(inp.value)" [(ngModel)]="search">
+  <!-- <input id="searchInput" #inp matInput placeholder="Search" (input)="onSearch(inp.value)" [(ngModel)]="search"> -->
+  <form class="example-form">
+    <mat-form-field class="example-full-width">
+      <input id="searchInput" name="searchUsers" #inp matInput placeholder="Search" (input)="onSearch(inp.value)" [(ngModel)]="search">
+    </mat-form-field>
+  </form>
 
-  <!-- <button mat-raised-button (click)="clearFilter()">Clear Search</button> -->
-  <!-- <button *ngIf="!enableButtons()" mat-raised-button disabled (click)="clearFilter()">Clear Search</button> -->
+
   <button [disabled]="!enableButtons()" mat-raised-button (click)="clearFilter()">Clear Search</button>
+
   <div *ngIf="enableButtons()">
     <span *ngIf="!selected">
       <span *ngFor="let newMember of filteredUsers">
-        <button *appMyNgIf="inp.value.length" class="available-members" (click)="selectMember(newMember, invite)">{{newMember?.firstName}} {{newMember?.lastName}}</button>
+        <button *appMyNgIf="inp.value.length" class="available-members" (click)="selectMember(newMember, invite)">select {{newMember?.firstName}} {{newMember?.lastName}}</button>
       </span>
     </span>
-    <!-- <div *ngIf="enableButtons()">
-      <span *appMyNgIf="inp.value.length" class="available-members" (click)="selectMember(newMember, invite)" appBold>{{newMember?.firstName}} {{newMember?.lastName}}</span>
-    </div> -->
   </div>
+
   <div *ngIf="selected">
     <span *ngIf="enableButtons()">
       <button *appMyNgIf="inp.value.length" class="available-members">{{selectedMember?.firstName}} {{selectedMember?.lastName}}</button>
     </span>
   </div>
-  <button *ngIf="isLoggedUserTeamLeader()" mat-raised-button (click)="generateUserList()">Select New Team Leader</button>
+
+  <button *ngIf="isLoggedUserTeamLeader()" mat-raised-button color="accent" (click)="generateUserList()">Select New Team Leader</button>
+
   <div *ngIf="generateCompanyUsersList">
     <span *ngFor="let user of companyUsers">
-      <button (click)="promoteUser(user?.id)">{{user?.firstName}} {{user?.lastName}}</button>
+      <button class="available-members" (click)="promoteUser(user?.id)">{{user?.firstName}} {{user?.lastName}}</button>
     </span>
   </div>
+
 </div>
 
 <div *ngIf="!userLoggedIn" class="container">
