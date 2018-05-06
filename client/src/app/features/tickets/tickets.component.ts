@@ -6,6 +6,7 @@ import { JwtHelperService } from '@auth0/angular-jwt';
 import { ObservableMedia, MediaChange } from '@angular/flex-layout';
 import { Router } from '@angular/router';
 import { MatTableDataSource } from '@angular/material';
+import { DataSource } from '@angular/cdk/collections';
 
 @Component({
   selector: 'app-tickets',
@@ -14,6 +15,8 @@ import { MatTableDataSource } from '@angular/material';
 })
 export class TicketsComponent implements OnInit {
   @Input()
+
+
   tickets: Ticket[];
   copyTickets: Ticket[];
   assignedTickets: Ticket[];
@@ -28,7 +31,6 @@ export class TicketsComponent implements OnInit {
   displayedColumns = ['description', 'requester', 'assignee', 'status', 'label', 'deadline'];
   ELEMENT_DATA: Element[] = [];
   dataSource = new MatTableDataSource(this.ELEMENT_DATA);
-
   applyFilter(filterValue: string) {
     filterValue = filterValue.trim(); // Remove whitespace
     filterValue = filterValue.toLowerCase(); // MatTableDataSource defaults to lowercase matches
@@ -57,7 +59,7 @@ export class TicketsComponent implements OnInit {
       this.assignedTickets = assignedTickets;
       this.tickets = assignedTickets;
 
-      this.assignedTickets.forEach((ticket) => {
+      this.tickets.forEach((ticket) => {
         const tableContent = {description: ticket.description, requester: ticket['requesterId'].email, assignee: ticket['assigneeId'].email, status: ticket['Status'].name, label: ticket['Label'].name, deadline: ticket.deadline, id: ticket.id};
         this.ELEMENT_DATA.push(tableContent);
       });

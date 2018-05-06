@@ -1,31 +1,70 @@
-.menu a {
+.menu a:not(.logo):not(.hammenu) {
   text-decoration: none;
-  background-color: rgba(128, 0, 128, 0.699);
-  border: solid 1px;
-  border-radius: 3px;
+  background-color: #88ca88b6;
+  /* border: solid 1px; */
+  border-radius: 2px;
+  padding: 10px;
+  color: white;
+  font-family: 'Quicksand', sans-serif;
+  font-size: 15px;
+
+
+}
+
+.logo {
+  text-decoration: none;
   padding: 8px;
   color: white;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  font-size: 18px;
+  font-family: 'Quicksand', sans-serif;
+
 }
 
-.menu {
-  width: 100%;
-  background-color: purple;
-  align-content: center;
+.logo p {
+  display: inline-block;
+  font-size: 16px;
 }
 
-.menu a:hover {
-  border: solid 1px;
-  border-color: purple;
+.user > p {
+  display: inline-block;
+  font-size: 14px;
+}
+
+.close {
+  flex-direction: column;
+  display: flex;
+  margin: 3px;
+
+}
+
+.func {
+  display: flex;
+  flex-direction: column;
+
+  margin: 3px;
+}
+
+.profileLogout {
+  display: flex;
+  flex-direction: column;
+
+  margin: 3px;
+}
+
+.menu a:hover:not(.logo):not(.hammenu) {
+  /* border: solid 1px; */
+  border-color: #395b50;
   background-color: white;
-  color: purple;
+  color: #395b50;
 }
 
 .fill-remaining-space {
   /* This fills the remaining space, by using flexbox.
      Every toolbar row uses a flexbox row layout. */
   flex: 1 1 auto;
+}
+
+.mat-sidenav {
+  width: 28%;
 }
 
 .mat-sidenav-container {
@@ -40,11 +79,11 @@
   background-color: #395b50;
   /* background-color: #9faf90; */
 }
-/*
-.blank-grow {
-  flex: 1 1 auto;
-} */
 
+.sideColumnColor {
+  background-color: #395b50;
+}
 
-/* start designing */
-
+.colorButton {
+  background-color: #88ca88de;
+}

@@ -71,6 +71,7 @@ export class SingleTicketComponent implements OnInit {
     { text: 'Comments', cols: 10, rows: 1, color: '#DDBDF1' },
   ];
 
+  style: string;
   constructor(private ticketsService: TicketsService,
     private activatedRoute: ActivatedRoute,
     private jwtService: JwtHelperService,
@@ -85,34 +86,37 @@ export class SingleTicketComponent implements OnInit {
     media.asObservable()
     .subscribe((change: MediaChange) => {
       if (change.mqAlias == 'xs') {
+        this.style = 'width: 100%';
         this.rowHeight = '80px';
         this.cols = 10;
         this.tiles = [
-          { text: 'Description', cols: 10, rows: 2, color: 'lightblue' },
-          { text: 'Status', cols: 10, rows: 1, color: 'pink' },
-          { text: 'Label', cols: 10, rows: 1, color: 'lightgreen' },
-          { text: 'Requester', cols: 10, rows: 1, color: 'lightpink' },
-          { text: 'Assignee', cols: 10, rows: 1, color: 'red' },
-          { text: 'Members', cols: 10, rows: 1, color: 'blue' },
-          { text: 'Participate', cols: 10, rows: 1, color: '#DDBDF1' },
-          { text: 'Comments', cols: 10, rows: 1, color: 'green' },
+          { text: 'Description', cols: 10, rows: 2, color: '' },
+          { text: 'Status', cols: 10, rows: 1, color: '' },
+          { text: 'Label', cols: 10, rows: 1, color: '' },
+          { text: 'Requester', cols: 10, rows: 1, color: '' },
+          { text: 'Assignee', cols: 10, rows: 1, color: '' },
+          { text: 'Members', cols: 10, rows: 1, color: '' },
+          { text: 'Participate', cols: 10, rows: 1, color: '' },
+          { text: 'Comments', cols: 10, rows: 1, color: '' },
         ];
       }
       else if (change.mqAlias == 'sm') {
+        this.style = 'width: 100%';
         this.rowHeight = '100px';
         this.cols = 10;
         this.tiles = [
-          { text: 'Description', cols: 10, rows: 2, color: 'lightblue' },
-          { text: 'Status', cols: 5, rows: 1, color: 'pink' },
-          { text: 'Label', cols: 5, rows: 1, color: 'lightgreen' },
-          { text: 'Requester', cols: 5, rows: 1, color: 'lightpink' },
-          { text: 'Assignee', cols: 5, rows: 1, color: 'red' },
-          { text: 'Members', cols: 5, rows: 1, color: '#DDBDF1' },
-          { text: 'Participate', cols: 5, rows: 1, color: 'blue' },
-          { text: 'Comments', cols: 10, rows: 1, color: 'green' },
+          { text: 'Description', cols: 10, rows: 2, color: '' },
+          { text: 'Status', cols: 5, rows: 1, color: '' },
+          { text: 'Label', cols: 5, rows: 1, color: '' },
+          { text: 'Requester', cols: 5, rows: 1, color: '' },
+          { text: 'Assignee', cols: 5, rows: 1, color: '' },
+          { text: 'Members', cols: 5, rows: 1, color: '' },
+          { text: 'Participate', cols: 5, rows: 1, color: '' },
+          { text: 'Comments', cols: 10, rows: 1, color: '' },
         ];
       }
       else {
+        this.style = 'width: 60%';
         this.rowHeight = '100px';
         this.cols = 10;
         this.tiles = [
@@ -166,6 +170,7 @@ export class SingleTicketComponent implements OnInit {
 
 
     this.ticketsService.getComments(this.ticketId).subscribe((data) => {
+      data['info'].reverse();
       this.comments = data;
     });
 
@@ -284,6 +289,7 @@ export class SingleTicketComponent implements OnInit {
     this.ticketsService.createComment(this.ticket, commentObj).subscribe(
       data=> {
         this.ticketsService.getComments(this.ticketId).subscribe((data) => {
+          data['info'].reverse();
           this.comments = data;
         })
       },

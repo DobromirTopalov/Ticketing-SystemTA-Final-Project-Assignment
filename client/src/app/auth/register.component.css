@@ -1,42 +1,61 @@
-.formFrame {
-  background-color: gainsboro;
+.regContent {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+}
+
+.regItems {
   border: solid 0px;
-
-
-  -webkit-box-shadow: 0px 0px 1px 0px rgba(0,0,0,1);
-  -moz-box-shadow: 0px 0px 1px 0px rgba(0,0,0,1);
-  box-shadow: 0px 0px 1px 0px rgba(0,0,0,1);
+  border-radius: 3px;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  width: 25%;
 }
 
-.spacer {
-  margin-top: 20px;
-  padding: 4px;
-}
-
-.personEmail {
+.compAndRoleWrap {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-evenly;
+  flex-wrap: wrap;
   width: 100%;
 }
 
-.mat-list-item {
-  margin-bottom: 20px;
+.companyAndRole {
+  display: flex;
+  width: 100%;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
 }
 
-.personCompany {
-  /* border-radius: 3px; */
-  -webkit-box-shadow: 0px 0px 1px 0px rgba(0,0,0,1);
-  -moz-box-shadow: 0px 0px 1px 0px rgba(0,0,0,1);
-  box-shadow: 0px 0px 1px 0px rgba(0,0,0,1);
+.passAndconf {
+  display: flex;
+  width: 60%;
+  flex-wrap: wrap;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+
 }
 
-.termsAndUse {
-  padding-bottom: 8px;
-  margin-left: 20px;
+.fields {
+  width: 100%;
 }
 
-.personSubmit {
-  position: relative;
-  top: 0;
-  left: 0;
+.names {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
   width: 100%;
 }
 
@@ -45,8 +64,9 @@
   display: block;
   position: relative;
   padding-left: 35px;
-  margin-left: 20%;
-  margin-bottom: 12px;
+  /* margin-left: 20%; */
+  margin-bottom: 20px;
+  margin-top: 20px;
   cursor: pointer;
   font-size: 14px;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -76,12 +96,12 @@
 
 /* On mouse-over, add a grey background color */
 .container:hover input ~ .checkmark {
-  background-color: #ccc;
+  background-color: rgba(26, 202, 61, 0.733);
 }
 
 /* When the checkbox is checked, add a blue background */
 .container input:checked ~ .checkmark {
-  background-color: #2196F3;
+  background-color: rgba(26, 202, 61, 0.692);
 }
 
 /* Create the checkmark/indicator (hidden when not checked) */
@@ -107,4 +127,12 @@
   -webkit-transform: rotate(45deg);
   -ms-transform: rotate(45deg);
   transform: rotate(45deg);
+}
+
+.spaceBetween {
+  width: 45%;
+}
+
+.colorButton {
+  background-color: #88ca88de;
 }

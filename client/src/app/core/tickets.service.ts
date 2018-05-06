@@ -84,8 +84,8 @@ export class TicketsService {
   }
 
   desubscribeForTicket(ticketuser: any, options?: HttpOptions): Observable<Object> {
-    // this.httpClient.post(`${this.appConfig.apiUrl}/tickets/participate`, ticketuser, options).subscribe(
-    //   data => console.log(data, 'TicketUser created successfully'),
+    // this.httpClient.post(`${this.appConfig.apiUrl}/tickets/departicipate`, ticketuser, options).subscribe(
+    //   data => console.log(data, 'TicketUser deleted successfully'),
     //   error => console.log(error),
     // );
 

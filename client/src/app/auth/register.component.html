@@ -1,80 +1,70 @@
-<mat-grid-list cols="12" rowHeight="500px" gutterSize="3">
-  <mat-grid-tile [colspan]="4" [rowspan]="1">
-  </mat-grid-tile>
+<div class="regContent">
+  <form class="regItems mat-elevation-z8" [formGroup]="regForm" (ngSubmit)="register()">
+    <!-- First Name | Last Name -->
 
-  <mat-grid-tile [colspan]="4" [rowspan]="1">
-    <form [formGroup]="regForm" (ngSubmit)="register()">
-      <mat-list class="formFrame">
+    <div class="names">
+      <mat-form-field class="fields">
+        <input matInput #inputFirst maxlength="20" placeholder="First Name" formControlName="firstName" required>
+        <mat-hint align="end">{{inputFirst.value?.length || 0}}/20</mat-hint>
+        <mat-error *ngIf="regForm.controls['firstName'].errors && !regForm.controls['firstName'].pristine">{{getErrorMessageNames()}}</mat-error>
+      </mat-form-field>
 
-        <!-- First Name | Last Name -->
-        <mat-list-item>
-          <mat-form-field class="spacer">
-            <input matInput #inputFirst maxlength="20" placeholder="First Name" formControlName="firstName" required>
-            <mat-hint align="end">{{inputFirst.value?.length || 0}}/20</mat-hint>
-            <mat-error *ngIf="regForm.controls['firstName'].errors && !regForm.controls['firstName'].pristine">{{getErrorMessageNames()}}</mat-error>
-          </mat-form-field>
+      <mat-form-field class="fields">
+        <input matInput #inputLast maxlength="20" placeholder="Last Name" formControlName="lastName" required>
+        <mat-hint align="end">{{inputLast.value?.length || 0}}/20</mat-hint>
+        <mat-error *ngIf="regForm.controls['lastName'].errors && !regForm.controls['lastName'].pristine">{{getErrorMessageNames2()}}</mat-error>
+      </mat-form-field>
 
-          <mat-form-field class="spacer">
-            <input matInput #inputLast maxlength="20" placeholder="Last Name" formControlName="lastName" required>
-            <mat-hint align="end">{{inputLast.value?.length || 0}}/20</mat-hint>
-            <mat-error *ngIf="regForm.controls['lastName'].errors && !regForm.controls['lastName'].pristine">{{getErrorMessageNames2()}}</mat-error>
-          </mat-form-field>
-        </mat-list-item>
+      <!-- Email -->
+      <mat-form-field class="fields">
+        <input matInput placeholder="Enter your email" formControlName="email" required>
+        <mat-error *ngIf="regForm.controls['email'].errors && !regForm.controls['email'].pristine">{{getErrorMessageEmail()}}</mat-error>
 
-        <!-- Email -->
-        <mat-list-item>
-          <mat-form-field class="personEmail">
-            <input matInput placeholder="Enter your email" formControlName="email" required>
-            <mat-error *ngIf="regForm.controls['email'].errors && !regForm.controls['email'].pristine">{{getErrorMessageEmail()}}</mat-error>
+      </mat-form-field>
+    </div>
 
-          </mat-form-field>
-        </mat-list-item>
 
-        <!-- Password & Confirmation -->
-        <mat-list-item>
-          <mat-form-field class="spacer">
-            <input matInput placeholder="Password" type="password" formControlName="password" required>
-            <mat-error *ngIf="regForm.controls['password'].errors && !regForm.controls['password'].pristine">{{getErrorMessagePass()}}</mat-error>
-          </mat-form-field>
-          <mat-form-field class="spacer">
-            <input matInput placeholder="Confirm Password" type="password" formControlName="confirmPassword" required>
-            <mat-error *ngIf="regForm.controls['confirmPassword'].errors && !regForm.controls['confirmPassword'].pristine">{{getErrorMessagePass2()}}</mat-error>
-          </mat-form-field>
-        </mat-list-item>
+      <!-- Password & Confirmation -->
+    <div mat-list-item class="passAndconf">
+      <mat-form-field class="fields">
+        <input matInput placeholder="Password" type="password" formControlName="password" required>
+        <mat-error *ngIf="regForm.controls['password'].errors && !regForm.controls['password'].pristine">{{getErrorMessagePass()}}</mat-error>
+      </mat-form-field>
 
-        <!-- Company -->
-        <mat-list-item class="personCompany">
-          <mat-select placeholder="Company" formControlName="company" required>
-            <mat-option *ngFor="let company of companies" [value]="company?.id">{{company?.name}}</mat-option>
-          </mat-select>
-          <mat-error *ngIf="regForm.controls['company'].errors">{{getErrorMessageCompany()}}</mat-error>
-        </mat-list-item>
+      <mat-form-field class="fields">
+        <input matInput placeholder="Confirm Password" type="password" formControlName="confirmPassword" required>
+        <mat-error *ngIf="regForm.controls['confirmPassword'].errors && !regForm.controls['confirmPassword'].pristine">{{getErrorMessagePass2()}}</mat-error>
+      </mat-form-field>
+    </div>
 
-        <!-- Roles -->
-        <mat-list-item class="personCompany">
-          <mat-select placeholder="Role" formControlName="role" required>
-            <mat-option *ngFor="let role of roles" [value]="role?.id">{{role?.name}}</mat-option>
-          </mat-select>
-          <mat-error *ngIf="regForm.controls['role'].errors">{{getErrorMessageCompany()}}</mat-error>
-        </mat-list-item>
+    <!-- Company -->
+    <div mat-list-item class="companyAndRole">
+      <mat-select class="spaceBetween" placeholder="Company" formControlName="company" required>
+        <mat-option *ngFor="let company of companies" [value]="company?.id">{{company?.name}}</mat-option>
+      </mat-select>
+      <!-- <mat-error *ngIf="regForm.controls['company'].errors">{{getErrorMessageCompany()}}</mat-error> -->
 
-        <label class="container">
-          <input type="checkbox" class="termsAndUse" formControlName="terms" required>
-          Terms of use & conditions
-          <span class="checkmark"></span>
-          <mat-error *ngIf="regForm.controls['terms'].errors || regForm.controls['terms'].pristine">{{getErrorMessageTerms()}}</mat-error>
-        </label>
+      <!-- Roles -->
+      <mat-select class="spaceBetween" placeholder="Role" formControlName="role" required>
+        <mat-option *ngFor="let role of roles" [value]="role?.id">{{role?.name}}</mat-option>
+      </mat-select>
+      <!-- <mat-error *ngIf="regForm.controls['role'].errors">{{getErrorMessageCompany()}}</mat-error> -->
+    </div>
 
-        <!-- Submit -->
-        <mat-error *ngIf="error">{{error}}</mat-error>
-        <mat-list-item>
-          <button mat-raised-button color="primary" class="personSubmit" [disabled]="!regForm.valid">Sign Up</button>
-        </mat-list-item>
 
-      </mat-list>
-    </form>
-  </mat-grid-tile>
+    <div>
+      <label class="container">
+        <input class="" type="checkbox" formControlName="terms" required> Terms of use & conditions
+        <span class="checkmark"></span>
+        <mat-error *ngIf="regForm.controls['terms'].errors || regForm.controls['terms'].pristine">{{getErrorMessageTerms()}}</mat-error>
+      </label>
+    </div>
 
-  <mat-grid-tile [colspan]="4" [rowspan]="1">
-  </mat-grid-tile>
-</mat-grid-list>
+    <!-- Submit -->
+    <mat-error *ngIf="error">{{error}}</mat-error>
+    <mat-list-item>
+      <button mat-raised-button color="primary" [disabled]="!regForm.valid" class="colorButton">Sign Up</button>
+    </mat-list-item>
+
+  </form>
+</div>
