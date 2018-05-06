@@ -32,7 +32,7 @@ class TicketUserController extends SharedController {
       UserId: req.body.UserId,
     };
 
-    const result = await this.data.ticketuser.delete(obj);
+    const result = await this.data.ticketuser.hardDelete(obj);
 
     // return created object to api
     return await res.status(200).send({

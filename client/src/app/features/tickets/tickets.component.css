@@ -18,6 +18,19 @@
 
 }
 
+.wrapMenu {
+  padding: 20px;
+  display: flex;
+  /* flex-direction: row; */
+  justify-content: space-around;
+  align-items: center;
+  width: 50%;
+}
+
+.colorButton {
+  background-color: #88ca88de;
+}
+
 mat-form-field {
   padding: 5px;
 }

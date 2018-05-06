@@ -8,6 +8,7 @@ import { Ticket } from '../../../models/tickets/ticket';
 import { UsersService } from '../../../core/users.service';
 import { User } from '../../../models/users/user';
 import { tick } from '@angular/core/testing';
+import { MatTableDataSource } from '@angular/material';
 
 @Component({
   selector: 'app-team-tickets',
@@ -24,6 +25,12 @@ export class TeamTicketsComponent implements OnInit {
   teamId: number;
   columnNum: number;
   rowHeightRatio: string;
+  criteria: string = 'assigneeId';
+  sortOrder: string = 'asc';
+
+  displayedColumns = ['description', 'requester', 'assignee', 'status', 'label', 'deadline'];
+  ELEMENT_DATA: Element[] = [];
+  dataSource = new MatTableDataSource(this.ELEMENT_DATA);
 
   constructor(private ticketsService: TicketsService,
     private usersService: UsersService,
@@ -68,6 +75,12 @@ export class TeamTicketsComponent implements OnInit {
           );
           console.log(this.tickets);
           console.log(this.teamTickets);
+
+          this.teamTickets.forEach((ticket) => {
+            const tableContent = {description: ticket.description, requester: ticket['requesterId'].email, assignee: ticket['assigneeId'].email, status: ticket['Status'].name, label: ticket['Label'].name, deadline: ticket.deadline, id: ticket.id};
+            this.ELEMENT_DATA.push(tableContent);
+          });
+          this.dataSource.data = this.ELEMENT_DATA;
         });
 
         // this.usersService.getById(this.userId).subscribe(data => {
@@ -94,4 +107,50 @@ export class TeamTicketsComponent implements OnInit {
   nav(id: number): void {
     this.router.navigate(['/tickets', id])
   }
+
+  onChange(collection): void {
+    collection = collection.sort((x, y) => {
+      const orderType = this.sortOrder === 'asc' ? 1 : -1;
+      let otherCriteria;
+      if (this.criteria === 'Label' || this.criteria === 'Status' || this.criteria === 'Team') {
+        otherCriteria = 'name';
+      } else {
+        otherCriteria = 'email';
+
+      }
+      let a = x[this.criteria][otherCriteria];
+      let b = y[this.criteria][otherCriteria];
+
+      if (typeof x[this.criteria][otherCriteria] === 'string') {
+        a = x[this.criteria][otherCriteria].toLocaleLowerCase();
+        b = y[this.criteria][otherCriteria].toLocaleLowerCase();
+      }
+
+      if (a > b) {
+        return 1 * orderType;
+      } else if (a < b) {
+        return -1 * orderType;
+      } else {
+        return 0;
+      }
+    });
+
+    this.ELEMENT_DATA = [];
+    collection.forEach((ticket) => {
+      const tableContent = {description: ticket.description, requester: ticket['requesterId'].email, assignee: ticket['assigneeId'].email, status: ticket['Status'].name, label: ticket['Label'].name, deadline: ticket.deadline, id: ticket.id};
+      this.ELEMENT_DATA.push(tableContent);
+    });
+    this.dataSource.data = this.ELEMENT_DATA;
+    this.teamTickets = collection;
+  }
+
+}
+
+export interface Element {
+  requester: string;
+  assignee: string;
+  description: string;
+  status: string;
+  label: string;
+  deadline: string;
 }

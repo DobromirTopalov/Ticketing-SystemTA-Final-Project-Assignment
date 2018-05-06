@@ -149,3 +149,11 @@
 .commentaryList {
   width: 70%;
 }
+
+.colorButton {
+  background-color: #88ca88de;
+}
+
+.colorButtonRed {
+  background-color: #ca8888de;
+}

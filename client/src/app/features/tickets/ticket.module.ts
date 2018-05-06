@@ -31,6 +31,7 @@ import { TestViewComponent } from './test-view/test-view.component';
     exports: [
       TicketsComponent,
       DetailsComponent,
+      TeamTicketsComponent,
       SingleTicketComponent,
       CommentaryListComponent,
       CommentaryPostComponent,

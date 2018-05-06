@@ -170,6 +170,7 @@ export class SingleTicketComponent implements OnInit {
 
 
     this.ticketsService.getComments(this.ticketId).subscribe((data) => {
+      data['info'].reverse();
       this.comments = data;
     });
 

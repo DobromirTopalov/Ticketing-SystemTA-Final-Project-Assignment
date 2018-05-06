@@ -12,8 +12,8 @@
 
       <form class="dateForm" [formGroup]="Stickers" (ngSubmit)="updateTicket()">
         <mat-form-field class="dateField">
-          <input class="dateArea" matInput [matDatepicker]="picker" [attr.disabled]="isClosed() || !accessRights() ? 'disabled' : null" [(ngModel)]="ticket && ticket.deadline"
-            ngModel formControlName="deadline" placeholder="Choose a date">
+          <input class="dateArea" matInput [matDatepicker]="picker" [(ngModel)]="ticket && ticket.deadline"
+            ngModel formControlName="deadline" placeholder="Choose a date" [disabled]="isClosed() || !accessRights()">
           <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
           <mat-datepicker #picker></mat-datepicker>
         </mat-form-field>
@@ -75,14 +75,14 @@
 
     <mat-grid-tile class="buttonsMPwrap" [colspan]="tiles[5].cols" [rowspan]="tiles[5].rows" [style.background]="tiles[5].color">
       <div class="buttonsMP">
-        <button [disabled]="isClosed()" type="submit" mat-raised-button color="primary" (click)="updateTicket()">Save Changes</button>
+        <button [disabled]="isClosed()" type="submit" mat-raised-button color="primary" (click)="updateTicket()" class="colorButton">Save Changes</button>
       </div>
     </mat-grid-tile>
 
     <mat-grid-tile class="buttonsMPwrap" [colspan]="tiles[6].cols" [rowspan]="tiles[6].rows" [style.background]="tiles[6].color">
       <div>
-        <button [disabled]="isClosed()" mat-raised-button color="primary" (click)="participate()">Members</button>
-        <button [disabled]="isClosed()" mat-raised-button color="primary" (click)="participate()">Participate</button>
+        <button [disabled]="isClosed()" mat-raised-button color="primary" (click)="departicipate()" class="colorButtonRed">Leave</button>
+        <button [disabled]="isClosed()" mat-raised-button color="primary" (click)="participate()" class="colorButton">Participate</button>
       </div>
     </mat-grid-tile>
 
@@ -93,7 +93,7 @@
             matInput placeholder="Comment" required>
         </mat-form-field>
       </form>
-      <button class="" [disabled]="isClosed()" mat-raised-button color="primary" (click)="commentTicket()" class="post">POST</button>
+      <button class="" [disabled]="isClosed()" mat-raised-button color="primary" (click)="commentTicket()" class="colorButton">POST</button>
     </mat-grid-tile>
 
   </mat-grid-list>

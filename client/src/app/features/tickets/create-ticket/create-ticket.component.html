@@ -73,7 +73,7 @@
       </mat-grid-tile>
 
       <mat-grid-tile class="selectContent" [colspan]="tiles[7].cols" [rowspan]="tiles[7].rows" [style.background]="tiles[7].color">
-        <button type="submit" mat-raised-button color="primary" [disabled]="!createTicketForm.valid" (click)="createTicket()">Create</button>
+        <button type="submit" mat-raised-button color="primary" [disabled]="!createTicketForm.valid" (click)="createTicket()" class="colorButton">Create</button>
       </mat-grid-tile>
 
     </mat-grid-list>
