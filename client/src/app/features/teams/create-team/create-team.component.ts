@@ -31,7 +31,7 @@ export class CreateTeamComponent implements OnInit {
 
     this.createTeamForm = this.formBuilder.group({
       name: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(20), Validators.pattern(teamNameRegex)]],
-      description: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(100)]],
+      description: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(40)]],
       teamImgUrl: '',
     });
 

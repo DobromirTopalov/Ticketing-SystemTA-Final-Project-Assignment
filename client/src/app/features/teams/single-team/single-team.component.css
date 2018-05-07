@@ -1,6 +1,6 @@
 mat-grid-tile {
   /* margin: 5px; */
-  background: salmon;
+  /* background: salmon; */
   /* border: 1px solid white; */
   /* border-radius: 10px; */
 }
@@ -9,12 +9,54 @@ mat-grid-tile {
   text-align: center;
   display: block;
   overflow: auto;
+  justify-content: center;
+  align-self: center;
 }
 
-/* .available-members {
-  display: inline-block;
-  border: 1px solid black;
-  background-color: plum;
-  padding: 2px;
-  margin: 5px;
-} */
+@media only screen and (min-width: 958px) {
+  .container {
+    width: 60%;
+    margin-left: 20%;
+  }
+}
+
+.inside-tile,
+.link-inside-tile {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: linen;
+  border: 0.5% solid transparent;
+  border-radius: 5px;
+  /* margin: 1%; */
+  width: 99%;
+  height: 95%;
+  /* line-height: 100%; */
+}
+
+.link-inside-tile:hover {
+  background-color: silver;
+}
+
+.team-name {
+  font-weight: bolder;
+  font-size: 120%;
+}
+
+button:hover {
+  background-color: yellowgreen;
+}
+
+.available-members {
+  background-color: transparent;
+  border-radius: 3%;
+}
+
+.example-form {
+  margin-left: 35%;
+  width: 30%;
+}
+
+.example-full-width {
+  width: 100%;
+}

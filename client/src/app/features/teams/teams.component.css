@@ -1,4 +1,6 @@
-
+mat-grid-list {
+  /* width: 80%; */
+}
 
 mat-grid-tile {
   /* margin: 5px; */
@@ -7,9 +9,24 @@ mat-grid-tile {
   /* border-radius: 10px; */
 }
 
-.in-tile {
-  width: 90%;
-  height: 90%;
-  background-color: tan;
+.cards-container {
+  display: talbe;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
+.team-wrapper {
+  display: table-row;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.card-holder {
+  margin: 0.25%;
+}
+
+/* .card-holder:hover {
+  background-color: silver;
+} */
 

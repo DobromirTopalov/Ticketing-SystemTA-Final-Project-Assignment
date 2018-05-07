@@ -1,4 +1,4 @@
-<div class="list-container" (click)="onShowTeam()">
+<!-- <div class="list-container" (click)="onShowTeam()">
   <p>Name: {{team.name}}</p>
   <p>Description: {{team.description}}</p>
   <p>Team Leader: {{team.teamLeaderId.firstName}} {{team.teamLeaderId.lastName}}</p>
@@ -8,4 +8,23 @@
       <span>{{member.firstName}} {{member.lastName}}; </span>
     </span>
   </p>
-</div>
+</div> -->
+
+<mat-card class="team-card">
+  <mat-card-header>
+    <div mat-card-avatar class="team-header-image"></div>
+    <mat-card-title class="team-name">Team {{team.name}}</mat-card-title>
+    <mat-card-subtitle class="team-company">Company: {{team.Company.name}}</mat-card-subtitle>
+    <mat-card-subtitle class="team-leader">Team Leader: {{team.teamLeaderId.firstName}} {{team.teamLeaderId.lastName}}</mat-card-subtitle>
+  </mat-card-header>
+  <mat-card-content>
+    <p class="team-description">
+      Description: {{team.description}}
+    </p>
+    <p class="team-members">Members:
+      <span *ngFor="let member of team.Users">
+        <span>{{member.firstName}} {{member.lastName}}; </span>
+      </span>
+    </p>
+  </mat-card-content>
+</mat-card>
