@@ -49,7 +49,7 @@
         <!-- Position Column -->
         <ng-container matColumnDef="description">
           <mat-header-cell *matHeaderCellDef> Description </mat-header-cell>
-          <mat-cell *matCellDef="let element" (click)="nav(element.id)"> {{element.description}} </mat-cell>
+          <mat-cell *matCellDef="let element" (click)="nav(element.id)"> {{element?.description | ellipsis}} </mat-cell>
         </ng-container>
 
         <!-- Name Column -->
@@ -67,7 +67,7 @@
         <!-- Weight Column -->
         <ng-container matColumnDef="status">
           <mat-header-cell *matHeaderCellDef> Status </mat-header-cell>
-          <mat-cell *matCellDef="let element" (click)="nav(element.id)"> {{element.status}} </mat-cell>
+          <mat-cell *matCellDef="let element" [statusColor]="element?.status" (click)="nav(element.id)"> {{element.status}} </mat-cell>
         </ng-container>
 
         <!-- Symbol Column -->
@@ -78,7 +78,7 @@
 
         <ng-container matColumnDef="deadline">
           <mat-header-cell *matHeaderCellDef> Deadline </mat-header-cell>
-          <mat-cell *matCellDef="let element" (click)="nav(element.id)"> {{element.deadline}} </mat-cell>
+          <mat-cell *matCellDef="let element" (click)="nav(element.id)"> {{element.deadline | deadline}} </mat-cell>
         </ng-container>
 
         <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>

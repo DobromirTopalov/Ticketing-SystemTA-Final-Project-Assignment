@@ -12,20 +12,6 @@ import { NgForm, FormGroup, FormControl, FormBuilder, Validators } from '@angula
 export class AppComponent {
   constructor(private http: HttpClient, private authService: AuthService) { }
 
-  testAuth(): void {
-    this.http.get<any>('http://localhost:3200/test').subscribe(x => {
-      console.log('insideAuthAngular');
-      console.log(x);
-    },
-      (err: HttpErrorResponse) => {
-        console.log(err);
-      });
-  }
-
-  isAuth(): boolean {
-    return this.authService.isAuthenticated();
-  }
-
   logout(): void {
     return this.authService.logout();
   }

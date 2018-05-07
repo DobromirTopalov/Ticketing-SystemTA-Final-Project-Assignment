@@ -86,6 +86,15 @@ class SharedData {
       where: modelObj,
     });
   }
+
+  restore(modelObj) {
+    const model = this.Model.findOne({ where: modelObj, paranoid: false }).then((data) => {
+      if (!data) {
+        return {};
+      }
+      return data.restore();
+    });
+  }
 }
 
 module.exports = SharedData;

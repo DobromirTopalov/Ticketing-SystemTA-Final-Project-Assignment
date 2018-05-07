@@ -48,6 +48,10 @@ export class LoginComponent implements OnInit {
         this.toastr.success(`${this.loginForm.get('email').value} registered!`);
         this.auth.getUser();
         this.auth.isAuthenticated();
+
+        this.auth.loginEventFunction(true);
+        this.auth.userLoggedEventFunction(this.loginForm.value);
+
         this.router.navigate(['/tickets']);
       },
         (err: HttpErrorResponse) => {

@@ -5,10 +5,10 @@ import { Pipe, PipeTransform } from '@angular/core';
 })
 export class EllipsisPipe implements PipeTransform {
 
-  transform(value: string, check?: boolean): string {
-    if(value.length > 10 && check) {
-      return value.substring(0, 10) + '...';
+  transform(value: string): string {
+    if (value.length > 120) {
+      return value.substring(0, 120) + ' ...';
     }
-    return 'N/A';
+    return value;
   }
 }

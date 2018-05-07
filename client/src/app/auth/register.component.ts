@@ -119,6 +119,10 @@ export class RegisterComponent implements OnInit {
         this.toastr.success(`${obj.email} registered!`);
         this.auth.getUser();
         this.auth.isAuthenticated();
+
+        this.auth.loginEventFunction(true);
+        this.auth.userLoggedEventFunction(obj);
+
         this.router.navigate(['/tickets']);
       },
         (err: HttpErrorResponse) => {

@@ -7,15 +7,17 @@ class TicketUserController extends SharedController {
   }
 
   addTicketUser() {
-      return async (req, res, next) => {
+    return async (req, res, next) => {
       const obj = {
         TicketId: +req.body.TicketId,
         UserId: +req.body.UserId,
       };
 
-      console.log(obj, 'BAAAAATEE');
-      // const result = await this.data.ticketuser.create(obj);
-      const result = await this.data.ticketuser.findOrCreate(obj);
+      const restoreDeleted = await this.data.ticketuser.restore(obj);
+      let result = restoreDeleted;
+      if (!restoreDeleted) {
+        result = await this.data.ticketuser.findOrCreate(obj);
+      }
 
 
       // return created object to api
@@ -27,18 +29,18 @@ class TicketUserController extends SharedController {
 
   removeTicketUser() {
     return async (req, res, next) => {
-    const obj = await {
-      TicketId: req.body.TicketId,
-      UserId: req.body.UserId,
+      const obj = await {
+        TicketId: req.body.TicketId,
+        UserId: req.body.UserId,
+      };
+
+      const result = await this.data.ticketuser.hardDelete(obj);
+
+      // return created object to api
+      return await res.status(200).send({
+        result,
+      });
     };
-
-    const result = await this.data.ticketuser.hardDelete(obj);
-
-    // return created object to api
-    return await res.status(200).send({
-      result,
-    });
-  };
-}
+  }
 }
 module.exports = TicketUserController;

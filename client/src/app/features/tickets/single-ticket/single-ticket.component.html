@@ -5,7 +5,7 @@
       <div class="wrapDesc">
       <form class="descForm" [formGroup]="Description" (ngSubmit)="updateTicket()">
         <mat-form-field class="descField">
-          <textarea class="descArea" rows="6" matInput [attr.disabled]="isClosed()" [(ngModel)]="ticket && ticket.description" ngModel matInput
+          <textarea class="descArea" rows="6" matInput [attr.disabled]="isClosed() || !isInTicket() ? 'disabled' : null" [(ngModel)]="ticket && ticket.description" ngModel matInput
             placeholder="Description:" formControlName="description"></textarea>
         </mat-form-field>
       </form>
@@ -13,7 +13,7 @@
       <form class="dateForm" [formGroup]="Stickers" (ngSubmit)="updateTicket()">
         <mat-form-field class="dateField">
           <input class="dateArea" matInput [matDatepicker]="picker" [(ngModel)]="ticket && ticket.deadline"
-            ngModel formControlName="deadline" placeholder="Choose a date" [disabled]="isClosed() || !accessRights()">
+            ngModel formControlName="deadline" placeholder="Choose a date" [disabled]="isClosed()  || !isInTicket() || !accessRights()">
           <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
           <mat-datepicker #picker></mat-datepicker>
         </mat-form-field>
@@ -24,7 +24,7 @@
     <mat-grid-tile class="selectContent" [colspan]="tiles[1].cols" [rowspan]="tiles[1].rows" [style.background]="tiles[1].color">
       <form class="selectForm" [formGroup]="Stickers" (ngSubmit)="updateTicket()">
         <mat-form-field class="selectField">
-          <mat-select class="selectArea" [disabled]="isClosed()" [(ngModel)]="ticket && ticket.Status.id" ngModel placeholder="{{defaultStatus}}"
+          <mat-select class="selectArea" [disabled]="isClosed() || !isInTicket()" [(ngModel)]="ticket && ticket.Status.id" ngModel placeholder="{{defaultStatus}}"
             formControlName="StatusId">
             <mat-option *ngFor="let status of statuses" [value]="status?.id">
               {{ status?.name }}
@@ -37,7 +37,7 @@
     <mat-grid-tile class="selectContent" [colspan]="tiles[2].cols" [rowspan]="tiles[2].rows" [style.background]="tiles[2].color">
       <form class="selectForm" [formGroup]="Stickers" (ngSubmit)="updateTicket()">
         <mat-form-field class="selectField">
-          <mat-select class="selectArea" [disabled]="isClosed()" [(ngModel)]="ticket && ticket.Label.id" ngModel placeholder="Label"
+          <mat-select class="selectArea" [disabled]="isClosed() || !isInTicket()" [(ngModel)]="ticket && ticket.Label.id" ngModel placeholder="Label"
             formControlName="LabelId">
             <mat-option *ngFor="let label of labels" [value]="label?.id">
               {{ label?.name }}
@@ -50,7 +50,7 @@
     <mat-grid-tile class="selectContent" [colspan]="tiles[3].cols" [rowspan]="tiles[3].rows" [style.background]="tiles[3].color">
       <form class="selectForm" [formGroup]="Members" (ngSubmit)="updateTicket()">
         <mat-form-field class="selectField">
-          <mat-select class="selectArea" [disabled]="isClosed() || !accessRights()" [(ngModel)]="ticket && ticket.requesterId.id" ngModel
+          <mat-select class="selectArea" [disabled]="isClosed() || !isInTicket() || !accessRights()" [(ngModel)]="ticket && ticket.requesterId.id" ngModel
             placeholder="Requester" formControlName="RequesterId">
             <mat-option *ngFor="let member of members" [value]="member?.id">
               {{ member?.email }}
@@ -63,7 +63,7 @@
     <mat-grid-tile class="selectContent" [colspan]="tiles[4].cols" [rowspan]="tiles[4].rows" [style.background]="tiles[4].color">
       <form class="selectForm" [formGroup]="Members" (ngSubmit)="updateTicket()">
         <mat-form-field class="selectField">
-          <mat-select class="selectArea" [disabled]="isClosed() || !accessRights()" [(ngModel)]="ticket && ticket.assigneeId.id" ngModel
+          <mat-select class="selectArea" [disabled]="isClosed() || !isInTicket() || !accessRights()" [(ngModel)]="ticket && ticket.assigneeId.id" ngModel
             placeholder="Assignee" formControlName="AssigneeId">
             <mat-option *ngFor="let member of members" [value]="member?.id">
               {{ member?.email }}
@@ -75,21 +75,21 @@
 
     <mat-grid-tile class="buttonsMPwrap" [colspan]="tiles[5].cols" [rowspan]="tiles[5].rows" [style.background]="tiles[5].color">
       <div class="buttonsMP">
-        <button [disabled]="isClosed()" type="submit" mat-raised-button color="primary" (click)="updateTicket()" class="colorButton">Save Changes</button>
+        <button [disabled]="isClosed() || !isInTicket()" type="submit" mat-raised-button color="primary" (click)="updateTicket()" class="colorButton">Save Changes</button>
       </div>
     </mat-grid-tile>
 
     <mat-grid-tile class="buttonsMPwrap" [colspan]="tiles[6].cols" [rowspan]="tiles[6].rows" [style.background]="tiles[6].color">
       <div>
-        <button [disabled]="isClosed()" mat-raised-button color="primary" (click)="departicipate()" class="colorButtonRed">Leave</button>
-        <button [disabled]="isClosed()" mat-raised-button color="primary" (click)="participate()" class="colorButton">Participate</button>
+        <button [disabled]="isClosed() || !isInTicket()" mat-raised-button color="primary" (click)="departicipate()" class="colorButtonRed">Leave</button>
+        <button [disabled]="isClosed() || isInTicket()" mat-raised-button color="primary" (click)="participate()" class="colorButton">Participate</button>
       </div>
     </mat-grid-tile>
 
     <mat-grid-tile class="selectContent" [colspan]="tiles[7].cols" [rowspan]="tiles[7].rows" [style.background]="tiles[7].color">
       <form class="commentaryForm" [formGroup]="Comment" (ngSubmit)="commentTicket()">
         <mat-form-field class="commentaryField">
-          <input class="commentaryArea" [attr.disabled]="isClosed() ? 'disabled' : null" [(ngModel)]="commentary" ngModel formControlName="content"
+          <input class="commentaryArea" [attr.disabled]="isClosed() || !isInTicket() ? 'disabled' : null" [(ngModel)]="commentary" ngModel formControlName="content"
             matInput placeholder="Comment" required>
         </mat-form-field>
       </form>

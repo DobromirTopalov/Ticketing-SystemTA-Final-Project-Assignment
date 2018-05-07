@@ -62,11 +62,11 @@ export class TicketsService {
   }
 
   getComments(ticketId: number, options?: HttpOptions): Observable<Object> {
-    this.httpClient.get(`${this.appConfig.apiUrl}/commentaries/ticket/${ticketId}`, options).subscribe(
-      data => console.log(data, 'Comments found successfully'),
-      error => console.log(error),
-    );
-    console.log('inside:', ticketId);
+    // this.httpClient.get(`${this.appConfig.apiUrl}/commentaries/ticket/${ticketId}`, options).subscribe(
+    //   data => console.log(data, 'Comments found successfully'),
+    //   error => console.log(error),
+    // );
+    // console.log('inside:', ticketId);
     return this.httpClient.get(`${this.appConfig.apiUrl}/commentaries/ticket/${ticketId}`, options);
   }
 
@@ -75,10 +75,10 @@ export class TicketsService {
   }
 
   subscribeForTicket(ticketuser: any, options?: HttpOptions): Observable<Object> {
-    this.httpClient.post(`${this.appConfig.apiUrl}/tickets/participate`, ticketuser, options).subscribe(
-      data => console.log(data, 'TicketUser created successfully'),
-      error => console.log(error),
-    );
+    // this.httpClient.post(`${this.appConfig.apiUrl}/tickets/participate`, ticketuser, options).subscribe(
+    //   data => console.log(data, 'TicketUser created successfully'),
+    //   error => console.log(error),
+    // );
 
     return this.httpClient.post(`${this.appConfig.apiUrl}/tickets/participate`, ticketuser, options);
   }
@@ -92,11 +92,4 @@ export class TicketsService {
     return this.httpClient.post(`${this.appConfig.apiUrl}/tickets/departicipate`, ticketuser, options);
   }
 
-  accessRights(ticketId, userId): boolean {
-    // this.getAll().subscribe((data) => {
-    //   const tickets = data['info'].find((ticket) => ticket.id === ticketId);
-    //   console.log(data['info'], 'auuu', ticketId, userId);
-    // });
-    return true;
-  }
 }

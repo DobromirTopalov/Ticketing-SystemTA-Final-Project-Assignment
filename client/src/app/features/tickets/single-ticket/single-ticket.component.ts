@@ -56,6 +56,7 @@ export class SingleTicketComponent implements OnInit {
   assigneeId:number;
   userId: number;
 
+  userInTheTeam: boolean;
   teamLeaderId: number;
 
   rowHeight = '100px';
@@ -180,6 +181,11 @@ export class SingleTicketComponent implements OnInit {
 
 
 
+    this.ticketsService.getById(this.ticketId).subscribe((data) => {
+      const fromUsers = data['info']['Users'].find((user) => user.id === this.userId);
+      this.userInTheTeam = fromUsers ? true : false;
+    });
+
     // this.userService.getAllForTickets().subscribe((data) => {
       //   this.members = data.info;
       // });
@@ -206,7 +212,7 @@ export class SingleTicketComponent implements OnInit {
     // console.log(this.labels);
     // console.log(this.statuses);
     // console.log(this.members);
-    console.log(this.comments);
+    // console.log(this.comments);
   }
 
   participate() {
@@ -215,7 +221,16 @@ export class SingleTicketComponent implements OnInit {
       UserId: +this.userId,
     }
 
-    this.ticketsService.subscribeForTicket(obj);
+    this.ticketsService.subscribeForTicket(obj)
+    .subscribe(
+      data=> {
+        this.ticketsService.getById(this.ticketId).subscribe((data) => {
+          const fromUsers = data['info']['Users'].find((user) => user.id === this.userId);
+          this.userInTheTeam = fromUsers ? true : false;
+        });
+      },
+      error => console.log(error)
+    );
   }
 
   departicipate() {
@@ -224,7 +239,16 @@ export class SingleTicketComponent implements OnInit {
       UserId: +this.userId,
     }
 
-    this.ticketsService.desubscribeForTicket(obj);
+    this.ticketsService.desubscribeForTicket(obj)
+    .subscribe(
+      data=> {
+        this.ticketsService.getById(this.ticketId).subscribe((data) => {
+          const fromUsers = data['info']['Users'].find((user) => user.id === this.userId);
+          this.userInTheTeam = fromUsers ? true : false;
+        });
+      },
+      error => console.log(error)
+    );
   }
 
   updateTicket() {
@@ -261,17 +285,43 @@ export class SingleTicketComponent implements OnInit {
       };
     }
 
-    console.log(ticketObject);
     this.ticketsService.updateInfo(ticketObject).subscribe((data: Object) => {
-      this.ticketsService.subscribeForTicket({ TicketId: this.ticketId, UserId: this.requesterId}).subscribe((data) => {
-      });
-      this.ticketsService.subscribeForTicket({ TicketId: this.ticketId, UserId: this.assigneeId})
-    });
+      this.ticketsService.getById(this.ticketId).subscribe((data) => {
+        this.ticket = data.info;
+        this.currentStatus = +data.info.StatusId;
+        this.defaultStatus = this.currentStatus === 1 ? 'COMPLETED' : 'Status';
+        this.requesterId = this.ticket.RequesterId;
 
-    // this.ticketsService.updateInfo(ticketObject);
-      // this.ticketsService.subscribeForTicket({ TicketId: this.ticketId, UserId: this.requesterId}).subscribe(data =>
-      // console.log());
-      // this.ticketsService.subscribeForTicket({ TicketId: this.ticketId, UserId: this.assigneeId})
+        this.teamService.getAllUsers(this.ticket.TeamId).subscribe((data) => {
+          this.members = data.info.Users;
+        });
+
+        this.teamService.getById(this.ticket.TeamId).subscribe((data) => {
+          this.teamLeaderId = data['info']['teamLeaderId'].id;
+
+          this.paramService.getAllStatuses().subscribe((data) => {
+            // console.log(this.userId,this.teamLeaderId);
+              if(!(this.userId === this.requesterId || this.userId === this.teamLeaderId)) {
+                this.filteredStatuses = data.result.filter((status) => status.name !== 'COMPLETED' );
+                // this.statuses = this.filteredStatuses;
+              }
+              this.statuses = this.filteredStatuses ? this.filteredStatuses : data.result;
+              // console.log(this.statuses, this.filteredStatuses, 'asddfg');
+            });
+        });
+      });
+
+
+      this.ticketsService.getComments(this.ticketId).subscribe((data) => {
+        data['info'].reverse();
+        this.comments = data;
+      });
+
+      this.paramService.getAllLabels().subscribe((data) => {
+        this.labels = data.result;
+      });
+    }),
+    error => console.log(error);
   }
 
   commentTicket() {
@@ -303,9 +353,16 @@ export class SingleTicketComponent implements OnInit {
     return (this.currentStatus === 1);
   }
 
+  isInTicket() {
+    // console.log(this.currentStatus, 'kur');
+    return (this.userInTheTeam);
+  }
+
   accessRights() {
     // console.log(this.userId,this.teamLeaderId);
-
+    // const participate = this.userInTicket();
+    // console.log('HEREEE', participate);
+    // console.log();
     return (this.userId === this.requesterId || this.userId === this.teamLeaderId);
   }
 }
