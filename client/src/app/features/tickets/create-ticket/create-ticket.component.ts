@@ -56,59 +56,59 @@ export class CreateTicketComponent implements OnInit {
     private paramService: ParamsService,
     private router: Router,
 
-        private teamService: TeamsService,
-      private userService: UsersService,
-      media: ObservableMedia
-    ) {
-        media.asObservable()
-        .subscribe((change: MediaChange) => {
-          if (change.mqAlias == 'xs') {
-            this.style = 'width: 100%';
-            this.rowHeight = '80px';
-            this.cols = 10;
-            this.tiles = [
-              { text: 'Description', cols: 10, rows: 2, color: '' },
-              { text: 'Status', cols: 10, rows: 1, color: '' },
-              { text: 'Label', cols: 10, rows: 1, color: '' },
-              { text: 'Requester', cols: 10, rows: 1, color: '' },
-              { text: 'Assignee', cols: 10, rows: 1, color: '' },
-              { text: 'Members', cols: 10, rows: 1, color: '' },
-              { text: 'Participate', cols: 10, rows: 1, color: '' },
-              { text: 'Comments', cols: 10, rows: 1, color: '' },
-            ];
-          }
-          else if (change.mqAlias == 'sm') {
-            this.style = 'width: 100%';
-            this.rowHeight = '100px';
-            this.cols = 10;
-            this.tiles = [
-              { text: 'Description', cols: 10, rows: 2, color: '' },
-              { text: 'Status', cols: 5, rows: 1, color: '' },
-              { text: 'Label', cols: 5, rows: 1, color: '' },
-              { text: 'Requester', cols: 5, rows: 1, color: '' },
-              { text: 'Assignee', cols: 5, rows: 1, color: '' },
-              { text: 'Members', cols: 5, rows: 1, color: '' },
-              { text: 'Participate', cols: 5, rows: 1, color: '' },
-              { text: 'Comments', cols: 10, rows: 1, color: '' },
-            ];
-          }
-          else {
-            this.style = 'width: 60%';
-            this.rowHeight = '150px';
-            this.cols = 10;
-            this.tiles = [
-              { text: 'Description', cols: 6, rows: 2, color: '' },
-              { text: 'Status', cols: 4, rows: 1, color: '' },
-              { text: 'Label', cols: 4, rows: 1, color: '' },
-              { text: 'Requester', cols: 5, rows: 1, color: '' },
-              { text: 'Assignee', cols: 5, rows: 1, color: '' },
-              { text: 'Members', cols: 5, rows: 1, color: '' },
-              { text: 'Participate', cols: 5, rows: 1, color: '' },
-              { text: 'Comments', cols: 10, rows: 1, color: '' },
-            ];
-          }
-        });
-      }
+    private teamService: TeamsService,
+    private userService: UsersService,
+    media: ObservableMedia
+  ) {
+    media.asObservable()
+      .subscribe((change: MediaChange) => {
+        if (change.mqAlias == 'xs') {
+          this.style = 'width: 100%';
+          this.rowHeight = '80px';
+          this.cols = 10;
+          this.tiles = [
+            { text: 'Description', cols: 10, rows: 2, color: '' },
+            { text: 'Status', cols: 10, rows: 1, color: '' },
+            { text: 'Label', cols: 10, rows: 1, color: '' },
+            { text: 'Requester', cols: 10, rows: 1, color: '' },
+            { text: 'Assignee', cols: 10, rows: 1, color: '' },
+            { text: 'Members', cols: 10, rows: 1, color: '' },
+            { text: 'Participate', cols: 10, rows: 1, color: '' },
+            { text: 'Comments', cols: 10, rows: 1, color: '' },
+          ];
+        }
+        else if (change.mqAlias == 'sm') {
+          this.style = 'width: 100%';
+          this.rowHeight = '100px';
+          this.cols = 10;
+          this.tiles = [
+            { text: 'Description', cols: 10, rows: 2, color: '' },
+            { text: 'Status', cols: 5, rows: 1, color: '' },
+            { text: 'Label', cols: 5, rows: 1, color: '' },
+            { text: 'Requester', cols: 5, rows: 1, color: '' },
+            { text: 'Assignee', cols: 5, rows: 1, color: '' },
+            { text: 'Members', cols: 5, rows: 1, color: '' },
+            { text: 'Participate', cols: 5, rows: 1, color: '' },
+            { text: 'Comments', cols: 10, rows: 1, color: '' },
+          ];
+        }
+        else {
+          this.style = 'width: 60%';
+          this.rowHeight = '150px';
+          this.cols = 10;
+          this.tiles = [
+            { text: 'Description', cols: 6, rows: 2, color: '' },
+            { text: 'Status', cols: 4, rows: 1, color: '' },
+            { text: 'Label', cols: 4, rows: 1, color: '' },
+            { text: 'Requester', cols: 5, rows: 1, color: '' },
+            { text: 'Assignee', cols: 5, rows: 1, color: '' },
+            { text: 'Members', cols: 5, rows: 1, color: '' },
+            { text: 'Participate', cols: 5, rows: 1, color: '' },
+            { text: 'Comments', cols: 10, rows: 1, color: '' },
+          ];
+        }
+      });
+  }
 
   ngOnInit() {
     const decodedToken = this.jwtService.decodeToken(localStorage.getItem('access_token'));
@@ -116,7 +116,7 @@ export class CreateTicketComponent implements OnInit {
     this.requesterId = this.userId;
     this.assigneeId = this.userId;
 
-    const userList = this.teamService.getUserTeam(this.userId).subscribe((data)=> {
+    const userList = this.teamService.getUserTeam(this.userId).subscribe((data) => {
       const team = data.info;
       this.teamId = team['TeamId'];
 
@@ -124,7 +124,7 @@ export class CreateTicketComponent implements OnInit {
         this.teamLeader = data['info']['teamLeaderId'];
       });
 
-      this.teamService.getAllTeamUsers(this.teamId).subscribe((data)=> {
+      this.teamService.getAllTeamUsers(this.teamId).subscribe((data) => {
         const users = data.info;
 
         users.forEach((user) => {
@@ -160,7 +160,7 @@ export class CreateTicketComponent implements OnInit {
   }
   getErrorMessageDescription() {
     return this.createTicketForm.get('description').hasError('required') ? 'You must enter a value' :
-    this.createTicketForm.get('description').hasError('maxLength') ? 'Max 13000 symbols allowed' : '';
+      this.createTicketForm.get('description').hasError('maxLength') ? 'Max 13000 symbols allowed' : '';
   }
 
 
@@ -176,7 +176,7 @@ export class CreateTicketComponent implements OnInit {
       EscalationContactId: this.teamLeader.id,
     };
 
-    this.ticketsService.createInfo(<Ticket>ticketObject).subscribe((data: Object) => {});
+    this.ticketsService.createInfo(<Ticket>ticketObject).subscribe((data: Object) => { });
   }
 
 }

@@ -11,9 +11,6 @@ const init = (app, data) => {
 
   router
   .get('/api/tickets', controller.getAll())
-  // .get('/api/tickets', passport.authenticate('jwt', {
-  //   session: false,
-  // }), controller.getAll())
 
   .get('/api/tickets/:id', passport.authenticate('jwt', {
     session: false,

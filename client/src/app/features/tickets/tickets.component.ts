@@ -39,10 +39,10 @@ export class TicketsComponent implements OnInit {
 
   constructor(private ticketsService: TicketsService, private auth: AuthService, private jwtService: JwtHelperService, media: ObservableMedia, private router: Router) {
     media.asObservable()
-    .subscribe((change: MediaChange) => {
+      .subscribe((change: MediaChange) => {
         this.columnNum = 1;
         this.rowHeightRatio = '20:1';
-    });
+      });
   }
 
   ngOnInit() {
@@ -60,7 +60,7 @@ export class TicketsComponent implements OnInit {
       this.tickets = assignedTickets;
 
       this.tickets.forEach((ticket) => {
-        const tableContent = {description: ticket.description, requester: ticket['requesterId'].email, assignee: ticket['assigneeId'].email, status: ticket['Status'].name, label: ticket['Label'].name, deadline: ticket.deadline, id: ticket.id};
+        const tableContent = { description: ticket.description, requester: ticket['requesterId'].email, assignee: ticket['assigneeId'].email, status: ticket['Status'].name, label: ticket['Label'].name, deadline: ticket.deadline, id: ticket.id };
         this.ELEMENT_DATA.push(tableContent);
       });
       this.dataSource.data = this.ELEMENT_DATA;
@@ -70,8 +70,7 @@ export class TicketsComponent implements OnInit {
     });
   }
 
-  nav(id: number): void{
-    console.log('asdasd');
+  nav(id: number): void {
     this.router.navigate(['/tickets', id]);
   }
 
@@ -104,7 +103,7 @@ export class TicketsComponent implements OnInit {
 
     this.ELEMENT_DATA = [];
     collection.forEach((ticket) => {
-      const tableContent = {description: ticket.description, requester: ticket['requesterId'].email, assignee: ticket['assigneeId'].email, status: ticket['Status'].name, label: ticket['Label'].name, deadline: ticket.deadline, id: ticket.id};
+      const tableContent = { description: ticket.description, requester: ticket['requesterId'].email, assignee: ticket['assigneeId'].email, status: ticket['Status'].name, label: ticket['Label'].name, deadline: ticket.deadline, id: ticket.id };
       this.ELEMENT_DATA.push(tableContent);
     });
     this.dataSource.data = this.ELEMENT_DATA;
@@ -119,7 +118,7 @@ export class TicketsComponent implements OnInit {
     const assignedTickets = this.tickets.filter((ticket) => ticket.AssigneeId === this.userId);
     this.assignedTickets = assignedTickets;
     this.assignedTickets.forEach((ticket) => {
-      const tableContent = {description: ticket.description, requester: ticket['requesterId'].email, assignee: ticket['assigneeId'].email, status: ticket['Status'].name, label: ticket['Label'].name, deadline: ticket.deadline, id: ticket.id};
+      const tableContent = { description: ticket.description, requester: ticket['requesterId'].email, assignee: ticket['assigneeId'].email, status: ticket['Status'].name, label: ticket['Label'].name, deadline: ticket.deadline, id: ticket.id };
       this.ELEMENT_DATA.push(tableContent);
     });
     this.dataSource.data = this.ELEMENT_DATA;
@@ -135,7 +134,7 @@ export class TicketsComponent implements OnInit {
     const requestedTickets = this.tickets.filter((ticket) => ticket.RequesterId === this.userId);
     this.requestedTickets = requestedTickets;
     this.requestedTickets.forEach((ticket) => {
-      const tableContent = {description: ticket.description, requester: ticket['requesterId'].email, assignee: ticket['assigneeId'].email, status: ticket['Status'].name, label: ticket['Label'].name, deadline: ticket.deadline, id: ticket.id};
+      const tableContent = { description: ticket.description, requester: ticket['requesterId'].email, assignee: ticket['assigneeId'].email, status: ticket['Status'].name, label: ticket['Label'].name, deadline: ticket.deadline, id: ticket.id };
       this.ELEMENT_DATA.push(tableContent);
     });
     this.dataSource.data = this.ELEMENT_DATA;

@@ -24,14 +24,6 @@ import { Team } from '../../../models/teams/teams';
 })
 export class SingleTicketComponent implements OnInit {
 
-  // @Output()
-  // childEvent = new EventEmitter<any>();
-
-  // onChildEvent() {
-  //   console.log('Peder');
-  //   this.childEvent.emit(this.comments);
-  // }
-
   comments: any;
 
   ticketId: number;
@@ -53,7 +45,7 @@ export class SingleTicketComponent implements OnInit {
   Comment: FormGroup;
 
   requesterId: number;
-  assigneeId:number;
+  assigneeId: number;
   userId: number;
 
   userInTheTeam: boolean;
@@ -85,56 +77,55 @@ export class SingleTicketComponent implements OnInit {
     media: ObservableMedia
   ) {
     media.asObservable()
-    .subscribe((change: MediaChange) => {
-      if (change.mqAlias == 'xs') {
-        this.style = 'width: 100%';
-        this.rowHeight = '80px';
-        this.cols = 10;
-        this.tiles = [
-          { text: 'Description', cols: 10, rows: 2, color: '' },
-          { text: 'Status', cols: 10, rows: 1, color: '' },
-          { text: 'Label', cols: 10, rows: 1, color: '' },
-          { text: 'Requester', cols: 10, rows: 1, color: '' },
-          { text: 'Assignee', cols: 10, rows: 1, color: '' },
-          { text: 'Members', cols: 10, rows: 1, color: '' },
-          { text: 'Participate', cols: 10, rows: 1, color: '' },
-          { text: 'Comments', cols: 10, rows: 1, color: '' },
-        ];
-      }
-      else if (change.mqAlias == 'sm') {
-        this.style = 'width: 100%';
-        this.rowHeight = '100px';
-        this.cols = 10;
-        this.tiles = [
-          { text: 'Description', cols: 10, rows: 2, color: '' },
-          { text: 'Status', cols: 5, rows: 1, color: '' },
-          { text: 'Label', cols: 5, rows: 1, color: '' },
-          { text: 'Requester', cols: 5, rows: 1, color: '' },
-          { text: 'Assignee', cols: 5, rows: 1, color: '' },
-          { text: 'Members', cols: 5, rows: 1, color: '' },
-          { text: 'Participate', cols: 5, rows: 1, color: '' },
-          { text: 'Comments', cols: 10, rows: 1, color: '' },
-        ];
-      }
-      else {
-        this.style = 'width: 60%';
-        this.rowHeight = '100px';
-        this.cols = 10;
-        this.tiles = [
-          { text: 'Description', cols: 6, rows: 2, color: '' },
-          { text: 'Status', cols: 4, rows: 1, color: '' },
-          { text: 'Label', cols: 4, rows: 1, color: '' },
-          { text: 'Requester', cols: 5, rows: 1, color: '' },
-          { text: 'Assignee', cols: 5, rows: 1, color: '' },
-          { text: 'Members', cols: 5, rows: 1, color: '' },
-          { text: 'Participate', cols: 5, rows: 1, color: '' },
-          { text: 'Comments', cols: 10, rows: 1, color: '' },
-        ];
-      }
-    });
+      .subscribe((change: MediaChange) => {
+        if (change.mqAlias == 'xs') {
+          this.style = 'width: 100%';
+          this.rowHeight = '80px';
+          this.cols = 10;
+          this.tiles = [
+            { text: 'Description', cols: 10, rows: 2, color: '' },
+            { text: 'Status', cols: 10, rows: 1, color: '' },
+            { text: 'Label', cols: 10, rows: 1, color: '' },
+            { text: 'Requester', cols: 10, rows: 1, color: '' },
+            { text: 'Assignee', cols: 10, rows: 1, color: '' },
+            { text: 'Members', cols: 10, rows: 1, color: '' },
+            { text: 'Participate', cols: 10, rows: 1, color: '' },
+            { text: 'Comments', cols: 10, rows: 1, color: '' },
+          ];
+        }
+        else if (change.mqAlias == 'sm') {
+          this.style = 'width: 100%';
+          this.rowHeight = '100px';
+          this.cols = 10;
+          this.tiles = [
+            { text: 'Description', cols: 10, rows: 2, color: '' },
+            { text: 'Status', cols: 5, rows: 1, color: '' },
+            { text: 'Label', cols: 5, rows: 1, color: '' },
+            { text: 'Requester', cols: 5, rows: 1, color: '' },
+            { text: 'Assignee', cols: 5, rows: 1, color: '' },
+            { text: 'Members', cols: 5, rows: 1, color: '' },
+            { text: 'Participate', cols: 5, rows: 1, color: '' },
+            { text: 'Comments', cols: 10, rows: 1, color: '' },
+          ];
+        }
+        else {
+          this.style = 'width: 60%';
+          this.rowHeight = '100px';
+          this.cols = 10;
+          this.tiles = [
+            { text: 'Description', cols: 6, rows: 2, color: '' },
+            { text: 'Status', cols: 4, rows: 1, color: '' },
+            { text: 'Label', cols: 4, rows: 1, color: '' },
+            { text: 'Requester', cols: 5, rows: 1, color: '' },
+            { text: 'Assignee', cols: 5, rows: 1, color: '' },
+            { text: 'Members', cols: 5, rows: 1, color: '' },
+            { text: 'Participate', cols: 5, rows: 1, color: '' },
+            { text: 'Comments', cols: 10, rows: 1, color: '' },
+          ];
+        }
+      });
 
   }
-
 
   ngOnInit() {
     const decodedToken = this.jwtService.decodeToken(localStorage.getItem('access_token'));
@@ -158,14 +149,11 @@ export class SingleTicketComponent implements OnInit {
         this.teamLeaderId = data['info']['teamLeaderId'].id;
 
         this.paramService.getAllStatuses().subscribe((data) => {
-          // console.log(this.userId,this.teamLeaderId);
-            if(!(this.userId === this.requesterId || this.userId === this.teamLeaderId)) {
-              this.filteredStatuses = data.result.filter((status) => status.name !== 'COMPLETED' );
-              // this.statuses = this.filteredStatuses;
-            }
-            this.statuses = this.filteredStatuses ? this.filteredStatuses : data.result;
-            // console.log(this.statuses, this.filteredStatuses, 'asddfg');
-          });
+          if (!(this.userId === this.requesterId || this.userId === this.teamLeaderId)) {
+            this.filteredStatuses = data.result.filter((status) => status.name !== 'COMPLETED');
+          }
+          this.statuses = this.filteredStatuses ? this.filteredStatuses : data.result;
+        });
       });
     });
 
@@ -186,12 +174,8 @@ export class SingleTicketComponent implements OnInit {
       this.userInTheTeam = fromUsers ? true : false;
     });
 
-    // this.userService.getAllForTickets().subscribe((data) => {
-      //   this.members = data.info;
-      // });
-
-      this.Description = this.formBuilder.group({
-        description: '',
+    this.Description = this.formBuilder.group({
+      description: '',
     });
     this.Members = this.formBuilder.group({
       AssigneeId: '',
@@ -208,11 +192,6 @@ export class SingleTicketComponent implements OnInit {
   }
 
   log() {
-    // console.log(this.ticket);
-    // console.log(this.labels);
-    // console.log(this.statuses);
-    // console.log(this.members);
-    // console.log(this.comments);
   }
 
   participate() {
@@ -222,15 +201,15 @@ export class SingleTicketComponent implements OnInit {
     }
 
     this.ticketsService.subscribeForTicket(obj)
-    .subscribe(
-      data=> {
+      .subscribe(
+      data => {
         this.ticketsService.getById(this.ticketId).subscribe((data) => {
           const fromUsers = data['info']['Users'].find((user) => user.id === this.userId);
           this.userInTheTeam = fromUsers ? true : false;
         });
       },
       error => console.log(error)
-    );
+      );
   }
 
   departicipate() {
@@ -240,15 +219,15 @@ export class SingleTicketComponent implements OnInit {
     }
 
     this.ticketsService.desubscribeForTicket(obj)
-    .subscribe(
-      data=> {
+      .subscribe(
+      data => {
         this.ticketsService.getById(this.ticketId).subscribe((data) => {
           const fromUsers = data['info']['Users'].find((user) => user.id === this.userId);
           this.userInTheTeam = fromUsers ? true : false;
         });
       },
       error => console.log(error)
-    );
+      );
   }
 
   updateTicket() {
@@ -259,7 +238,7 @@ export class SingleTicketComponent implements OnInit {
       return;
     }
 
-    if(this.accessRights()) {
+    if (this.accessRights()) {
       ticketObject = {
         id: this.ticketId,
         description: this.Description.value.description,
@@ -300,14 +279,11 @@ export class SingleTicketComponent implements OnInit {
           this.teamLeaderId = data['info']['teamLeaderId'].id;
 
           this.paramService.getAllStatuses().subscribe((data) => {
-            // console.log(this.userId,this.teamLeaderId);
-              if(!(this.userId === this.requesterId || this.userId === this.teamLeaderId)) {
-                this.filteredStatuses = data.result.filter((status) => status.name !== 'COMPLETED' );
-                // this.statuses = this.filteredStatuses;
-              }
-              this.statuses = this.filteredStatuses ? this.filteredStatuses : data.result;
-              // console.log(this.statuses, this.filteredStatuses, 'asddfg');
-            });
+            if (!(this.userId === this.requesterId || this.userId === this.teamLeaderId)) {
+              this.filteredStatuses = data.result.filter((status) => status.name !== 'COMPLETED');
+            }
+            this.statuses = this.filteredStatuses ? this.filteredStatuses : data.result;
+          });
         });
       });
 
@@ -321,12 +297,12 @@ export class SingleTicketComponent implements OnInit {
         this.labels = data.result;
       });
     }),
-    error => console.log(error);
+      error => console.log(error);
   }
 
   commentTicket() {
     const decodedToken = this.jwtService.decodeToken(localStorage.getItem('access_token'));
-    const date = (new Date()+'').split(' ');
+    const date = (new Date() + '').split(' ');
     const formatDate = date[1] + ' ' + date[2] + '.' + date[3] + ' ' + date[4];
 
     const commentObj = {
@@ -337,7 +313,7 @@ export class SingleTicketComponent implements OnInit {
     }
 
     this.ticketsService.createComment(this.ticket, commentObj).subscribe(
-      data=> {
+      data => {
         this.ticketsService.getComments(this.ticketId).subscribe((data) => {
           data['info'].reverse();
           this.comments = data;
@@ -349,20 +325,14 @@ export class SingleTicketComponent implements OnInit {
   }
 
   isClosed() {
-    // console.log(this.currentStatus, 'kur');
     return (this.currentStatus === 1);
   }
 
   isInTicket() {
-    // console.log(this.currentStatus, 'kur');
     return (this.userInTheTeam);
   }
 
   accessRights() {
-    // console.log(this.userId,this.teamLeaderId);
-    // const participate = this.userInTicket();
-    // console.log('HEREEE', participate);
-    // console.log();
     return (this.userId === this.requesterId || this.userId === this.teamLeaderId);
   }
 }

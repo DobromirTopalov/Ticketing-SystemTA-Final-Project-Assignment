@@ -32,10 +32,7 @@ const init = (app, data) => {
     session: false,
   }), controller2.getByParameter())
 
-  // .post('/api/teams/:id', passport.authenticate('jwt', {
-  //   session: false,
-  // }), controller.addUserToTeam())
-    .get('/api/teams/name/:name', passport.authenticate('jwt', {
+  .get('/api/teams/name/:name', passport.authenticate('jwt', {
       session: false,
     }), controller.getByParameter())
 

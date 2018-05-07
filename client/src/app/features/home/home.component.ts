@@ -30,20 +30,16 @@ export class HomeComponent implements OnInit {
     this.ticketsService.getAll().subscribe(
       data => {
         this.tickets = data['info'];
-        // console.log(this.tickets);
       });
 
     this.paramService.getAllCompanies().subscribe(
       data => {
         this.companies = data['info'];
-        // console.log(this.companies);
       });
 
     this.usersService.getAll().subscribe(
       data => {
       this.users = data['info'];
-        // console.log(this.users);
       });
   }
-
 }

@@ -33,12 +33,10 @@ export class RegisterComponent implements OnInit {
   ngOnInit() {
     this.paramService.getAllRoles().subscribe((data) => {
       this.roles = data.result;
-      // console.log(this.roles);
     });
 
     this.paramService.getAllCompanies().subscribe((data) => {
       this.companies = data['info'];
-      // console.log(this.companies);
     });
 
     const pattern = new RegExp(/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,32}$/);
@@ -56,7 +54,7 @@ export class RegisterComponent implements OnInit {
       terms: new FormControl('', [Validators.required]),
     });
   }
-  // email = new FormControl('', [Validators.required, Validators.email]);
+
   getErrorMessageEmail() {
     return this.regForm.get('email').hasError('required') ? 'You must enter a value' :
       this.regForm.get('email').hasError('email') ? 'Not a valid email' : '';
@@ -112,7 +110,6 @@ export class RegisterComponent implements OnInit {
   }
 
   login(obj): void {
-    console.log('In login');
     this.auth.login(obj, { observe: 'response', responseType: 'json' })
       .subscribe((x: HttpResponse<{ token: string }>) => {
         localStorage.setItem('access_token', x.body.token);

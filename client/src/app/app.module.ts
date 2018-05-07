@@ -10,12 +10,9 @@ import { JwtModule } from '@auth0/angular-jwt';
 import { ToastrModule } from 'ngx-toastr';
 
 import { AppComponent } from './app.component';
-import { TicketsModule } from './features/tickets/ticket.module';
 import { SharedModule } from './shared/index';
-import { UsersModule } from './features/users/users.module';
 import { HomeModule } from './features/home/home.module';
 import { NavFieldModule } from './features/nav-field/nav-field.module';
-import { TeamsModule } from './features/teams/teams.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 export function tokenGetter() {
@@ -28,17 +25,13 @@ export function tokenGetter() {
   ],
   imports: [
     BrowserAnimationsModule,
-    // TeamsModule,
     NavFieldModule,
     HomeModule,
-    // UsersModule,
-    // SharedModule,
     ToastrModule.forRoot(),
     AuthModule,
     SharedModule,
     BrowserModule,
     AppRoutingModule,
-    // TicketsModule,
     CoreModule,
     HttpClientModule,
     JwtModule.forRoot({

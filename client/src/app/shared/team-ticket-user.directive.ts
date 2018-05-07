@@ -36,13 +36,9 @@ export class UsersTickets implements OnInit {
 
           teamTickets.forEach((ticket) => {
             ticket['Users'].forEach((ele, index) => {
-              console.log(ele.id, this.userId, 'KUR', index);
-
               if (+ele.id !== +this.userId) {
-                // console.log(ele);
                 this.renderer.setStyle(el, 'color', '#c9c05d');
               }
-
             });
           });
         });
