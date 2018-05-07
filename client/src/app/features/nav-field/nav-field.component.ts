@@ -19,7 +19,7 @@ export class NavFieldComponent {
   isAuth: boolean;
   loggedUserId: number;
   routerLink: string;
-  // constructor(private authService: AuthService){};
+
   constructor(
     private http: HttpClient,
     private authService: AuthService,
@@ -75,17 +75,6 @@ export class NavFieldComponent {
     //   //     console.log(this.loggedUser);
     //   //   });
     // }
-  }
-
-
-  testAuth(): void {
-    this.http.get<any>('http://localhost:3200/test').subscribe(x => {
-      console.log('insideAuthAngular');
-      // console.log(x);
-    },
-      (err: HttpErrorResponse) => {
-        console.log(err);
-      });
   }
 
   logout(): void {

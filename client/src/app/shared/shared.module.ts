@@ -10,6 +10,10 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 // TODO check this out later
 import { CommonModule } from '@angular/common';
+import { StatusColorDirective } from './status-color.directive';
+import { UsersTickets } from './team-ticket-user.directive';
+import { DatePipe } from './date.pipe';
+
 @NgModule({
   imports: [
     FormsModule,
@@ -37,11 +41,17 @@ import { CommonModule } from '@angular/common';
     BoldDirective,
     EllipsisPipe,
     MyNgIfDirective,
+    DatePipe,
+    StatusColorDirective,
+    UsersTickets,
   ],
   exports: [
     BoldDirective,
     EllipsisPipe,
+    DatePipe,
+    UsersTickets,
     MyNgIfDirective,
+    StatusColorDirective,
     FormsModule,
     MatNativeDateModule,
     ReactiveFormsModule,

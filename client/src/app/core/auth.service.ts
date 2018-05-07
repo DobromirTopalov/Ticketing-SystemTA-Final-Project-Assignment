@@ -18,6 +18,14 @@ export class AuthService {
   public user: BehaviorSubject<User>;
   public isAuth: BehaviorSubject<boolean>;
 
+  private loginEvent: BehaviorSubject<boolean>;
+
+    private userLoggedEvent: BehaviorSubject<User>;
+
+    public loginDone: Observable<boolean>;
+
+    public userLoggedDone: Observable<User>;
+
   constructor(private appConfig: AppConfig, private http: HttpClient, private jwtService: JwtHelperService) {
     const token = this.jwtService.tokenGetter();
     if (token) {
@@ -29,7 +37,23 @@ export class AuthService {
       this.isAuth = new BehaviorSubject<boolean>(false);
 
     }
+
+    this.loginEvent = new BehaviorSubject<boolean>(this.isAuthenticated());
+    this.loginDone = this.loginEvent.asObservable();
+
+    this.userLoggedEvent = new BehaviorSubject<User>(this.getUser());
+    this.userLoggedDone = this.userLoggedEvent.asObservable();
+
    }
+
+   public loginEventFunction(value: boolean) {
+    this.loginEvent.next(value);
+  }
+
+  public userLoggedEventFunction(value: User) {
+    this.userLoggedEvent.next(value);
+  }
+
   register(user: User, options?: HttpOptions): Observable<Object> {
     return this.http.post(`${this.appConfig.apiUrl}/register`, user, options);
   }
