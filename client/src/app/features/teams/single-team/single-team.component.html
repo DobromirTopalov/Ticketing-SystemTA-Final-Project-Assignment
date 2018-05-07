@@ -1,4 +1,5 @@
 <div *ngIf="userLoggedIn" class="container">
+
   <div>
     <button [disabled]="!enableButtons()" mat-raised-button color="primary" (click)="navToTeamTickets()">{{team?.name}}'s Tickets</button>
 
@@ -10,6 +11,7 @@
   </div>
 
   <mat-grid-list [cols]="columnNum" [rowHeight]="rowHeightRatio">
+
     <mat-grid-tile>
       <div class="inside-tile">
         <p class="team-name">Team {{team?.name}}</p>
@@ -41,22 +43,27 @@
   <h3>{{team?.name}}'s Members:</h3>
 
   <mat-grid-list [cols]="columnNum" [rowHeight]="rowHeightRatio">
+
     <div *ngFor="let member of team?.Users">
+
       <mat-grid-tile (click)="navToUser(member?.id)">
         <div class="link-inside-tile">
           {{member.firstName}} {{member.lastName}}
         </div>
       </mat-grid-tile>
+
     </div>
+
   </mat-grid-list>
 
   <button [disabled]="!selected" #invite mat-raised-button color="primary" type="submit" (click)="inviteSelectedMember(selectedUser)">Invite Members</button>
 
-  <!-- <input id="searchInput" #inp matInput placeholder="Search" (input)="onSearch(inp.value)" [(ngModel)]="search"> -->
   <form class="example-form">
+
     <mat-form-field class="example-full-width">
       <input id="searchInput" name="searchUsers" #inp matInput placeholder="Search" (input)="onSearch(inp.value)" [(ngModel)]="search">
     </mat-form-field>
+
   </form>
 
 
@@ -64,9 +71,11 @@
 
   <div *ngIf="enableButtons()">
     <span *ngIf="!selected">
+
       <span *ngFor="let newMember of filteredUsers">
         <button *appMyNgIf="inp.value.length" class="available-members" (click)="selectMember(newMember, invite)">select {{newMember?.firstName}} {{newMember?.lastName}}</button>
       </span>
+
     </span>
   </div>
 

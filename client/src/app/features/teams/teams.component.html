@@ -1,13 +1,13 @@
-<!-- <mat-grid-list [cols]="columnNum" [rowHeight]="rowHeightRatio"> -->
 <div class="teams-wrapper">
+
   <div class="cards-container">
+
     <div fxLayout="column" fxLayoutAlign="center center" class="card-holder" *ngFor="let team of filteredTeams" (click)="nav(team.id)">
 
-      <!-- <mat-grid-tile (click)="nav(team.id)"> -->
       <app-team-details [team]="team"></app-team-details>
-      <!-- </mat-grid-tile> -->
 
     </div>
+
   </div>
+
 </div>
-<!-- </mat-grid-list> -->

@@ -31,7 +31,7 @@ import { CommonModule } from '@angular/common';
     MatSidenavModule,
     MatToolbarModule,
     FlexLayoutModule,
-    BrowserAnimationsModule,
+    // BrowserAnimationsModule,
   ],
   declarations: [
     BoldDirective,
@@ -61,7 +61,7 @@ import { CommonModule } from '@angular/common';
     MatToolbarModule,
     FlexLayoutModule,
     MatListModule,
-    BrowserAnimationsModule,
+    // BrowserAnimationsModule,
   ]
 })
 export class SharedModule { }

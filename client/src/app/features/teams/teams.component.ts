@@ -16,8 +16,8 @@ export class TeamsComponent implements OnInit {
   filteredTeams: Team[] = [];
   loggedUserId: number;
 
-  columnNum: number = 0;
-  rowHeightRatio: string;
+  columnNum: number = 1;
+  rowHeightRatio: string = '1:1';
 
   constructor(
     private teamsService: TeamsService,
@@ -26,8 +26,6 @@ export class TeamsComponent implements OnInit {
     private jwtService: JwtHelperService) {
     media.asObservable()
       .subscribe((change: MediaChange) => {
-        // alert(change.mqAlias);
-        // console.log(change.mqAlias);
         if (change.mqAlias == 'xs') {
           this.columnNum = 1;
           this.rowHeightRatio = '2:1'
@@ -42,25 +40,24 @@ export class TeamsComponent implements OnInit {
         }
       });
   }
-  // constructor(private teamsService: TeamsService) { }
 
   ngOnInit(): void {
     const decodedToken = this.jwtService.decodeToken(localStorage.getItem('access_token'));
+
     this.loggedUserId = decodedToken.id;
+
     this.teamsService.getAll().subscribe(data => {
       const values = Object.keys(data).map((iterator) => data[iterator])[0];
+
       this.teams = values;
-      // this.teams = this.teams
-      //   .filter((team) => team.Users
-      //     .forEach((user) => user.id !== this.loggedUserId));
+
       this.teams.forEach((team) => team.Users.forEach((user) => {
         if (user.id === this.loggedUserId) {
           this.filteredTeams.push(team);
         }
       }))
-      console.log(this.filteredTeams);
     });
-    // console.log(this.teams);
+
   }
 
   nav(id: number): void {

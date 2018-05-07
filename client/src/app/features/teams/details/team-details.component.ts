@@ -18,7 +18,5 @@ export class TeamDetailsComponent {
   showTeam = new EventEmitter();
 
   onShowTeam(): void {
-    console.log('clicked');
-    // this.showTeam.emit(this.team);
   }
 }

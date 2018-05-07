@@ -53,7 +53,6 @@ export class TeamsService {
   }
 
   setNewTeamLeader(userId: number, teamId: number, options?: HttpOptions): Observable<Object> {
-    console.log(userId, teamId);
     return this.httpClient.post(`${this.appConfig.apiUrl}/teams/${teamId}/leader`, { UserId: userId, TeamId: teamId }, options);
   }
 
@@ -61,32 +60,7 @@ export class TeamsService {
     return this.httpClient.get(`${this.appConfig.apiUrl}/teams/${id}`).map(x => <UsersInATeam>(x));
   }
 
-  // isUserInTeam(): boolean {
-  //   let canViewTeam = false;
-  //   const decodedToken = this.jwtService.decodeToken(localStorage.getItem('access_token'));
-  //   const loggedUserId = decodedToken.id;
-  //   this.activatedRoute.params
-  //     .subscribe(x => {
-  //       console.log(x);
-  //       this.teamId = x['id'];
-  //       console.log(this.teamId);
-  //       this.getById(1).subscribe(
-  //         data => {
-  //           console.log(data);
-  //           this.team = data['info'];
-  //           console.log(this.team[0]);
-  //           console.log(this.team['Users']);
-  //           // this.team.Users.forEach((user) => {
-  //           //   if (user.id === loggedUserId) {
-  //           //     canViewTeam = true;
-  //           //   }
-  //           // });
-  //         },
-  //       );
-  //     });
 
-  //   return canViewTeam;
-  // }
   getAllTeamUsers(id: number): Observable<UsersModel> {
     return this.httpClient.get(`${this.appConfig.apiUrl}/teams/users/${id}`).map(x => <UsersModel>(x));
   }

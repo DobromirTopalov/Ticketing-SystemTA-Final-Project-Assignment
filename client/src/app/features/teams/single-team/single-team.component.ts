@@ -33,7 +33,7 @@ export class SingleTeamComponent implements OnInit {
   loggedUserId: number;
   generateCompanyUsersList: boolean = false;
   columnNum: number = 1;
-  rowHeightRatio: string = '5:1';
+  rowHeightRatio: string = '7:1';
   @Input()
   selectedMember: User;
 
@@ -49,19 +49,17 @@ export class SingleTeamComponent implements OnInit {
     private jwtService: JwtHelperService) {
     media.asObservable()
       .subscribe((change: MediaChange) => {
-        // alert(change.mqAlias);
-        // console.log(change.mqAlias);
         if (change.mqAlias == 'xs') {
           this.columnNum = 1;
-          this.rowHeightRatio = '5:1'
+          this.rowHeightRatio = '7:1'
         }
         else if (change.mqAlias == 'sm') {
           this.columnNum = 2;
-          this.rowHeightRatio = '5:1'
+          this.rowHeightRatio = '7:1'
         }
         else {
           this.columnNum = 2;
-          this.rowHeightRatio = '5:1'
+          this.rowHeightRatio = '7:1'
         }
       });
   }
@@ -80,17 +78,14 @@ export class SingleTeamComponent implements OnInit {
             const team = Object.keys(data).map((iterator) => data[iterator])[0];
 
             this.team = team;
-            // console.log(this.team);
             this.companyId = this.team.CompanyId;
             this.teamLeaderId = this.team.teamLeaderId['id'];
-            // console.log(this.teamLeaderId);
 
             const decodedToken = this.jwtService.decodeToken(localStorage.getItem('access_token'));
+
             this.loggedUserId = decodedToken.id;
 
             this.userLoggedIn = this.team.Users.find(x => x.id === this.loggedUserId);
-            // console.log(this.userLoggedIn);
-            // console.log(this.loggedUserId);
 
             this.usersService
               .getAll()
@@ -143,7 +138,6 @@ export class SingleTeamComponent implements OnInit {
     this.router.navigate(['/users', id])
   }
 
-  // to do break function into chunks to work display correctly
   selectMember(member: User, el: HTMLElement): void {
     this.selected = true;
     this.selectedMember = member;
@@ -161,8 +155,6 @@ export class SingleTeamComponent implements OnInit {
     this.clearFilter();
   }
 
-  // to do: remove button if user is not in team
-
   enableButtons(): boolean {
     if ((this.userLoggedIn) || (this.teamLeaderId === this.loggedUserId)) {
       return true;
@@ -170,6 +162,7 @@ export class SingleTeamComponent implements OnInit {
 
     return false;
   }
+
   leaveTeam(team: Team) {
     const userId = this.userLoggedIn.id;
     if (userId === this.teamLeaderId) {
@@ -193,7 +186,6 @@ export class SingleTeamComponent implements OnInit {
   }
 
   generateUserList() {
-    // console.log('button');
     this.generateCompanyUsersList = true;
   }
 

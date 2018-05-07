@@ -47,18 +47,12 @@ export class CreateTeamComponent implements OnInit {
   }
 
   createTeam(): void {
-    // if (this.createTeamForm.) {
-
-    // }
     const name: string = this.createTeamForm.value.name;
     const description: string = this.createTeamForm.value.description;
     const teamImgUrl: string | null = this.createTeamForm.value.teamImgUrl;
     const CompanyId: number = this.userCompanyId;
     const TeamLeaderId: number = this.loggedUserId;
     let newTeamId: number = 0;
-
-    console.log(this.createTeamForm);
-    console.log(this.createTeamForm.hasError);
 
     const modelObject = {
       name,
@@ -67,21 +61,17 @@ export class CreateTeamComponent implements OnInit {
       TeamLeaderId,
       CompanyId,
     }
+
     this.teamsService.createNewTeam(name, description, teamImgUrl, CompanyId, TeamLeaderId)
       .subscribe(
         x => this.teamsService.addUserToTeam(this.loggedUserId, x['team'][0].id)
-          // x => console.log(x['team'][0].id),
           .subscribe(
             y => this.router.navigate(['/teams', x['team'][0].id]),
             err => console.log(err)
           ),
         err => console.log(err),
     );
-    // this.teamsService.createNewTeam(name, description, teamImgUrl, CompanyId, TeamLeaderId).subscribe(
-    //   x => this.router.navigate(['/teams', x['team'][0].id]),
-    //   err => console.log(err),
-    // );
-    ;
+
   }
 
   displayErrorMessageName() {
@@ -90,15 +80,11 @@ export class CreateTeamComponent implements OnInit {
         this.createTeamForm.get('name').hasError('pattern') ? 'Please enter only letters, numbers, - or _' :
           this.createTeamForm.get('name').hasError('maxLength') ? 'Max 20 symbols allowed' : '';
   }
+
   displayErrorMessageDescription() {
     return this.createTeamForm.get('description').hasError('required') ? 'Please enter a description' :
       this.createTeamForm.get('description').hasError('minLength') ? 'Min 2 symbols required' :
         this.createTeamForm.get('description').hasError('maxLength') ? 'Max 100 symbols allowed' : '';
   }
 
-  // createTeamForm: FormGroup = new FormGroup({
-  //   name: new FormControl(),
-  //   description: new FormControl(),
-  //   teamImgUrl: new FormControl(),
-  // })
 }

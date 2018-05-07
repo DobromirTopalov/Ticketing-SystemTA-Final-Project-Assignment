@@ -41,8 +41,6 @@ export class TeamTicketsComponent implements OnInit {
     private router: Router) {
     media.asObservable()
       .subscribe((change: MediaChange) => {
-        // alert(change.mqAlias);
-        // console.log(change.mqAlias);
         if (change.mqAlias == 'xs') {
           this.columnNum = 1;
           this.rowHeightRatio = '2:1'
@@ -60,21 +58,22 @@ export class TeamTicketsComponent implements OnInit {
 
   ngOnInit() {
     const decodedToken = this.jwtService.decodeToken(localStorage.getItem('access_token'));
+
     this.userId = decodedToken.id;
+
     this.activatedRoute.params
       .subscribe(x => {
         this.teamId = +x['id'];
-        console.log(this.teamId);
+
         this.ticketsService.getAll().subscribe(data => {
           const tickets = Object.keys(data).map((iterator) => data[iterator])[0];
-          tickets.forEach((ticket) => console.log(ticket.TeamId, ticket.StatusId));
+
           this.tickets = tickets;
+
           this.teamTickets = this.tickets.filter((ticket) =>
             ((ticket.TeamId === this.teamId) &&
             (ticket.StatusId !== 1))
           );
-          console.log(this.tickets);
-          console.log(this.teamTickets);
 
           this.teamTickets.forEach((ticket) => {
             const tableContent = {description: ticket.description, requester: ticket['requesterId'].email, assignee: ticket['assigneeId'].email, status: ticket['Status'].name, label: ticket['Label'].name, deadline: ticket.deadline, id: ticket.id};
@@ -83,24 +82,6 @@ export class TeamTicketsComponent implements OnInit {
           this.dataSource.data = this.ELEMENT_DATA;
         });
 
-        // this.usersService.getById(this.userId).subscribe(data => {
-        //   const user = data.info;
-        //   console.log(user);
-        //   this.loggedUserTeamId = user['TeamId'];
-        //   console.log(this.loggedUserTeamId);
-        // })
-
-        // this.ticketsService.getAll().subscribe(data => {
-        //   const tickets = Object.keys(data).map((iterator) => data[iterator])[0];
-        //   this.tickets = tickets;
-        //   console.log(this.tickets);
-
-        // const assignedTickets = this.tickets.filter((ticket) => ticket.AssigneeId === this.userId);
-        // this.assignedTickets = assignedTickets;
-        // console.log(assignedTickets,'asdasd');
-
-        // const requestedTickets = this.tickets.filter((ticket) => ticket.RequesterId === this.userId);
-        // this.requestedTickets = requestedTickets;
       });
   }
 

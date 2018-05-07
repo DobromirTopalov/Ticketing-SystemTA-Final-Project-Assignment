@@ -16,6 +16,7 @@ import { UsersModule } from './features/users/users.module';
 import { HomeModule } from './features/home/home.module';
 import { NavFieldModule } from './features/nav-field/nav-field.module';
 import { TeamsModule } from './features/teams/teams.module';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 export function tokenGetter() {
   return localStorage.getItem('access_token');
@@ -26,17 +27,18 @@ export function tokenGetter() {
     AppComponent,
   ],
   imports: [
-    TeamsModule,
+    BrowserAnimationsModule,
+    // TeamsModule,
     NavFieldModule,
     HomeModule,
-    UsersModule,
-    SharedModule,
+    // UsersModule,
+    // SharedModule,
     ToastrModule.forRoot(),
     AuthModule,
     SharedModule,
     BrowserModule,
     AppRoutingModule,
-    TicketsModule,
+    // TicketsModule,
     CoreModule,
     HttpClientModule,
     JwtModule.forRoot({

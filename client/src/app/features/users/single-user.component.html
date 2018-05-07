@@ -1,7 +1,11 @@
-<div *ngIf="showUser()">
-  <p>{{user?.firstName}} {{user?.lastName}}</p>
-  <p>{{user?.email}}</p>
-  <p>{{user?.Role.name}}</p>
+<div class="container" *ngIf="showUser()">
+
+  <p class="user-name">{{user?.firstName}} {{user?.lastName}}</p>
+
+  <p class="user-email">{{user?.email}}</p>
+
+  <p class="user-role">{{user?.Role.name}}</p>
+
 </div>
 
 <div *ngIf="!showUser()">

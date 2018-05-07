@@ -6,12 +6,21 @@ import { TeamsComponent } from './teams.component';
 import { TeamDetailsComponent } from './details/team-details.component';
 import { SingleTeamComponent } from './single-team/single-team.component';
 import { CreateTeamComponent } from './create-team/create-team.component';
+import { TeamsRoutingModule } from './teams-routing.module';
+import { CoreModule } from '@angular/flex-layout';
+import { ReactiveFormsModule } from '@angular/forms';
+import { TeamTicketsComponent } from '../tickets/team-tickets/team-tickets.component';
+import { TicketsModule } from '../tickets/ticket.module';
 
 @NgModule({
   imports: [
     CommonModule,
     SharedModule,
-    RouterModule
+    RouterModule,
+    TeamsRoutingModule,
+    CoreModule,
+    ReactiveFormsModule,
+    TicketsModule
   ],
   declarations: [
     TeamsComponent,
@@ -24,6 +33,7 @@ import { CreateTeamComponent } from './create-team/create-team.component';
     TeamDetailsComponent,
     SingleTeamComponent,
     CreateTeamComponent
-  ]
+  ],
+  entryComponents: [TeamTicketsComponent],
 })
 export class TeamsModule { }
