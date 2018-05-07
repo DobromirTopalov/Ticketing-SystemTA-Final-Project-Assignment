@@ -64,7 +64,6 @@ export class SingleTicketComponent implements OnInit {
     { text: 'Comments', cols: 10, rows: 1, color: '#DDBDF1' },
   ];
 
-  style: string;
   constructor(private ticketsService: TicketsService,
     private activatedRoute: ActivatedRoute,
     private jwtService: JwtHelperService,
@@ -79,7 +78,6 @@ export class SingleTicketComponent implements OnInit {
     media.asObservable()
       .subscribe((change: MediaChange) => {
         if (change.mqAlias == 'xs') {
-          this.style = 'width: 100%';
           this.rowHeight = '80px';
           this.cols = 10;
           this.tiles = [
@@ -94,7 +92,6 @@ export class SingleTicketComponent implements OnInit {
           ];
         }
         else if (change.mqAlias == 'sm') {
-          this.style = 'width: 100%';
           this.rowHeight = '100px';
           this.cols = 10;
           this.tiles = [
@@ -109,7 +106,6 @@ export class SingleTicketComponent implements OnInit {
           ];
         }
         else {
-          this.style = 'width: 60%';
           this.rowHeight = '100px';
           this.cols = 10;
           this.tiles = [
