@@ -1,27 +1,27 @@
 import 'rxjs/add/operator/map';
-import { Injectable, OnInit } from '@angular/core';
-
-import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs/Observable';
 import { AppConfig } from '../config/app.config';
-import { TicketsModel } from '../models/tickets/ticketsModel';
+import { Injectable, OnInit } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
 import { HttpOptions } from '../models/core/http-options';
+import { Observable } from 'rxjs/Observable';
+import { TicketsDBModel } from '../models/tickets/ticketsDBModel';
 import { Ticket } from '../models/tickets/ticket';
-import { UsersInATeam } from '../models/users/usersInATeam';
+import { TicketDBModel } from '../models/tickets/ticketDBModel';
+import { CommentariesDBModel } from '../models/tickets/commentariesDBModel';
 
 @Injectable()
 export class TicketsService {
 
-  tickets: TicketsModel[];
+  tickets: TicketsDBModel[];
 
   constructor(private httpClient: HttpClient, private appConfig: AppConfig) { }
 
-  getAll(): Observable<TicketsModel[]> {
-    return this.httpClient.get(`${this.appConfig.apiUrl}/tickets`).map(x => <TicketsModel[]>(x));
+  getAll(): Observable<TicketsDBModel> {
+    return this.httpClient.get(`${this.appConfig.apiUrl}/tickets`).map(x => <TicketsDBModel>(x));
   }
 
-  getById(id: number): Observable<TicketsModel> {
-    return this.httpClient.get(`${this.appConfig.apiUrl}/tickets/${id}`).map(x => <TicketsModel>x);
+  getById(id: number): Observable<TicketDBModel> {
+    return this.httpClient.get(`${this.appConfig.apiUrl}/tickets/${id}`).map(x => <TicketDBModel>(x));
   }
 
   updateInfo(ticket: Ticket, options?: HttpOptions): Observable<Object> {
@@ -31,16 +31,13 @@ export class TicketsService {
   createInfo(ticket: Ticket, options?: HttpOptions): Observable<Object> {
     return this.httpClient.post(`${this.appConfig.apiUrl}/tickets/create`, ticket, options);
   }
+
   createComment(ticket: Ticket, commentary: any, options?: HttpOptions): Observable<Object> {
     return this.httpClient.post(`${this.appConfig.apiUrl}/commentaries/ticket/${ticket.id}`, commentary, options);
   }
 
-  getComments(ticketId: number, options?: HttpOptions): Observable<Object> {
-    return this.httpClient.get(`${this.appConfig.apiUrl}/commentaries/ticket/${ticketId}`, options);
-  }
-
-  getAllTicketUsers(id: number): Observable<UsersInATeam> {
-    return this.httpClient.get(`${this.appConfig.apiUrl}/tickets/users/${id}`).map(x => <UsersInATeam>(x));
+  getComments(ticketId: number, options?: HttpOptions): Observable<CommentariesDBModel> {
+    return this.httpClient.get(`${this.appConfig.apiUrl}/commentaries/ticket/${ticketId}`, options).map(x=><CommentariesDBModel>(x));
   }
 
   subscribeForTicket(ticketuser: any, options?: HttpOptions): Observable<Object> {

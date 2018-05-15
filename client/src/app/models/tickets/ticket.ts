@@ -1,7 +1,6 @@
-import { LabelType } from './labels.enum';
-import { StatusType } from './statuses.enum';
 import { User } from '../users/user';
-import { Team } from '../teams/teams';
+import { Status } from './status';
+import { Label } from './label';
 
 export interface Ticket {
   id: number,
@@ -13,5 +12,10 @@ export interface Ticket {
   RequesterId: number;
   AssigneeId: number;
   EscalationContactId: number;
+  Users ?: User[];
+  requesterId ?: User;
+  assigneeId ?: User;
+  Status ?: Status;
+  Label ?: Label;
 
 }

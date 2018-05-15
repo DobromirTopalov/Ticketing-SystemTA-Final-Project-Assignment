@@ -9,6 +9,7 @@ export class DatePipe implements PipeTransform {
       const splitIndex = value.lastIndexOf(':');
       const input = value.slice(0, splitIndex).split('T');
       input[0] = input[0].split('-').reverse().join(' / ');
+
       return (input[0] + '   ' + input[1]);
     }
     return 'N/A';

@@ -2,20 +2,20 @@ import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { Router, ActivatedRoute } from '@angular/router';
 import { FormControl, FormGroup } from '@angular/forms';
+import { FormBuilder } from '@angular/forms';
 import { ObservableMedia, MediaChange } from '@angular/flex-layout';
 
 import { Ticket } from '../../../models/tickets/ticket';
-
-import { TicketsService } from '../../../core/tickets.service';
-import { AuthService } from '../../../core/auth.service';
-import { ParamsService } from '../../../core/params.service';
 import { Label } from '../../../models/tickets/label';
 import { Status } from '../../../models/tickets/status';
 import { User } from '../../../models/users/user';
+import { Team } from '../../../models/teams/team';
+import { CommentariesDBModel } from '../../../models/tickets/commentariesDBModel';
 import { UsersService } from '../../../core/users.service';
+import { TicketsService } from '../../../core/tickets.service';
 import { TeamsService } from '../../../core/teams.service';
-import { FormBuilder } from '@angular/forms';
-import { Team } from '../../../models/teams/teams';
+import { ParamsService } from '../../../core/params.service';
+import { Commentary } from '../../../models/tickets/commentary';
 
 @Component({
   selector: 'app-single-ticket',
@@ -23,56 +23,43 @@ import { Team } from '../../../models/teams/teams';
   styleUrls: ['./single-ticket.component.css']
 })
 export class SingleTicketComponent implements OnInit {
+  comments: CommentariesDBModel;
+  commentary: Commentary;
 
-  comments: any;
-
-  ticketId: number;
   ticket: Ticket;
-  currentStatus: number;
+  ticketId: number;
+
   labels: Label[];
+
   statuses: Status[];
   filteredStatuses: Status[];
   defaultStatus: string;
+  currentStatus: number;
+
   members: User[];
 
-  commentary: Object;
 
-  pokemonControl = new FormControl();
+  userId: number;
+  requesterId: number;
+  teamLeaderId: number;
+  userInTheTeam: boolean;
 
   Description: FormGroup;
   Members: FormGroup;
   Stickers: FormGroup;
   Comment: FormGroup;
 
-  requesterId: number;
-  assigneeId: number;
-  userId: number;
-
-  userInTheTeam: boolean;
-  teamLeaderId: number;
-
   rowHeight = '100px';
   cols = 10;
-  tiles = [
-    { text: 'Description', cols: 6, rows: 2, color: 'lightblue' },
-    { text: 'Status', cols: 4, rows: 1, color: 'pink' },
-    { text: 'Label', cols: 4, rows: 1, color: 'lightgreen' },
-    { text: 'Requester', cols: 5, rows: 1, color: 'lightpink' },
-    { text: 'Assignee', cols: 5, rows: 1, color: '#DDBDF1' },
-    { text: 'Members', cols: 5, rows: 1, color: '#DDBDF1' },
-    { text: 'Participate', cols: 5, rows: 1, color: '#DDBDF1' },
-    { text: 'Comments', cols: 10, rows: 1, color: '#DDBDF1' },
-  ];
+  tiles = [];
 
-  constructor(private ticketsService: TicketsService,
+  constructor(
     private activatedRoute: ActivatedRoute,
     private jwtService: JwtHelperService,
-    private router: Router,
-    private paramService: ParamsService,
-
-    private userService: UsersService,
-    private teamService: TeamsService,
     private formBuilder: FormBuilder,
+    private ticketsService: TicketsService,
+    private teamService: TeamsService,
+    private paramService: ParamsService,
     media: ObservableMedia
   ) {
     media.asObservable()
@@ -120,29 +107,28 @@ export class SingleTicketComponent implements OnInit {
           ];
         }
       });
-
   }
 
   ngOnInit() {
     const decodedToken = this.jwtService.decodeToken(localStorage.getItem('access_token'));
-    this.userId = decodedToken.id;
+    this.userId = +decodedToken.id;
 
     this.activatedRoute.params.subscribe(data => {
-      this.ticketId = data['id'];
+      this.ticketId = +data.id;
     });
 
     this.ticketsService.getById(this.ticketId).subscribe((data) => {
       this.ticket = data.info;
-      this.currentStatus = +data.info.StatusId;
+      this.currentStatus = +this.ticket.StatusId;
       this.defaultStatus = this.currentStatus === 1 ? 'COMPLETED' : 'Status';
       this.requesterId = this.ticket.RequesterId;
 
-      this.teamService.getAllUsers(this.ticket.TeamId).subscribe((data) => {
-        this.members = data.info.Users;
+      this.teamService.getAllUsersFromTeam(this.ticket.TeamId).subscribe((data) => {
+        this.members = data.info;
       });
 
       this.teamService.getById(this.ticket.TeamId).subscribe((data) => {
-        this.teamLeaderId = data['info']['teamLeaderId'].id;
+        this.teamLeaderId = data.info.teamLeaderId.id;
 
         this.paramService.getAllStatuses().subscribe((data) => {
           if (!(this.userId === this.requesterId || this.userId === this.teamLeaderId)) {
@@ -153,9 +139,8 @@ export class SingleTicketComponent implements OnInit {
       });
     });
 
-
     this.ticketsService.getComments(this.ticketId).subscribe((data) => {
-      data['info'].reverse();
+      data.info.reverse();
       this.comments = data;
     });
 
@@ -163,31 +148,29 @@ export class SingleTicketComponent implements OnInit {
       this.labels = data.result;
     });
 
-
-
     this.ticketsService.getById(this.ticketId).subscribe((data) => {
-      const fromUsers = data['info']['Users'].find((user) => user.id === this.userId);
+      const fromUsers = data.info.Users.find((user) => user.id === this.userId);
       this.userInTheTeam = fromUsers ? true : false;
     });
 
     this.Description = this.formBuilder.group({
       description: '',
     });
+
     this.Members = this.formBuilder.group({
       AssigneeId: '',
       RequesterId: '',
     });
+
     this.Stickers = this.formBuilder.group({
       LabelId: '',
       StatusId: '',
       deadline: '',
     });
+
     this.Comment = this.formBuilder.group({
       content: '',
     });
-  }
-
-  log() {
   }
 
   participate() {
@@ -200,7 +183,7 @@ export class SingleTicketComponent implements OnInit {
       .subscribe(
       data => {
         this.ticketsService.getById(this.ticketId).subscribe((data) => {
-          const fromUsers = data['info']['Users'].find((user) => user.id === this.userId);
+          const fromUsers = data.info.Users.find((user) => user.id === this.userId);
           this.userInTheTeam = fromUsers ? true : false;
         });
       },
@@ -218,7 +201,7 @@ export class SingleTicketComponent implements OnInit {
       .subscribe(
       data => {
         this.ticketsService.getById(this.ticketId).subscribe((data) => {
-          const fromUsers = data['info']['Users'].find((user) => user.id === this.userId);
+          const fromUsers = data.info.Users.find((user) => user.id === this.userId);
           this.userInTheTeam = fromUsers ? true : false;
         });
       },
@@ -267,12 +250,12 @@ export class SingleTicketComponent implements OnInit {
         this.defaultStatus = this.currentStatus === 1 ? 'COMPLETED' : 'Status';
         this.requesterId = this.ticket.RequesterId;
 
-        this.teamService.getAllUsers(this.ticket.TeamId).subscribe((data) => {
-          this.members = data.info.Users;
+        this.teamService.getAllUsersFromTeam(this.ticket.TeamId).subscribe((data) => {
+          this.members = data.info;
         });
 
         this.teamService.getById(this.ticket.TeamId).subscribe((data) => {
-          this.teamLeaderId = data['info']['teamLeaderId'].id;
+          this.teamLeaderId = data.info.teamLeaderId.id;
 
           this.paramService.getAllStatuses().subscribe((data) => {
             if (!(this.userId === this.requesterId || this.userId === this.teamLeaderId)) {
@@ -285,7 +268,7 @@ export class SingleTicketComponent implements OnInit {
 
 
       this.ticketsService.getComments(this.ticketId).subscribe((data) => {
-        data['info'].reverse();
+        data.info.reverse();
         this.comments = data;
       });
 
@@ -304,14 +287,14 @@ export class SingleTicketComponent implements OnInit {
     const commentObj = {
       content: this.commentary,
       date: formatDate,
-      UserId: decodedToken.id,
-      TicketId: this.ticketId,
+      UserId: +decodedToken.id,
+      TicketId: +this.ticketId,
     }
 
     this.ticketsService.createComment(this.ticket, commentObj).subscribe(
       data => {
-        this.ticketsService.getComments(this.ticketId).subscribe((data) => {
-          data['info'].reverse();
+        this.ticketsService.getComments(+this.ticketId).subscribe((data) => {
+          data.info.reverse();
           this.comments = data;
         })
       },
@@ -321,11 +304,11 @@ export class SingleTicketComponent implements OnInit {
   }
 
   isClosed() {
-    return (this.currentStatus === 1);
+    return this.currentStatus === 1;
   }
 
   isInTicket() {
-    return (this.userInTheTeam);
+    return this.userInTheTeam;
   }
 
   accessRights() {

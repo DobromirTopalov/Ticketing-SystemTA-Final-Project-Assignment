@@ -1,15 +1,15 @@
-import { Component, OnInit, Input } from '@angular/core';
-import { TeamsService } from '../../../core/teams.service';
-import { Team } from '../../../models/teams/teams';
-import { ActivatedRoute, Router } from '@angular/router';
-import { ObservableMedia, MediaChange } from '@angular/flex-layout';
-import { User } from '../../../models/users/user';
-import { UsersService } from '../../../core/users.service';
 import { NgModel } from '@angular/forms';
 import { AsyncPipe } from '@angular/common';
-import { JwtHelperService } from '@auth0/angular-jwt';
+import { Component, OnInit, Input } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { ObservableMedia, MediaChange } from '@angular/flex-layout';
 import { Observable } from 'rxjs/Observable';
-import { TeamsModel } from '../../../models/teams/teamsModel';
+import { JwtHelperService } from '@auth0/angular-jwt';
+import { Team } from '../../../models/teams/team';
+import { TeamsDBModel } from '../../../models/teams/teamsDBModel';
+import { TeamsService } from '../../../core/teams.service';
+import { User } from '../../../models/users/user';
+import { UsersService } from '../../../core/users.service';
 
 @Component({
   selector: 'app-single-team',
@@ -17,12 +17,14 @@ import { TeamsModel } from '../../../models/teams/teamsModel';
   styleUrls: ['./single-team.component.css']
 })
 export class SingleTeamComponent implements OnInit {
-  teams: Team[];
-  team: Team;
-  id: number;
   @Input()
   search = '';
+  team: Team[];
+  teamsId: number;
+
+  id: number;
   companyId: number;
+
   userLoggedIn: User;
   companyUsers: User[];
   filteredCompanyUsers: User[];
@@ -31,22 +33,25 @@ export class SingleTeamComponent implements OnInit {
   users: User[];
   teamLeaderId: number;
   loggedUserId: number;
+
   generateCompanyUsersList: boolean = false;
   columnNum: number = 1;
   rowHeightRatio: string = '7:1';
+
   @Input()
   selectedMember: User;
 
   @Input()
   selected: boolean;
 
+
   constructor(
     private teamsService: TeamsService,
     private usersService: UsersService,
-    media: ObservableMedia,
     private activatedRoute: ActivatedRoute,
     private router: Router,
-    private jwtService: JwtHelperService) {
+    private jwtService: JwtHelperService,
+    media: ObservableMedia) {
     media.asObservable()
       .subscribe((change: MediaChange) => {
         if (change.mqAlias == 'xs') {
@@ -75,35 +80,34 @@ export class SingleTeamComponent implements OnInit {
         this.teamsService
           .getById(this.id)
           .subscribe(data => {
-            const team = Object.keys(data).map((iterator) => data[iterator])[0];
+            this.team = data.info;
+            this.teamsId = data.info.id;
 
-            this.team = team;
-            this.companyId = this.team.CompanyId;
-            this.teamLeaderId = this.team.teamLeaderId['id'];
+            this.companyId = data.info.CompanyId;
+            this.teamLeaderId = data.info.teamLeaderId.id;
 
             const decodedToken = this.jwtService.decodeToken(localStorage.getItem('access_token'));
-
             this.loggedUserId = decodedToken.id;
+            this.userLoggedIn = data.info.Users.find(x => x.id === this.loggedUserId);
 
-            this.userLoggedIn = this.team.Users.find(x => x.id === this.loggedUserId);
-
+            this.teamMembers = data.info.Users;
             this.usersService
-              .getAll()
-              .subscribe(data => {
-                this.users = data.info;
+            .getAll()
+            .subscribe(data => {
+              this.users = data.info;
 
-                let companyUsers = this.users
-                  .filter((x) => x.CompanyId === this.companyId);
+              let companyUsers = this.users
+              .filter((x) => x.CompanyId === this.companyId);
 
-                this.companyUsers = companyUsers;
-                this.teamMembers = this.team.Users;
-                this.filteredCompanyUsers = this.companyUsers;
+              this.companyUsers = companyUsers;
+              this.filteredCompanyUsers = this.companyUsers;
 
-                this.teamMembers.forEach((teamMember) => {
-                  this.filteredCompanyUsers = this.filteredCompanyUsers.filter((filtered) => filtered.id !== teamMember.id);
-                });
 
-                this.filteredUsers = this.filteredCompanyUsers;
+              this.teamMembers.forEach((teamMember) => {
+                this.filteredCompanyUsers = this.filteredCompanyUsers.filter((filtered) => filtered.id !== teamMember.id);
+              });
+
+              this.filteredUsers = this.filteredCompanyUsers;
               });
           });
       });
@@ -146,7 +150,7 @@ export class SingleTeamComponent implements OnInit {
 
   inviteSelectedMember(): void {
     this.selected = false;
-    this.teamsService.addUserToTeam(this.selectedMember.id, this.team.id)
+    this.teamsService.addUserToTeam(this.selectedMember.id, this.teamsId)
       .subscribe(
         x => this.showChanges(),
         err => console.log(err)
@@ -170,7 +174,7 @@ export class SingleTeamComponent implements OnInit {
       return;
     }
 
-    this.teamsService.userLeaveTeam(userId, this.team.id)
+    this.teamsService.userLeaveTeam(userId, this.teamsId)
       .subscribe(
         x => this.showChanges(),
         err => console.log(err)
@@ -190,9 +194,9 @@ export class SingleTeamComponent implements OnInit {
   }
 
   promoteUser(id) {
-    this.teamsService.setNewTeamLeader(id, this.team.id)
+    this.teamsService.setNewTeamLeader(id, this.teamsId)
       .subscribe(
-        x => this.teamsService.addUserToTeam(id, this.team.id)
+        x => this.teamsService.addUserToTeam(id, this.teamsId)
           .subscribe(
             y => {
               this.generateCompanyUsersList = false;

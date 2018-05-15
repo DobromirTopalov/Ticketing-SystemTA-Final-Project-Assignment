@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { SharedModule } from '../../shared';
 import { RouterModule } from '@angular/router';
-import { TeamsComponent } from './teams.component';
+import { TeamsComponent } from './teams/teams.component';
 import { TeamDetailsComponent } from './details/team-details.component';
 import { SingleTeamComponent } from './single-team/single-team.component';
 import { CreateTeamComponent } from './create-team/create-team.component';

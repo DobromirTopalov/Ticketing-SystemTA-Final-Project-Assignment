@@ -1,4 +1,6 @@
-import { UsersModel } from "./usersModel";
+import { UsersDBModel } from "./usersDBModel";
+import { Company } from "../company/company";
+import { Role } from "../tickets/role";
 
 export class User {
   id: number;
@@ -12,9 +14,14 @@ export class User {
   deletedAt: string | null;
   CompanyId: number;
   RoleId: number;
-  Company: object;
-  Role: object;
+  Company: Company;
+  Role: Role;
   UserId: number;
-  info: User[];
+  info: {
+    TeamId: number;
+    id: number;
+    Company: Company;
+    CompanyId: number;
+  };
   TeamId: number;
 }

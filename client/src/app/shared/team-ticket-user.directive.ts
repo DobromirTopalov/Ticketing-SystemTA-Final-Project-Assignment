@@ -12,7 +12,10 @@ import { ActivatedRoute, Router } from '@angular/router';
 export class UsersTickets implements OnInit {
   userId: number;
 
-  constructor(private elref: ElementRef, private renderer: Renderer2, private ticketsService: TicketsService,
+  constructor(
+    private elref: ElementRef,
+    private renderer: Renderer2,
+    private ticketsService: TicketsService,
     private activatedRoute: ActivatedRoute,
     private jwtService: JwtHelperService,
     private router: Router) {

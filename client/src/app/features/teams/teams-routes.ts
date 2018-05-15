@@ -1,6 +1,6 @@
 import { Routes } from '@angular/router';
 import { AuthGuard } from '../../core/auth-guard';
-import { TeamsComponent } from './teams.component';
+import { TeamsComponent } from './teams/teams.component';
 import { SingleTeamComponent } from './single-team/single-team.component';
 import { CreateTeamComponent } from './create-team/create-team.component';
 import { TicketGuard } from '../../core/ticket-guard';

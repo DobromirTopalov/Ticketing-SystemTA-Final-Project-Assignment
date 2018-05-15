@@ -1,7 +1,7 @@
 import { Routes } from '@angular/router';
-import { HomeComponent } from './features/home/home.component';
-import { RegisterComponent } from './auth/register.component';
-import { LoginComponent } from './auth/login.component';
+import { HomeComponent } from './features/home/home/home.component';
+import { RegisterComponent } from './features/auth/register/register.component';
+import { LoginComponent } from './features/auth/login/login.component';
 import { AuthGuard } from './core/auth-guard';
 import { CreateTeamComponent } from './features/teams/create-team/create-team.component';
 import { TicketGuard } from './core/ticket-guard';

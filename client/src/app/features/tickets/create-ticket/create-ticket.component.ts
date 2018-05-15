@@ -1,19 +1,21 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { FormGroup } from '@angular/forms/src/model';
+import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { JwtHelperService } from '@auth0/angular-jwt';
-import { Status } from '../../../models/tickets/status';
-import { Label } from '../../../models/tickets/label';
-import { TicketsService } from '../../../core/tickets.service';
-import { TeamsService } from '../../../core/teams.service';
-import { ParamsService } from '../../../core/params.service';
-import { User } from '../../../models/users/user';
-import { UsersService } from '../../../core/users.service';
-import { StatusType } from '../../../models/tickets/statuses.enum';
-import { LabelType } from '../../../models/tickets/labels.enum';
-import { Ticket } from '../../../models/tickets/ticket';
 import { Router } from '@angular/router';
 import { ObservableMedia, MediaChange } from '@angular/flex-layout';
+
+import { Status } from '../../../models/tickets/status';
+import { StatusType } from '../../../models/tickets/statuses.enum';
+import { Label } from '../../../models/tickets/label';
+import { LabelType } from '../../../models/tickets/labels.enum';
+import { User } from '../../../models/users/user';
+import { UsersService } from '../../../core/users.service';
+import { TeamsService } from '../../../core/teams.service';
+import { Ticket } from '../../../models/tickets/ticket';
+import { TicketsService } from '../../../core/tickets.service';
+import { ParamsService } from '../../../core/params.service';
+import { UsersDBModel } from '../../../models/users/usersDBModel';
 
 @Component({
   selector: 'app-create-ticket',
@@ -22,40 +24,31 @@ import { ObservableMedia, MediaChange } from '@angular/flex-layout';
 })
 export class CreateTicketComponent implements OnInit {
   createTicketForm: FormGroup;
+
   userId: number;
   requesterId: number;
   assigneeId: number;
-
   teamLeader: User;
   teamId: number;
+
   labels: Label[];
+  setLabel: LabelType = 1;
   statuses: Status[];
   setStatus: StatusType = 3;
-  setLabel: LabelType = 1;
 
   members: User[] = [];
-  users: User[];
-  yourModelDate: string;
 
   rowHeight = '100px';
   cols = 10;
-  tiles = [
-    { text: 'Description', cols: 6, rows: 2, color: 'lightblue' },
-    { text: 'Status', cols: 4, rows: 1, color: 'pink' },
-    { text: 'Label', cols: 4, rows: 1, color: 'lightgreen' },
-    { text: 'Requester', cols: 5, rows: 1, color: 'lightpink' },
-    { text: 'Assignee', cols: 5, rows: 1, color: '#DDBDF1' },
-    { text: 'Members', cols: 5, rows: 1, color: '#DDBDF1' },
-    { text: 'Participate', cols: 5, rows: 1, color: '#DDBDF1' },
-    { text: 'Comments', cols: 10, rows: 1, color: '#DDBDF1' },
-  ];
-
+  tiles = [];
   style: string;
 
-  constructor(private formBuilder: FormBuilder, private jwtService: JwtHelperService, private ticketsService: TicketsService,
-    private paramService: ParamsService,
-    private router: Router,
 
+  constructor(
+    private formBuilder: FormBuilder,
+    private jwtService: JwtHelperService,
+    private ticketsService: TicketsService,
+    private paramService: ParamsService,
     private teamService: TeamsService,
     private userService: UsersService,
     media: ObservableMedia
@@ -112,23 +105,22 @@ export class CreateTicketComponent implements OnInit {
 
   ngOnInit() {
     const decodedToken = this.jwtService.decodeToken(localStorage.getItem('access_token'));
-    this.userId = decodedToken.id;
+    this.userId = +decodedToken.id;
     this.requesterId = this.userId;
     this.assigneeId = this.userId;
 
-    const userList = this.teamService.getUserTeam(this.userId).subscribe((data) => {
-      const team = data.info;
-      this.teamId = team['TeamId'];
+    const userList = this.teamService.getUserFromTeam(this.userId).subscribe((data) => {
+      this.teamId = +data.info.TeamId;
 
       const teamInfo = this.teamService.getById(this.teamId).subscribe((data) => {
-        this.teamLeader = data['info']['teamLeaderId'];
+        this.teamLeader = data.info.teamLeaderId;
       });
 
-      this.teamService.getAllTeamUsers(this.teamId).subscribe((data) => {
+      this.teamService.getAllUsersFromTeam(this.teamId).subscribe((data) => {
         const users = data.info;
 
         users.forEach((user) => {
-          this.userService.getById(+user.UserId).subscribe((data: User) => {
+          this.userService.getById(+user.UserId).subscribe((data) => {
             this.members.push(data);
           });
         });
@@ -158,11 +150,11 @@ export class CreateTicketComponent implements OnInit {
   getGenericErrorMessage(param) {
     return this.createTicketForm.get(param).hasError('required') ? 'You must enter a value' : '';
   }
+
   getErrorMessageDescription() {
     return this.createTicketForm.get('description').hasError('required') ? 'You must enter a value' :
       this.createTicketForm.get('description').hasError('maxLength') ? 'Max 13000 symbols allowed' : '';
   }
-
 
   createTicket(): void {
     const ticketObject = {

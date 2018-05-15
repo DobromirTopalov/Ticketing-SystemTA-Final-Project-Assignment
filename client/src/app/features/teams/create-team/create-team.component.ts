@@ -18,8 +18,8 @@ export class CreateTeamComponent implements OnInit {
   loggedUserId: number;
   userCompanyId: number;
 
-  constructor(private formBuilder: FormBuilder,
-    private activatedRoute: ActivatedRoute,
+  constructor(
+    private formBuilder: FormBuilder,
     private router: Router,
     private jwtService: JwtHelperService,
     private usersService: UsersService,
@@ -27,7 +27,6 @@ export class CreateTeamComponent implements OnInit {
 
   ngOnInit() {
     const teamNameRegex = new RegExp(/^[A-Za-z0-9]{1}[A-Za-z0-9 _-]{0,19}/);
-    // const teamDescRegex = new RegExp(/^[A-Za-z0-9]{1}[A-Za-z0-9 _-.,]{0,99}/);
 
     this.createTeamForm = this.formBuilder.group({
       name: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(20), Validators.pattern(teamNameRegex)]],
@@ -40,8 +39,8 @@ export class CreateTeamComponent implements OnInit {
 
     this.usersService.getByEmail(loggedUserEmail).subscribe(data => {
       this.userLoggedIn = data.info;
-      this.loggedUserId = this.userLoggedIn['id'];
-      this.userCompanyId = this.userLoggedIn['Company'].id;
+      this.loggedUserId = data.info.id;
+      this.userCompanyId = data.info.Company.id;
     });
 
   }

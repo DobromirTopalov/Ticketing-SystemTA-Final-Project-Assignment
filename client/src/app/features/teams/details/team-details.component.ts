@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { Team } from '../../../models/teams/teams';
+import { Team } from '../../../models/teams/team';
 
 @Component({
   selector: 'app-team-details',

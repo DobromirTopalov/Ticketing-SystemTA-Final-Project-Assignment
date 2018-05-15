@@ -1,45 +1,42 @@
-import { RouterModule } from '@angular/router';
 import { NgModule } from '@angular/core';
-import { SharedModule } from '../../shared';
+import { ReactiveFormsModule } from '@angular/forms';
+import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { TicketsComponent } from './tickets.component';
-import { DetailsComponent } from './details/details.component';
+import { CoreModule } from '@angular/flex-layout';
+import { SharedModule } from '../../shared';
+import { TicketsRoutingModule } from './tickets-routing.module';
+import { TicketsComponent } from './tickets/tickets.component';
 import { SingleTicketComponent } from './single-ticket/single-ticket.component';
-import { CommentaryListComponent } from '../commentary/commentary-list/commentary-list.component';
-import { CommentaryPostComponent } from '../commentary/commentary-post/commentary-post.component';
 import { CreateTicketComponent } from './create-ticket/create-ticket.component';
 import { TeamTicketsComponent } from './team-tickets/team-tickets.component';
-import { TicketsRoutingModule } from './tickets-routing.module';
-import { CoreModule } from '@angular/flex-layout';
-import { ReactiveFormsModule } from '@angular/forms';
+import { CommentaryListComponent } from '../commentary/commentary-list/commentary-list.component';
+import { CommentaryPostComponent } from '../commentary/commentary-post/commentary-post.component';
 
 
 @NgModule({
   declarations: [
     TicketsComponent,
-    DetailsComponent,
     SingleTicketComponent,
-    CommentaryListComponent,
-    CommentaryPostComponent,
     CreateTicketComponent,
     TeamTicketsComponent,
+    CommentaryListComponent,
+    CommentaryPostComponent,
   ],
   imports: [
-    CommonModule,
-    SharedModule,
-    RouterModule,
-    TicketsRoutingModule,
-    CoreModule,
     ReactiveFormsModule,
+    RouterModule,
+    CommonModule,
+    CoreModule,
+    SharedModule,
+    TicketsRoutingModule,
   ],
   exports: [
     TicketsComponent,
-    DetailsComponent,
-    TeamTicketsComponent,
     SingleTicketComponent,
+    CreateTicketComponent,
     CommentaryListComponent,
     CommentaryPostComponent,
-    CreateTicketComponent,
+    TeamTicketsComponent,
   ],
 
 })

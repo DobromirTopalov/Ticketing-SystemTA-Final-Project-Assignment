@@ -1,4 +1,4 @@
-import { AuthModule } from './auth/auth.module';
+import { AuthModule } from './features/auth/auth.module';
 import { HttpClientModule } from '@angular/common/http';
 import { CoreModule } from './core/core.module';
 import { AppRoutingModule } from './app-routing.module';

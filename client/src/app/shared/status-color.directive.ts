@@ -1,7 +1,6 @@
 import { Directive, Input, OnInit } from '@angular/core';
 import { ElementRef } from '@angular/core';
 import { Renderer2 } from '@angular/core';
-import { JwtHelperService } from '@auth0/angular-jwt';
 
 @Directive({
   selector: '[statusColor]'
@@ -9,8 +8,7 @@ import { JwtHelperService } from '@auth0/angular-jwt';
 export class StatusColorDirective implements OnInit {
   @Input('statusColor') status: string;
 
-  constructor(private elref: ElementRef, private renderer: Renderer2) {
-  }
+  constructor(private elref: ElementRef, private renderer: Renderer2) { }
 
   ngOnInit(): void {
     const el = this.elref.nativeElement;
@@ -26,5 +24,6 @@ export class StatusColorDirective implements OnInit {
     }else if (this.status === 'REOPENED') {
       this.renderer.setStyle(el, 'color','#50a3c9');
     }
+
   }
 }

@@ -1,0 +1,30 @@
+.container {
+  display: block;
+  align-content: center;
+  justify-content: center;
+  text-align: center;
+
+  width: 100%;
+}
+
+.user-name {
+  font-size: 200%;
+  font-weight: 700;
+}
+
+.user-email {
+  font-size: 150%;
+  font-weight: 700;
+  font-style: italic;
+}
+
+.user-role {
+  font-size: 120%;
+}
+
+@media only screen and (min-width: 958px) {
+  .container {
+    width: 60%;
+    margin-left: 20%;
+  }
+}

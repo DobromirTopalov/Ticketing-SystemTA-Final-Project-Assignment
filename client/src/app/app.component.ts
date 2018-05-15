@@ -1,6 +1,4 @@
-import { AuthService } from './core/auth.service';
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-root',
@@ -8,9 +6,6 @@ import { Component, OnInit, Input } from '@angular/core';
   styleUrls: ['./app.component.css'],
 })
 export class AppComponent {
-  constructor(private http: HttpClient, private authService: AuthService) { }
+  constructor() { }
 
-  logout(): void {
-    return this.authService.logout();
-  }
 }
