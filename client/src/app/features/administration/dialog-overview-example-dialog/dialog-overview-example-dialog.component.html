@@ -1,0 +1,79 @@
+<mat-selection-list #person *ngIf="data?.opt === 'add' ? true : false">
+  <mat-list-option *ngFor="let persons of data?.forInvites" [selected]="persons?.selected" (click)="onAreaListControlChanged(person)"
+    [value]="persons?.id">
+    {{persons?.email}}
+  </mat-list-option>
+</mat-selection-list>
+
+<div *ngIf="data?.opt === 'add' ? true : false">
+  <p class="text">
+    Members selected:
+    <a class="texta">{{selectedItems?.length}}</a>
+  </p>
+</div>
+
+<mat-selection-list #person *ngIf="data?.opt === 'remove' ? true : false">
+    <mat-list-option *ngFor="let persons of data?.forInvites" [selected]="persons?.selected" (click)="onAreaListControlChanged(person)"
+      [value]="persons?.id">
+      {{persons?.email}}
+    </mat-list-option>
+  </mat-selection-list>
+
+  <div *ngIf="data?.opt === 'remove' ? true : false">
+    <p class="text">
+      Members selected:
+      <a class="texta">{{selectedItems?.length}}</a>
+    </p>
+  </div>
+
+
+<mat-radio-group *ngIf="data?.opt === 'newLead' ? true : false" class="example-radio-group options">
+  <mat-radio-button class="example-radio-button optionmark" *ngFor="let persons of data?.forInvites" [checked]="isLead(persons.id)" [value]="persons" (click)="sel(persons)">
+    {{persons?.email}}
+  </mat-radio-button>
+</mat-radio-group>
+
+<p class="text" *ngIf="data?.opt === 'newLead' ? true : false">
+  Member selected for new 'Team Leader':
+  <a class="texta">{{favoritePersons?.firstName}} {{favoritePersons?.lastName}}</a>
+</p>
+
+<div class="toper" *ngIf="data?.opt === 'profile' ? true : false">
+    <div class="randomsize">
+      <h2>User Profile</h2>
+      <p>You can change user's email or password here!
+        <p>
+          <form class="" [formGroup]="personalForm" (ngSubmit)="updateUser2()">
+            <!-- First Name | Last Name -->
+            <div class="names">
+              <mat-form-field class="fields">
+                <input matInput #inputFirst maxlength="20" placeholder="First Name" formControlName="firstName" required>
+                <mat-hint align="end">{{inputFirst.value?.length || 0}}/20</mat-hint>
+                <mat-error *ngIf="personalForm.controls['firstName'].errors && !personalForm.controls['firstName'].pristine">{{getErrorMessageNames()}}</mat-error>
+              </mat-form-field>
+
+              <mat-form-field class="fields">
+                <input matInput #inputLast maxlength="20" placeholder="Last Name" formControlName="lastName" required>
+                <mat-hint align="end">{{inputLast.value?.length || 0}}/20</mat-hint>
+                <mat-error *ngIf="personalForm.controls['lastName'].errors && !personalForm.controls['lastName'].pristine">{{getErrorMessageNames2()}}</mat-error>
+              </mat-form-field>
+
+              <!-- Email -->
+              <mat-form-field class="fields">
+                <input matInput placeholder="Enter new email" formControlName="email" required>
+                <mat-error *ngIf="personalForm.controls['email'].errors && !personalForm.controls['email'].pristine">{{getErrorMessageEmail()}}</mat-error>
+              </mat-form-field>
+            </div>
+
+            <!-- Password & Confirmation -->
+            <div mat-list-item class="passAndconfno">
+              <mat-form-field class="fields">
+                <input matInput placeholder="New Password" type="password" formControlName="password" required>
+                <mat-error *ngIf="personalForm.controls['password'].errors && !personalForm.controls['password'].pristine">{{getErrorMessagePass()}}</mat-error>
+              </mat-form-field>
+            </div>
+            <!-- <button mat-raised-button color="primary" [disabled]="!personalForm.valid" class="colorButton">Save Changes</button> -->
+          </form>
+    </div>
+  </div>
+  <snack-bar-component [message]="invalidMessage"></snack-bar-component>

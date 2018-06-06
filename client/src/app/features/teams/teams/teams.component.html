@@ -1,13 +1,10 @@
 <div class="teams-wrapper">
-
   <div class="cards-container">
-
     <div fxLayout="column" fxLayoutAlign="center center" class="card-holder" *ngFor="let team of filteredTeams" (click)="nav(team.id)">
 
-      <app-team-details [team]="team"></app-team-details>
+      <app-team-details class="teamInfo" [team]="team"></app-team-details>
 
     </div>
-
   </div>
-
 </div>
+<snack-bar-component [message]="invalidMessage"></snack-bar-component>

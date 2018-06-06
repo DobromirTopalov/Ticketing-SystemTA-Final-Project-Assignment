@@ -1,22 +1,49 @@
-<div class="container">
-  <div>
-    <p class="welcome-msg">Welcome to DRT - Ticketing System</p>
+<div class="wrapper">
+  <div class="container1">
+    <div>
+      <p class="welcome-msg">Organize.</p>
+    </div>
+
+    <mat-card class="example-card">
+      <mat-card-header class="dashboardCard">
+        <div mat-card-avatar class="example-header-image">
+          <mat-icon class="imgIcon" svgIcon="companies"></mat-icon>
+        </div>
+        <mat-card-title class="count">{{companies?.length}}</mat-card-title>
+        <mat-card-subtitle class="text">Companies we serve</mat-card-subtitle>
+      </mat-card-header>
+    </mat-card>
   </div>
 
-  <div>
-    <span *ngFor="let company of companies">
-      <span class="company-name"> "{{company?.name}}" </span>
-    </span>
-    <p class="homepage-text">are our partners!</p>
+  <div class="container2">
+    <div>
+      <p class="welcome-msg">Delegate.</p>
+    </div>
+    <mat-card class="example-card">
+      <mat-card-header class="dashboardCard">
+        <div mat-card-avatar class="example-header-image">
+          <mat-icon class="imgIcon" svgIcon="users"></mat-icon>
+        </div>
+        <mat-card-title class="count">{{users?.length}}</mat-card-title>
+        <mat-card-subtitle class="text">Daily users</mat-card-subtitle>
+      </mat-card-header>
+    </mat-card>
   </div>
 
-  <br>
-  <br>
+  <div class="container3">
+    <div class="down">
+      <p class="welcome-msg">Prioritize.</p>
+      <button class="colorButton" mat-raised-button color="primary" (click)="nav()">Start Now</button>
+    </div>
+    <mat-card class="example-card">
+      <mat-card-header class="dashboardCard">
+        <div mat-card-avatar class="example-header-image">
+          <mat-icon class="imgIcon" svgIcon="tickets"></mat-icon>
+        </div>
+        <mat-card-title class="count">{{tickets?.length}}</mat-card-title>
+        <mat-card-subtitle class="text">Tickets managed</mat-card-subtitle>
+      </mat-card-header>
+    </mat-card>
 
-  <div>
-    <p class="users-count">{{users?.length}} users are using our services</p>
-      <p class="homepage-text">and</p>
-      <p class="tickets-count">{{tickets?.length}} tickets are helping them to perform better!</p>
   </div>
-
 </div>

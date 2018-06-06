@@ -24,7 +24,7 @@
     </div>
 
 
-      <!-- Password & Confirmation -->
+    <!-- Password & Confirmation -->
     <div mat-list-item class="passAndconf">
       <mat-form-field class="fields">
         <input matInput placeholder="Password" type="password" formControlName="password" required>
@@ -37,32 +37,36 @@
       </mat-form-field>
     </div>
 
-    <!-- Company -->
-    <div mat-list-item class="companyAndRole">
-      <mat-select class="spaceBetween" placeholder="Company" formControlName="company" required>
-        <mat-option *ngFor="let company of companies" [value]="company?.id">{{company?.name}}</mat-option>
-      </mat-select>
-
-      <!-- Roles -->
-      <mat-select class="spaceBetween" placeholder="Role" formControlName="role" required>
-        <mat-option *ngFor="let role of roles" [value]="role?.id">{{role?.name}}</mat-option>
-      </mat-select>
-    </div>
-
-
     <div>
-      <label class="container">
-        <input class="" type="checkbox" formControlName="terms" required> Terms of use & conditions
-        <span class="checkmark"></span>
-        <mat-error *ngIf="regForm.controls['terms'].errors || regForm.controls['terms'].pristine">{{getErrorMessageTerms()}}</mat-error>
-      </label>
+      <div class="compbox">
+        <label class="container">
+
+          <mat-list-item>
+            <p mat-raised-button color="primary" (click)="oldCompany()" class="colorButton extend">Join an existing company</p>
+          </mat-list-item>
+          <mat-list-item>
+            <p mat-raised-button color="primary" (click)="newCompany()" class="colorButton extend">Create a company</p>
+          </mat-list-item>
+        </label>
+      </div>
+
+      <!-- Company -->
+      <div mat-list-item class="companyAndRole" *ngIf="oldOne">
+        <mat-select class="spaceBetween" placeholder="Company" formControlName="company" required>
+          <mat-option *ngFor="let company of companies" [value]="company?.id">{{company?.name}}</mat-option>
+        </mat-select>
+      </div>
+
+      <mat-form-field class="fields" *ngIf="newOne">
+          <input matInput placeholder="Company Name" formControlName="company" required>
+        </mat-form-field>
+
+      <!-- Submit -->
+      <mat-list-item class="submiter">
+        <button mat-raised-button color="primary" [disabled]="!regForm.valid" class="colorButton">Sign Up</button>
+      </mat-list-item>
+
     </div>
-
-    <!-- Submit -->
-    <mat-error *ngIf="error">{{error}}</mat-error>
-    <mat-list-item>
-      <button mat-raised-button color="primary" [disabled]="!regForm.valid" class="colorButton">Sign Up</button>
-    </mat-list-item>
-
   </form>
 </div>
+<snack-bar-component [message]="invalidMessage"></snack-bar-component>

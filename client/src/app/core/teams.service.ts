@@ -25,11 +25,10 @@ export class TeamsService {
     return this.httpClient.get(`${this.appConfig.apiUrl}/teams/${id}`).map(x => <TeamsDBModel & Team>x);
   }
 
-  createNewTeam(name: string, description: string, teamImgUrl: string | null, CompanyId: number, TeamLeaderId: number, options?: HttpOptions): Observable<Object> {
+  createNewTeam(name: string, description: string, CompanyId: number, TeamLeaderId: number, options?: HttpOptions): Observable<Object> {
     return this.httpClient.post(`${this.appConfig.apiUrl}/teams/create`, {
       name,
       description,
-      teamImgUrl,
       TeamLeaderId,
       CompanyId,
     },
@@ -54,5 +53,13 @@ export class TeamsService {
 
   getUserFromTeam(id: number): Observable<User> {
     return this.httpClient.get(`${this.appConfig.apiUrl}/teams/usersId/${id}`).map(x => <User>(x));
+  }
+
+  updateInfo(team: Team, options?: HttpOptions): Observable<Object> {
+    return this.httpClient.post(`${this.appConfig.apiUrl}/teams/${team.id}/update`, team, options);
+  }
+
+  removeById(team: Team, options?: HttpOptions): Observable<Object> {
+    return this.httpClient.post(`${this.appConfig.apiUrl}/teams/${team.id}/delete`, team, options);
   }
 }

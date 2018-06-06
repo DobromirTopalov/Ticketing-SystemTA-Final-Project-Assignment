@@ -9,16 +9,18 @@ import { TicketGuard } from './core/ticket-guard';
 
 export const ROUTES: Routes = [
   { path: 'home', component: HomeComponent },
-  { path: 'homeSofia', component: HomeComponent, canActivate: [AuthGuard] },
   { path: '', redirectTo: 'home', pathMatch: 'full' },
   {
-    path: 'tickets', loadChildren: './features/tickets/ticket.module#TicketsModule'
+    path: 'profile', loadChildren: './features/administration/administration.module#AdministrationModule', canActivate: [AuthGuard],
   },
   {
-    path: 'teams', loadChildren: './features/teams/teams.module#TeamsModule'
+    path: 'tickets', loadChildren: './features/tickets/ticket.module#TicketsModule', canActivate: [AuthGuard],
   },
   {
-    path: 'users', loadChildren: './features/users/users.module#UsersModule',
+    path: 'teams', loadChildren: './features/teams/teams.module#TeamsModule', canActivate: [AuthGuard],
+  },
+  {
+    path: 'users', loadChildren: './features/users/users.module#UsersModule', canActivate: [AuthGuard],
   },
   { path: 'register', component: RegisterComponent },
   { path: 'login', component: LoginComponent },

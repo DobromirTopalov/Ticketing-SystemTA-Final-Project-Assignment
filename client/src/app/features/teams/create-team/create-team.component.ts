@@ -26,11 +26,11 @@ export class CreateTeamComponent implements OnInit {
     private teamsService: TeamsService) { }
 
   ngOnInit() {
-    const teamNameRegex = new RegExp(/^[A-Za-z0-9]{1}[A-Za-z0-9 _-]{0,19}/);
+    const teamNameRegex = new RegExp(/^[A-Za-z0-9]{1}[A-Za-z0-9 _-]{0,39}/);
 
     this.createTeamForm = this.formBuilder.group({
-      name: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(20), Validators.pattern(teamNameRegex)]],
-      description: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(40)]],
+      name: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(40), Validators.pattern(teamNameRegex)]],
+      description: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(200)]],
       teamImgUrl: '',
     });
 
@@ -48,7 +48,6 @@ export class CreateTeamComponent implements OnInit {
   createTeam(): void {
     const name: string = this.createTeamForm.value.name;
     const description: string = this.createTeamForm.value.description;
-    const teamImgUrl: string | null = this.createTeamForm.value.teamImgUrl;
     const CompanyId: number = this.userCompanyId;
     const TeamLeaderId: number = this.loggedUserId;
     let newTeamId: number = 0;
@@ -56,12 +55,11 @@ export class CreateTeamComponent implements OnInit {
     const modelObject = {
       name,
       description,
-      teamImgUrl,
       TeamLeaderId,
       CompanyId,
     }
 
-    this.teamsService.createNewTeam(name, description, teamImgUrl, CompanyId, TeamLeaderId)
+    this.teamsService.createNewTeam(name, description, CompanyId, TeamLeaderId)
       .subscribe(
         x => this.teamsService.addUserToTeam(this.loggedUserId, x['team'][0].id)
           .subscribe(
@@ -77,13 +75,13 @@ export class CreateTeamComponent implements OnInit {
     return this.createTeamForm.get('name').hasError('required') ? 'Please enter a name' :
       this.createTeamForm.get('name').hasError('minLength') ? 'Min 2 symbols required' :
         this.createTeamForm.get('name').hasError('pattern') ? 'Please enter only letters, numbers, - or _' :
-          this.createTeamForm.get('name').hasError('maxLength') ? 'Max 20 symbols allowed' : '';
+          this.createTeamForm.get('name').hasError('maxLength') ? 'Max 40 symbols allowed' : '';
   }
 
   displayErrorMessageDescription() {
     return this.createTeamForm.get('description').hasError('required') ? 'Please enter a description' :
       this.createTeamForm.get('description').hasError('minLength') ? 'Min 2 symbols required' :
-        this.createTeamForm.get('description').hasError('maxLength') ? 'Max 100 symbols allowed' : '';
+        this.createTeamForm.get('description').hasError('maxLength') ? 'Max 200 symbols allowed' : '';
   }
 
 }

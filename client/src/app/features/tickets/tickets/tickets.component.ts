@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input, ViewChild } from '@angular/core';
 import { AuthService } from '../../../core/auth.service';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { ObservableMedia, MediaChange } from '@angular/flex-layout';
@@ -8,6 +8,7 @@ import { Ticket } from '../../../models/tickets/ticket';
 import { MatTableDataSource } from '@angular/material';
 import { DataSource } from '@angular/cdk/collections';
 import { TicketsDBModel } from '../../../models/tickets/ticketsDBModel';
+import { SnackBarComponentExample } from '../../snackbar/snackbar/snack-bar-component-example';
 
 @Component({
   selector: 'app-tickets',
@@ -30,6 +31,14 @@ export class TicketsComponent implements OnInit {
   switchTicketView: boolean;
 
   displayedColumns = ['description', 'requester', 'assignee', 'status', 'label', 'deadline'];
+
+
+  invalidMessage: string;
+  @ViewChild(SnackBarComponentExample) child: SnackBarComponentExample;
+
+
+  @Input()
+  outerTickets: Ticket[] & string;
   ELEMENT_DATA: Element[] = [];
   dataSource = new MatTableDataSource(this.ELEMENT_DATA);
 
@@ -56,11 +65,29 @@ export class TicketsComponent implements OnInit {
     this.userId = +decodedToken.id;
 
     this.ticketsService.getAll().subscribe((data) => {
-      this.tickets = data.info;
+      this.tickets = (typeof this.outerTickets !== 'undefined') && (this.outerTickets.length > 0) ? this.outerTickets : data.info;
       this.copyTickets = this.tickets;
 
-      this.assignedTickets = this.tickets.filter((ticket) => ticket.AssigneeId === this.userId);
-      this.tickets = this.assignedTickets;    // show assigned by default
+      if (this.outerTickets === 'no') {
+        this.tickets = [];
+        this.copyTickets = this.tickets;
+
+        this.invalidMessage = 'No tickets found!';
+        this.child.message = this.invalidMessage;
+        this.child.openSnackBar();
+      }
+
+      if ((typeof this.outerTickets === 'undefined') || (this.outerTickets.length <= 0)) {
+        this.assignedTickets = this.tickets.filter((ticket) => ticket.AssigneeId === this.userId);
+        this.tickets = this.assignedTickets;    // show assigned by default
+        this.requestedTickets = this.tickets.filter((ticket) => ticket.RequesterId === this.userId);
+
+        if (!this.tickets.length) {
+          this.invalidMessage = 'No tickets found!';
+          this.child.message = this.invalidMessage;
+          this.child.openSnackBar();
+        }
+      }
 
       this.tickets.forEach((ticket) => {
         const tableContent = {
@@ -75,9 +102,8 @@ export class TicketsComponent implements OnInit {
 
         this.ELEMENT_DATA.push(tableContent);
       });
-      this.dataSource.data = this.ELEMENT_DATA;
 
-      this.requestedTickets = this.tickets.filter((ticket) => ticket.RequesterId === this.userId);
+      this.dataSource.data = this.ELEMENT_DATA;
     });
   }
 
@@ -91,7 +117,6 @@ export class TicketsComponent implements OnInit {
         otherCriteria = '';
       } else {
         otherCriteria = 'email';
-
       }
 
       let a = x[this.criteria][otherCriteria] || x[this.criteria];

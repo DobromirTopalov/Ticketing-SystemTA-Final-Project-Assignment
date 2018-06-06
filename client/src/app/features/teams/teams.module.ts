@@ -11,6 +11,7 @@ import { CoreModule } from '@angular/flex-layout';
 import { ReactiveFormsModule } from '@angular/forms';
 import { TeamTicketsComponent } from '../tickets/team-tickets/team-tickets.component';
 import { TicketsModule } from '../tickets/ticket.module';
+import { SnackBarModule } from '../snackbar/snackbar.module';
 
 @NgModule({
   imports: [
@@ -18,6 +19,7 @@ import { TicketsModule } from '../tickets/ticket.module';
     SharedModule,
     RouterModule,
     TeamsRoutingModule,
+    SnackBarModule,
     CoreModule,
     ReactiveFormsModule,
     TicketsModule

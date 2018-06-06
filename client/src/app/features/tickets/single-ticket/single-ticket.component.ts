@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, ViewChild } from '@angular/core';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { Router, ActivatedRoute } from '@angular/router';
 import { FormControl, FormGroup } from '@angular/forms';
@@ -16,6 +16,7 @@ import { TicketsService } from '../../../core/tickets.service';
 import { TeamsService } from '../../../core/teams.service';
 import { ParamsService } from '../../../core/params.service';
 import { Commentary } from '../../../models/tickets/commentary';
+import { SnackBarComponentExample } from '../../snackbar/snackbar/snack-bar-component-example';
 
 @Component({
   selector: 'app-single-ticket',
@@ -25,6 +26,9 @@ import { Commentary } from '../../../models/tickets/commentary';
 export class SingleTicketComponent implements OnInit {
   comments: CommentariesDBModel;
   commentary: Commentary;
+  invalidMessage: string;
+  @ViewChild(SnackBarComponentExample) child: SnackBarComponentExample;
+  private disabled = false;
 
   ticket: Ticket;
   ticketId: number;
@@ -41,6 +45,9 @@ export class SingleTicketComponent implements OnInit {
 
   userId: number;
   requesterId: number;
+  assigneeId: number;
+  escalationContactId: number;
+
   teamLeaderId: number;
   userInTheTeam: boolean;
 
@@ -59,6 +66,7 @@ export class SingleTicketComponent implements OnInit {
     private formBuilder: FormBuilder,
     private ticketsService: TicketsService,
     private teamService: TeamsService,
+    private userService: UsersService,
     private paramService: ParamsService,
     media: ObservableMedia
   ) {
@@ -107,6 +115,27 @@ export class SingleTicketComponent implements OnInit {
           ];
         }
       });
+
+
+      this.Description = this.formBuilder.group({
+        description: '',
+      });
+
+      this.Members = this.formBuilder.group({
+        AssigneeId: '',
+        RequesterId: '',
+      });
+
+      this.Stickers = this.formBuilder.group({
+        LabelId: '',
+        StatusId: '',
+        deadline: '',
+      });
+
+      this.Comment = this.formBuilder.group({
+        content: '',
+      });
+
   }
 
   ngOnInit() {
@@ -122,16 +151,27 @@ export class SingleTicketComponent implements OnInit {
       this.currentStatus = +this.ticket.StatusId;
       this.defaultStatus = this.currentStatus === 1 ? 'COMPLETED' : 'Status';
       this.requesterId = this.ticket.RequesterId;
+      this.assigneeId = this.ticket.AssigneeId;
+      this.escalationContactId = this.ticket.EscalationContactId;
+
+      this.Members.get('AssigneeId').setValue(this.ticket.AssigneeId);
+      this.Members.get('RequesterId').setValue(this.ticket.RequesterId);
 
       this.teamService.getAllUsersFromTeam(this.ticket.TeamId).subscribe((data) => {
-        this.members = data.info;
+        this.members = [];
+        data.info.map((user) => {
+          this.userService.getById(user.UserId).subscribe(res => {
+            this.members.push(<User>res.info);
+          });
+        });
       });
 
       this.teamService.getById(this.ticket.TeamId).subscribe((data) => {
         this.teamLeaderId = data.info.teamLeaderId.id;
 
+
         this.paramService.getAllStatuses().subscribe((data) => {
-          if (!(this.userId === this.requesterId || this.userId === this.teamLeaderId)) {
+          if (!(this.userId === this.escalationContactId || this.userId === this.requesterId || this.userId === this.teamLeaderId || this.userId === this.assigneeId)) {
             this.filteredStatuses = data.result.filter((status) => status.name !== 'COMPLETED');
           }
           this.statuses = this.filteredStatuses ? this.filteredStatuses : data.result;
@@ -153,24 +193,7 @@ export class SingleTicketComponent implements OnInit {
       this.userInTheTeam = fromUsers ? true : false;
     });
 
-    this.Description = this.formBuilder.group({
-      description: '',
-    });
 
-    this.Members = this.formBuilder.group({
-      AssigneeId: '',
-      RequesterId: '',
-    });
-
-    this.Stickers = this.formBuilder.group({
-      LabelId: '',
-      StatusId: '',
-      deadline: '',
-    });
-
-    this.Comment = this.formBuilder.group({
-      content: '',
-    });
   }
 
   participate() {
@@ -182,6 +205,10 @@ export class SingleTicketComponent implements OnInit {
     this.ticketsService.subscribeForTicket(obj)
       .subscribe(
       data => {
+        this.invalidMessage = 'You are now taking part in this task! Additional access granted!';
+        this.child.message = this.invalidMessage;
+        this.child.openSnackBar();
+
         this.ticketsService.getById(this.ticketId).subscribe((data) => {
           const fromUsers = data.info.Users.find((user) => user.id === this.userId);
           this.userInTheTeam = fromUsers ? true : false;
@@ -200,6 +227,10 @@ export class SingleTicketComponent implements OnInit {
     this.ticketsService.desubscribeForTicket(obj)
       .subscribe(
       data => {
+        this.invalidMessage = 'You are no longer taking part in this particular task! Feel free to join again whenever you like!';
+        this.child.message = this.invalidMessage;
+        this.child.openSnackBar();
+
         this.ticketsService.getById(this.ticketId).subscribe((data) => {
           const fromUsers = data.info.Users.find((user) => user.id === this.userId);
           this.userInTheTeam = fromUsers ? true : false;
@@ -211,7 +242,6 @@ export class SingleTicketComponent implements OnInit {
 
   updateTicket() {
     let ticketObject = <Ticket>{};
-
     if (this.isClosed()) {
       console.log('No access');
       return;
@@ -227,7 +257,7 @@ export class SingleTicketComponent implements OnInit {
         StatusId: this.Stickers.value.StatusId,
         deadline: this.Stickers.value.deadline,
         TeamId: this.ticket.TeamId,
-        EscalationContactId: this.teamLeaderId,
+        EscalationContactId: this.escalationContactId,
       };
     } else {
       ticketObject = {
@@ -239,26 +269,36 @@ export class SingleTicketComponent implements OnInit {
         RequesterId: this.ticket.RequesterId,
         AssigneeId: this.ticket.AssigneeId,
         TeamId: this.ticket.TeamId,
-        EscalationContactId: this.teamLeaderId,
+        EscalationContactId: this.escalationContactId,
       };
     }
 
     this.ticketsService.updateInfo(ticketObject).subscribe((data: Object) => {
+      this.invalidMessage = 'Changes successfully made!';
+      this.child.message = this.invalidMessage;
+      this.child.openSnackBar();
+
       this.ticketsService.getById(this.ticketId).subscribe((data) => {
         this.ticket = data.info;
         this.currentStatus = +data.info.StatusId;
         this.defaultStatus = this.currentStatus === 1 ? 'COMPLETED' : 'Status';
         this.requesterId = this.ticket.RequesterId;
+        this.assigneeId = this.ticket.AssigneeId;
 
         this.teamService.getAllUsersFromTeam(this.ticket.TeamId).subscribe((data) => {
-          this.members = data.info;
+          this.members = [];
+          data.info.map((user) => {
+            this.userService.getById(user.UserId).subscribe(res => {
+              this.members.push(<User>res.info);
+            });
+          });
         });
 
         this.teamService.getById(this.ticket.TeamId).subscribe((data) => {
           this.teamLeaderId = data.info.teamLeaderId.id;
 
           this.paramService.getAllStatuses().subscribe((data) => {
-            if (!(this.userId === this.requesterId || this.userId === this.teamLeaderId)) {
+            if (!(this.userId === this.escalationContactId || this.userId === this.requesterId || this.userId === this.teamLeaderId || this.userId === this.assigneeId)) {
               this.filteredStatuses = data.result.filter((status) => status.name !== 'COMPLETED');
             }
             this.statuses = this.filteredStatuses ? this.filteredStatuses : data.result;
@@ -280,6 +320,7 @@ export class SingleTicketComponent implements OnInit {
   }
 
   commentTicket() {
+
     const decodedToken = this.jwtService.decodeToken(localStorage.getItem('access_token'));
     const date = (new Date() + '').split(' ');
     const formatDate = date[1] + ' ' + date[2] + '.' + date[3] + ' ' + date[4];
@@ -301,17 +342,32 @@ export class SingleTicketComponent implements OnInit {
       error => console.log(error)
     );
 
+    if (commentObj.content) {
+      this.invalidMessage = 'You\'ve just commented on this task!';
+      this.child.message = this.invalidMessage;
+      this.child.openSnackBar();
+    }
   }
 
   isClosed() {
+    if (this.currentStatus === 1) {
+      this.disabled = true;
+    }
     return this.currentStatus === 1;
   }
 
   isInTicket() {
+    if (this.userInTheTeam) {
+      this.disabled = true;
+    }
     return this.userInTheTeam;
   }
 
   accessRights() {
-    return (this.userId === this.requesterId || this.userId === this.teamLeaderId);
+    return (this.userId === this.escalationContactId || this.userId === this.requesterId || this.userId === this.teamLeaderId || this.userId === this.assigneeId);
+  }
+
+  haveAccess() {
+    return this.isClosed() || this.isInTicket();
   }
 }

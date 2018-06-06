@@ -18,7 +18,11 @@ const init = (app, data) => {
 
     .get('/api/companies/:name', passport.authenticate('jwt', {
       session: false,
-    }), controller.getByParameter());
+    }), controller.getByParameter())
+
+    .post('/api/companies/create', controller.createCompany())
+
+    .post('/api/companies/:id', controller.updateCompany());
 
   app.use('/', router);
 };

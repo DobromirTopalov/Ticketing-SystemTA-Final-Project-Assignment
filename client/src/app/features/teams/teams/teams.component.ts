@@ -1,9 +1,10 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, ViewChild } from '@angular/core';
 import { ObservableMedia, MediaChange } from '@angular/flex-layout';
 import { Router } from '@angular/router';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { Team } from '../../../models/teams/team';
 import { TeamsService } from '../../../core/teams.service';
+import { SnackBarComponentExample } from '../../snackbar/snackbar/snack-bar-component-example';
 
 @Component({
   selector: 'app-teams',
@@ -18,6 +19,10 @@ export class TeamsComponent implements OnInit {
 
   columnNum: number = 1;
   rowHeightRatio: string = '1:1';
+
+
+  invalidMessage: string;
+  @ViewChild(SnackBarComponentExample) child: SnackBarComponentExample;
 
   constructor(
     private teamsService: TeamsService,
@@ -53,6 +58,12 @@ export class TeamsComponent implements OnInit {
           this.filteredTeams.push(team);
         }
       }))
+
+      if (!this.filteredTeams.length) {
+        this.invalidMessage = 'No teams found!You can create one from the menu above or wait untill someone with more privileges adds you to an existing team!';
+        this.child.message = this.invalidMessage;
+        this.child.openSnackBar();
+      }
     });
 
   }

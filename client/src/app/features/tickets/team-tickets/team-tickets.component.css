@@ -29,7 +29,15 @@
 }
 
 .colorButton {
-  background-color: #88ca88de;
+  font-size: 17px;
+  font-family: 'Quicksand', sans-serif;
+  background-color: #395b50;
+  /* background-color: #728f72b3; */
+}
+
+.colorButton:hover {
+  background-color: #395b50cb;
+  /* background-color: #728f72b3; */
 }
 
 mat-form-field {

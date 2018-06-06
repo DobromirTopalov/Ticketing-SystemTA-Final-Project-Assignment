@@ -1,5 +1,6 @@
 .section {
   width: 60%;
+  margin-top: 30px;
 }
 
 .descContent {
@@ -7,12 +8,12 @@
   flex-direction: row;
   align-items: center;
   justify-content: center;
-
+  margin-top: 10px;
 }
 
 .descForm {
   width: 90%;
-  height: 90%;
+  height: 80%;
   /* padding: 3px; */
 }
 
@@ -33,14 +34,13 @@
 
 .dateForm {
   width: 90%;
-  height: 90%;
+  height: 80%;
   /* padding: 3px; */
 }
 
 .dateField {
   width: 100%;
   height: 100%;
-  margin-top: -100%;
 }
 
 .dateArea {
@@ -66,20 +66,15 @@
   height: 80%;
 }
 
-/* mat-input-wrapper mat-form-field-wrapper */
-/* .div mat-input-flex mat-form-field-flex {
-  height: 100%;
+.tile-padding {
+  padding-top: 250px;
 }
-
-.div mat-input-infix mat-form-field-infix{
-  height: 100%;
-} */
 
 .selectContent {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: space-around;
 
 }
 
@@ -125,14 +120,22 @@
   flex-wrap: wrap;
   flex-direction: column;
   align-items: center;
-  justify-content: space-around;
+  justify-content: center;
+
+}
+
+.spaceevenly {
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  width: 100%;
 
 }
 
 .commentaryForm {
   width: 60%;
   height: 90%;
-  padding-top: 24%;
+  /* padding-top: 24%; */
 }
 
 .commentaryField {
@@ -147,13 +150,26 @@
 }
 
 .commentaryList {
-  width: 70%;
+  width: 58%;
 }
 
 .colorButton {
-  background-color: #88ca88de;
+    font-size: 17px;
+    font-family: 'Quicksand', sans-serif;
+    background-color: #395b50;
 }
 
 .colorButtonRed {
-  background-color: #ca8888de;
+  background-color: #b46f6f;
+  font-size: 17px;
+  font-family: 'Quicksand', sans-serif;
+}
+
+.colorButton:hover {
+  background-color: #395b50cb;
+  /* background-color: #728f72b3; */
+}
+
+.colorButtonRed:hover {
+  background-color: #b46f6fcb;
 }

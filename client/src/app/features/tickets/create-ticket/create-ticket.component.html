@@ -20,7 +20,7 @@
 
       </div>
       </mat-grid-tile>
-      <mat-grid-tile class="selectContent" [colspan]="tiles[1].cols" [rowspan]="tiles[1].rows" [style.background]="tiles[1].color">
+      <mat-grid-tile class="selectContent tile-padding" [colspan]="tiles[1].cols" [rowspan]="tiles[1].rows" [style.background]="tiles[1].color">
         <form class="selectForm" [formGroup]="createTicketForm">
           <mat-form-field class="selectField">
             <mat-select class="selectArea" [(ngModel)]="setStatus" ngModel placeholder="NOT STARTED" formControlName="StatusId">
@@ -33,7 +33,7 @@
         </form>
       </mat-grid-tile>
 
-      <mat-grid-tile class="selectContent" [colspan]="tiles[2].cols" [rowspan]="tiles[2].rows" [style.background]="tiles[2].color">
+      <mat-grid-tile class="selectContent tile-padding" [colspan]="tiles[2].cols" [rowspan]="tiles[2].rows" [style.background]="tiles[2].color">
         <form class="selectForm" [formGroup]="createTicketForm">
           <mat-form-field class="selectField">
             <mat-select class="selectArea" [(ngModel)]="setLabel" ngModel placeholder="HIGH PRIORITY" formControlName="LabelId">

@@ -1,32 +1,24 @@
 <div class="container">
+  <p class="small-text">(You will be selected as a 'Team Leader' by default. You can add members or select new 'Team Leader' from team's page)</p>
+    <div class="wrapper">
+      <form class="formInput" [formGroup]="createTeamForm">
 
-  <p class="title">Create a New Team</p>
-
-  <p class="small-text">(You will be selected as a Team Leader by default. You can add members and select a new team leader when visiting your
-    team's page)</p>
-
-  <form [formGroup]="createTeamForm" (ngSubmit)="createTeam(createTeamForm)">
-
-    <mat-form-field>
-      <input type="text" formControlName="name" matInput #name maxlength="100" placeholder="Team name" required>
-      <mat-hint align="end">{{name.value?.length || 0}}/20</mat-hint>
+        <mat-form-field>
+          <input type="text" formControlName="name" matInput #name maxlength="40" placeholder="Team name" required>
+      <mat-hint align="end">{{name.value?.length || 0}}/40</mat-hint>
       <mat-error *ngIf="createTeamForm.controls['name'].errors && !createTeamForm.controls['name'].pristine">{{displayErrorMessageName()}}</mat-error>
     </mat-form-field>
 
     <mat-form-field>
-      <input type="text" formControlName="description" matInput #description maxlength="100" placeholder="Team description" required>
-      <mat-hint align="end">{{description.value?.length || 0}}/40</mat-hint>
+      <input type="text" formControlName="description" matInput #description maxlength="200" placeholder="Team description" required>
+      <mat-hint align="end">{{description.value?.length || 0}}/200</mat-hint>
       <mat-error *ngIf="createTeamForm.controls['description'].errors && !createTeamForm.controls['description'].pristine">{{displayErrorMessageDescription()}}</mat-error>
     </mat-form-field>
-
-    <mat-form-field>
-      <input type="text" matInput formControlName="teamImgUrl" placeholder="Image URL">
-    </mat-form-field>
-
-    <div>
-      <button mat-raised-button color="primary" [disabled]="createTeamForm.controls.name.errors || createTeamForm.controls.description.errors"
-        type="submit">Create a Team</button>
-    </div>
-
   </form>
+</div>
+
+  <div>
+    <button class="colorButton" mat-raised-button color="primary" [disabled]="createTeamForm.controls.name.errors || createTeamForm.controls.description.errors"
+      type="submit" (click)="createTeam(createTeamForm)">Create a Team</button>
+  </div>
 </div>

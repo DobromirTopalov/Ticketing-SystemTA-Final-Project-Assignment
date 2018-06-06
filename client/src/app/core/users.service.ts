@@ -5,6 +5,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 import { UsersDBModel } from '../models/users/usersDBModel';
 import { User } from '../models/users/user';
+import { HttpOptions } from '../models/core/http-options';
 
 
 @Injectable()
@@ -21,6 +22,10 @@ export class UsersService {
 
   getByEmail(email: string): Observable<UsersDBModel & User> {
     return this.httpClient.get(`${this.appConfig.apiUrl}/users/${email}`).map(x => <UsersDBModel & User>x);
+  }
+
+  updateUser(user: User, options?: HttpOptions): Observable<Object> {
+    return this.httpClient.post(`${this.appConfig.apiUrl}/users/${user.id}}`, user, options);
   }
 
 }

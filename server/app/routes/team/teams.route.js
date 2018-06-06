@@ -24,15 +24,15 @@ const init = (app, data) => {
       session: false,
     }), controller.getByParameter())
 
-  .get('/api/teams/users/:TeamId', passport.authenticate('jwt', {
-    session: false,
-  }), controller2.getAllByParameter())
+    .get('/api/teams/users/:TeamId', passport.authenticate('jwt', {
+      session: false,
+    }), controller2.getAllByParameter())
 
-  .get('/api/teams/usersId/:UserId', passport.authenticate('jwt', {
-    session: false,
-  }), controller2.getByParameter())
+    .get('/api/teams/usersId/:UserId', passport.authenticate('jwt', {
+      session: false,
+    }), controller2.getByParameter())
 
-  .get('/api/teams/name/:name', passport.authenticate('jwt', {
+    .get('/api/teams/name/:name', passport.authenticate('jwt', {
       session: false,
     }), controller.getByParameter())
 
@@ -43,7 +43,7 @@ const init = (app, data) => {
 
     .post('/api/teams/:id', passport.authenticate('jwt', {
       session: false,
-    }), controller.addUserToTeam())
+    }), controller2.addTeamUser())
 
     .post('/api/teams/:id/leader', passport.authenticate('jwt', {
       session: false,
@@ -51,7 +51,15 @@ const init = (app, data) => {
 
     .post('/api/teams/:id/leave', passport.authenticate('jwt', {
       session: false,
-    }), controller.userLeaveTeam());
+    }), controller2.removeTeamUser())
+
+    .post('/api/teams/:id/update', passport.authenticate('jwt', {
+      session: false,
+    }), controller.updateTeam())
+
+    .post('/api/teams/:id/delete', passport.authenticate('jwt', {
+      session: false,
+    }), controller.removeTeam());
 
   app.use('/', router);
 };

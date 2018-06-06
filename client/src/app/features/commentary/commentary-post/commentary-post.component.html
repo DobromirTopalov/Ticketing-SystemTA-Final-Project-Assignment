@@ -1,10 +1,10 @@
 <mat-card class="example-card">
-  <mat-card-header>
+  <mat-card-header class="userbasicinfo">
     <mat-card-title class="user">{{comment?.User.firstName}} {{comment?.User.lastName}}</mat-card-title>
-    <mat-card-subtitle>{{comment?.User.email}}</mat-card-subtitle>
+    <mat-card-title class="font">{{comment?.User.email}}</mat-card-title>
+    <p class="font">{{comment?.date}}</p>
   </mat-card-header>
-  <mat-card-content>
-    <p class="date">{{comment?.date}}</p>
+  <mat-card-content class="content">
     <p>
       {{comment?.content}}
     </p>

@@ -65,13 +65,21 @@
   width: 100%;
 }
 
+.submiter {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+
  /* Customize the label (the container) */
  .container {
-  display: block;
+   padding: 5px;
+  /* display: block;
   position: relative;
-  padding-left: 35px;
+  padding-left: 35px; */
   /* margin-left: 20%; */
-  margin-bottom: 20px;
+  /* margin-bottom: 20px;
   margin-top: 20px;
   cursor: pointer;
   font-size: 14px;
@@ -79,7 +87,7 @@
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
-  user-select: none;
+  user-select: none; */
 }
 
 /* Hide the browser's default checkbox */
@@ -136,9 +144,36 @@
 }
 
 .spaceBetween {
-  width: 45%;
+  /* width: 45%; */
+  margin: 10px;
 }
 
 .colorButton {
-  background-color: #88ca88de;
+  font-size: 17px;
+  font-family: 'Quicksand', sans-serif;
+  color: whitesmoke;
+  background-color: #395b50;
+  /* background-color: #728f72b3; */
+}
+
+.colorButton:hover {
+  background-color: #395b50cb;
+  /* background-color: #728f72b3; */
+  cursor: pointer;
+}
+
+.compbox {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.extend {
+  border-radius: 2px;
+  margin: 2px;
+  padding: 6px;
+  font-size: 14px;
+  text-align: center;
 }

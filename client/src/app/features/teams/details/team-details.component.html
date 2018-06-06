@@ -1,29 +1,22 @@
 <mat-card class="team-card">
-
   <mat-card-header>
+    <div class="teamname">
+      <mat-card-title class="team-name">Team: {{team?.name}}</mat-card-title>
+      <mat-card-subtitle class="team-company">Company: {{team.Company?.name}}</mat-card-subtitle>
+      <mat-card-subtitle class="team-leader">Team Leader: {{team.teamLeaderId?.firstName}} {{team.teamLeaderId?.lastName}}</mat-card-subtitle>
+    </div>
 
-    <div mat-card-avatar class="team-header-image"></div>
-
-    <mat-card-title class="team-name">Team {{team.name}}</mat-card-title>
-
-    <mat-card-subtitle class="team-company">Company: {{team.Company.name}}</mat-card-subtitle>
-
-    <mat-card-subtitle class="team-leader">Team Leader: {{team.teamLeaderId.firstName}} {{team.teamLeaderId.lastName}}</mat-card-subtitle>
-
+    <a class="team-description">
+        Description: {{team?.description}}
+    </a>
   </mat-card-header>
 
   <mat-card-content>
-
-    <p class="team-description">
-      Description: {{team.description}}
-    </p>
-
-    <p class="team-members">Members:
-      <span *ngFor="let member of team.Users">
-        <span>{{member.firstName}} {{member.lastName}}; </span>
-      </span>
-    </p>
-
+    <a class="bold">Members:</a>
+      <p class="team-members">
+          <span *ngFor="let member of team.Users">
+            <span>{{member?.firstName[0]}}.{{member?.lastName}}, </span>
+          </span>
+        </p>
   </mat-card-content>
-
 </mat-card>

@@ -1,10 +1,33 @@
-.date {
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-end;
+.font {
+  font-size: 13px;
+  font-family: "Verdana", sans-serif;
+  margin: 2px;
 }
 
 .user {
   font-weight: bold;
+  margin: 2px;
   font-size: 20px;
+}
+
+.userbasicinfo {
+  display: flex;
+  flex-direction: row;
+  align-items: baseline;
+  justify-content: space-between;
+  padding: 3px;
+}
+
+.example-card {
+  padding: 10px;
+}
+
+.content {
+  border-top: solid 1px gainsboro;
+  padding-top: 10px;
+  padding-left: 20px;
+  padding-right: 20px;
+  padding-bottom: 10px;
+  font-size: 14px;
+  font-family: "Verdana", sans-serif;
 }

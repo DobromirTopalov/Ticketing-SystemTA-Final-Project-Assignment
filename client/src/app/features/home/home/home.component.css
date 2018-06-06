@@ -1,37 +1,100 @@
-.container {
-  display: block;
+.wrapper {
+  display: flex;
   width: 100%;
-  align-content: center;
+  align-items: center;
   justify-content: center;
-  text-align: center;
+  flex-direction: column;
 }
 
-@media only screen and (min-width: 958px) {
-  .container {
-    width: 60%;
-    margin-left: 20%;
-  }
+.container1 {
+  display: flex;
+  width: 85%;
+  align-content: center;
+  justify-content: space-around;
+  text-align: center;
+  flex-direction: row-reverse;
+  padding: 15px;
+}
+
+.container2 {
+  display: flex;
+  width: 55%;
+  align-content: center;
+  justify-content: space-around;
+  text-align: center;
+  flex-direction: row;
+  padding: 15px;
+}
+
+.container3 {
+  display: flex;
+  width: 80%;
+  align-content: center;
+  justify-content: space-around;
+  text-align: center;
+  flex-direction: row-reverse;
+  padding: 15px;
+}
+
+.example-card {
+  max-width: 400px;
+  background-color: transparent;
+}
+
+.example-card:hover {
+  background-color: rgba(57, 91, 80, 0.2);
+}
+
+.dashboardCard {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-evenly;
 }
 
 .welcome-msg {
-  font-size: 200%;
-  font-weight: bolder;
+  font-size: 35px;
+  font-family: 'Gloria Hallelujah', cursive;
 }
 
-.company-name {
-  font-size: 150%;
-  font-weight: 400;
+.example-header-image {
+  width: 90px;
+  height: 90px;
 }
 
-.homepage-text {
-  font-size: 120%;
-  font-style: italic;
+.imgIcon {
+  width: 80px;
+  height: 80px;
 }
 
-.users-count, .tickets-count {
-  font-size: 150%;
-  font-weight: 400;
+.count {
+  font-size: 56px;
+  font-family: 'Orbitron', sans-serif;
 }
 
+.down {
+  width: 250px;
+}
 
+.text {
+  font-size: 22px;
+  font-family: 'Quicksand', sans-serif;
+}
 
+.colorButton {
+  width: 100%;
+  font-size: 17px;
+  font-family: 'Quicksand', sans-serif;
+  background-color: #395b50;
+  /* background-color: #728f72b3; */
+}
+
+.colorButton:hover {
+  background-color: #395b50cb;
+  /* background-color: #728f72b3; */
+}
+
+.colorButton:hover {
+  background-color: #395b50cb;
+  /* background-color: #728f72b3; */
+}

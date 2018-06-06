@@ -1,6 +1,6 @@
 <mat-grid-list [cols]="columnNum" [rowHeight]="rowHeightRatio">
   <div class="container">
-    <div class="wrapMenu">
+    <div class="wrapMenu" *ngIf="!outerTickets?.length">
       <button class="colorButton" mat-raised-button color="primary" (click)="chooseMyTickets()">Requested</button>
       <button class="colorButton" mat-raised-button color="primary" (click)="chooseAssTickets()">Assigned</button>
     </div>
@@ -73,3 +73,4 @@
 
   <!-- </mat-grid-tile> -->
 </mat-grid-list>
+<snack-bar-component [message]="invalidMessage"></snack-bar-component>

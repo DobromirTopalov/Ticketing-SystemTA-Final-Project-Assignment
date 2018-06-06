@@ -1,6 +1,7 @@
 .menu a:not(.logo):not(.hammenu) {
   text-decoration: none;
-  background-color: #88ca88b6;
+  /* background-color: #88ca88b6; */
+  background-color: #728f72b3;
   /* border: solid 1px; */
   border-radius: 2px;
   padding: 10px;
@@ -29,13 +30,6 @@
   font-size: 14px;
 }
 
-.close {
-  flex-direction: column;
-  display: flex;
-  margin: 3px;
-
-}
-
 .func {
   display: flex;
   flex-direction: column;
@@ -52,9 +46,9 @@
 
 .menu a:hover:not(.logo):not(.hammenu) {
   /* border: solid 1px; */
-  border-color: #395b50;
-  background-color: white;
-  color: #395b50;
+  /* border-color: #395b50; */
+  background-color: rgba(255, 255, 255, 1);
+  color: black;
 }
 
 .fill-remaining-space {
@@ -84,5 +78,17 @@
 }
 
 .colorButton {
-  background-color: #88ca88de;
+  font-size: 17px;
+  font-family: 'Quicksand', sans-serif;
+  background-color: #395b50;
+  /* background-color: #728f72b3; */
+}
+
+.colorButton:hover {
+  background-color: #395b50cb;
+  /* background-color: #728f72b3; */
+}
+
+.matIconHover:hover {
+  fill: #728f72b3;
 }

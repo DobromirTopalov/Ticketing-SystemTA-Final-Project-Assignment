@@ -1,0 +1,217 @@
+<mat-card class="content">
+
+  <h2 *ngIf="privilege?.info.RoleId === 1">Admin Control</h2>
+  <h2 *ngIf="privilege?.info.RoleId !== 1">Profile Settings</h2>
+
+  <mat-accordion>
+    <mat-expansion-panel>
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          Personal settings
+        </mat-panel-title>
+        <mat-panel-description>
+          Private zone
+        </mat-panel-description>
+      </mat-expansion-panel-header>
+
+      <div>
+        <div class="toper">
+          <div class="randomsize">
+            <h2>Personal Profile</h2>
+            <p>You can change your email or password here!
+              <p>
+                <form class="" [formGroup]="personalForm" (ngSubmit)="updateUser2()">
+                  <!-- First Name | Last Name -->
+                  <div class="names">
+                    <mat-form-field class="fields">
+                      <input matInput #inputFirst maxlength="20" placeholder="First Name" formControlName="firstName" required>
+                      <mat-hint align="end">{{inputFirst.value?.length || 0}}/20</mat-hint>
+                      <mat-error *ngIf="personalForm.controls['firstName'].errors && !personalForm.controls['firstName'].pristine">{{getErrorMessageNames()}}</mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field class="fields">
+                      <input matInput #inputLast maxlength="20" placeholder="Last Name" formControlName="lastName" required>
+                      <mat-hint align="end">{{inputLast.value?.length || 0}}/20</mat-hint>
+                      <mat-error *ngIf="personalForm.controls['lastName'].errors && !personalForm.controls['lastName'].pristine">{{getErrorMessageNames2()}}</mat-error>
+                    </mat-form-field>
+
+                    <!-- Email -->
+                    <mat-form-field class="fields">
+                      <input matInput placeholder="Enter new email" formControlName="email" required>
+                      <mat-error *ngIf="personalForm.controls['email'].errors && !personalForm.controls['email'].pristine">{{getErrorMessageEmail()}}</mat-error>
+                    </mat-form-field>
+                  </div>
+
+                  <!-- Password & Confirmation -->
+                  <div mat-list-item class="passAndconfno">
+                    <mat-form-field class="fields">
+                      <input matInput placeholder="New Password" type="password" formControlName="password" required>
+                      <mat-error *ngIf="personalForm.controls['password'].errors && !personalForm.controls['password'].pristine">{{getErrorMessagePass()}}</mat-error>
+                    </mat-form-field>
+                  </div>
+                  <button mat-raised-button color="primary" [disabled]="!personalForm.valid" class="colorButton">Save Changes</button>
+                </form>
+          </div>
+        </div>
+      </div>
+    </mat-expansion-panel>
+
+    <mat-expansion-panel *ngIf="privilege?.info.RoleId === 1">
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          Members settings
+        </mat-panel-title>
+        <mat-panel-description>
+          {{company?.name}}
+        </mat-panel-description>
+      </mat-expansion-panel-header>
+
+      <div>
+        <div class="mems" *ngFor="let member of members">
+          <div class="newclass" *ngIf="member?.RoleId !== 1">
+            <p class="nems">{{member?.firstName}} {{member?.lastName}}</p>
+            <p>Current Role: {{member?.Role.name}}</p>
+            <div class="icons">
+              <mat-icon matTooltip="Edit member" class="imgs" (click)="changeMember(member)" svgIcon="settings"></mat-icon>
+              <mat-icon matTooltip="Promote member" class="imgs" (click)="promoteUser(member)" svgIcon="up"></mat-icon>
+              <mat-icon matTooltip="Demote member" class="imgs" (click)="demoteUser(member)" svgIcon="down"></mat-icon>
+              <mat-icon matTooltip="Kick member" class="imgs" (click)="removeUser(member)" svgIcon="cross"></mat-icon>
+            </div>
+          </div>
+        </div>
+      </div>
+    </mat-expansion-panel>
+
+    <mat-expansion-panel *ngIf="privilege?.info.RoleId === 1">
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          Teams settings
+        </mat-panel-title>
+        <mat-panel-description>
+          {{company?.name}}
+        </mat-panel-description>
+      </mat-expansion-panel-header>
+
+      <div>
+        <!-- <button mat-button (click)="openDialog()">Open dialog</button> -->
+
+        <div class="mems" *ngFor="let team of teams">
+          <div class="newclass">
+            <p class="nems" (click)="isClicked(team)">{{team?.name}}</p>
+            <div class="icons">
+              <mat-icon matTooltip="Add members" class="imgs" (click)="addMember(team?.id)" svgIcon="up"></mat-icon>
+              <mat-icon matTooltip="Kick members" class="imgs" (click)="removeMember(team?.id)" svgIcon="down"></mat-icon>
+              <mat-icon matTooltip="Choose a leader" class="imgs" (click)="newLead(team?.id)" svgIcon="promo"></mat-icon>
+              <mat-icon matTooltip="Remove Team" class="imgs" (click)="removeTeam(team?.id)" svgIcon="cross"></mat-icon>
+            </div>
+          </div>
+
+          <div class="container" *ngIf="clicked === team.id">
+            <div class="wrapper">
+              <form class="formInput" [formGroup]="updateTeamForm">
+
+                <mat-form-field class="infochange">
+                  <input type="text" formControlName="name" matInput #name maxlength="40" placeholder="Team name" required>
+                  <mat-hint align="end">{{name.value?.length || 0}}/40</mat-hint>
+                  <mat-error *ngIf="updateTeamForm.controls['name'].errors && !updateTeamForm.controls['name'].pristine">{{displayErrorMessageName()}}</mat-error>
+                </mat-form-field>
+
+                <mat-form-field class="infochange">
+                  <input type="text" formControlName="description" matInput #description maxlength="200" placeholder="Team description" required>
+                  <mat-hint align="end">{{description.value?.length || 0}}/200</mat-hint>
+                  <mat-error *ngIf="updateTeamForm.controls['description'].errors && !updateTeamForm.controls['description'].pristine">{{displayErrorMessageDescription()}}</mat-error>
+                </mat-form-field>
+              </form>
+            </div>
+
+            <div class="btnstyle">
+              <button class="colorButton" mat-raised-button color="primary" [disabled]="updateTeamForm.controls.name.errors || updateTeamForm.controls.description.errors"
+                type="submit" (click)="updateTeam(updateTeamForm, team)">Update Team</button>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+
+    </mat-expansion-panel>
+
+
+    <mat-expansion-panel *ngIf="privilege?.info.RoleId === 1">
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          Tickets settings
+        </mat-panel-title>
+        <mat-panel-description>
+          {{company?.name}}
+        </mat-panel-description>
+      </mat-expansion-panel-header>
+
+      <div>
+        <div class="mems" *ngFor="let ticket of tickets">
+          <div class="newclass">
+            <p class="nems">{{ticket?.description}}</p>
+            <div class="icons">
+              <mat-icon matTooltip="Edit Ticket Info" class="imgs" (click)="editTicket(ticket)" svgIcon="edit"></mat-icon>
+            </div>
+          </div>
+        </div>
+      </div>
+    </mat-expansion-panel>
+  </mat-accordion>
+</mat-card>
+
+<div class="regContent">
+  <div class="randomsize" *ngIf="privilege?.info.RoleId === 1">
+    <h2>Create Member Account</h2>
+    <form class="regItems mat-elevation-z8" [formGroup]="regForm" (ngSubmit)="register()">
+      <!-- First Name | Last Name -->
+      <div class="names">
+        <mat-form-field class="fields">
+          <input matInput #inputFirst maxlength="20" placeholder="First Name" formControlName="firstName" required>
+          <mat-hint align="end">{{inputFirst.value?.length || 0}}/20</mat-hint>
+          <mat-error *ngIf="regForm.controls['firstName'].errors && !regForm.controls['firstName'].pristine">{{getErrorMessageNames()}}</mat-error>
+        </mat-form-field>
+
+        <mat-form-field class="fields">
+          <input matInput #inputLast maxlength="20" placeholder="Last Name" formControlName="lastName" required>
+          <mat-hint align="end">{{inputLast.value?.length || 0}}/20</mat-hint>
+          <mat-error *ngIf="regForm.controls['lastName'].errors && !regForm.controls['lastName'].pristine">{{getErrorMessageNames2()}}</mat-error>
+        </mat-form-field>
+
+        <!-- Email -->
+        <mat-form-field class="fields">
+          <input matInput placeholder="Enter your email" formControlName="email" required>
+          <mat-error *ngIf="regForm.controls['email'].errors && !regForm.controls['email'].pristine">{{getErrorMessageEmail()}}</mat-error>
+
+        </mat-form-field>
+      </div>
+
+      <!-- Password & Confirmation -->
+      <div mat-list-item class="passAndconf">
+        <mat-form-field class="fields">
+          <input matInput placeholder="Password" type="password" formControlName="password" required>
+          <mat-error *ngIf="regForm.controls['password'].errors && !regForm.controls['password'].pristine">{{getErrorMessagePass()}}</mat-error>
+        </mat-form-field>
+
+        <mat-form-field class="fields">
+          <input matInput placeholder="Confirm Password" type="password" formControlName="confirmPassword" required>
+          <mat-error *ngIf="regForm.controls['confirmPassword'].errors && !regForm.controls['confirmPassword'].pristine">{{getErrorMessagePass2()}}</mat-error>
+        </mat-form-field>
+      </div>
+      <button mat-raised-button color="primary" [disabled]="!regForm.valid" class="colorButton">Sign Up</button>
+    </form>
+  </div>
+
+  <div class="randomsize" *ngIf="privilege?.info.RoleId === 1">
+    <h2>Company Info</h2>
+    <form class="regItems mat-elevation-z8" [formGroup]="regFormCompany" (ngSubmit)="updateCompany()">
+      <mat-form-field class="fields">
+        <input matInput placeholder="Company Name" formControlName="company">
+      </mat-form-field>
+      <button mat-raised-button color="primary" [disabled]="!regFormCompany.valid" class="colorButton">Update Company</button>
+    </form>
+  </div>
+
+</div>
+<snack-bar-component [message]="invalidMessage"></snack-bar-component>

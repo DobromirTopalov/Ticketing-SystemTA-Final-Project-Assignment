@@ -5,17 +5,13 @@ module.exports = {
     return queryInterface.bulkInsert('Roles', [{
       name: 'CEO',
     }, {
-      name: 'Team Manager',
-    }, {
       name: 'Senior',
+    }, {
+      name: 'Regular',
     }, {
       name: 'Junior',
     }, {
-      name: 'HR',
-    }, {
-      name: 'Worker',
-    }, {
-      name: 'Client',
+      name: 'Trainee',
     }, {
       name: 'Other',
     }].map( (el) => {

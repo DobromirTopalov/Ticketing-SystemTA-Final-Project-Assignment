@@ -1,5 +1,7 @@
-<div class="centerTheBox">
-  <div *ngFor="let comment of commentsList?.info">
-    <app-commentary-post class="post" [comment]="comment"></app-commentary-post>
+<div class="list">
+  <div class="centerTheBox">
+    <div class="insert" *ngFor="let comment of commentsList?.info">
+      <app-commentary-post class="post" [comment]="comment"></app-commentary-post>
+    </div>
   </div>
 </div>

@@ -1,5 +1,5 @@
 import 'rxjs/add/operator/map';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
 import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -9,6 +9,7 @@ import { ParamsService } from '../../../core/params.service';
 import { Label } from '../../../models/tickets/label';
 import { Status } from '../../../models/tickets/status';
 import { Company } from '../../../models/company/company';
+import { SnackBarComponentExample } from '../../snackbar/snackbar/snack-bar-component-example';
 
 @Component({
   selector: 'app-register',
@@ -16,9 +17,17 @@ import { Company } from '../../../models/company/company';
   styleUrls: ['./register.component.css']
 })
 export class RegisterComponent implements OnInit {
+  invalidMessage: string;
+  @ViewChild(SnackBarComponentExample) child: SnackBarComponentExample;
+
   error: string;
   regForm: FormGroup;
+  role: number = 6;
   roles: Label[];
+
+  newOne: boolean = false;
+  oldOne: boolean = false;
+
   companies: Company[];
   constructor(
     private formBuilder: FormBuilder,
@@ -40,14 +49,14 @@ export class RegisterComponent implements OnInit {
       firstName: new FormControl('', [Validators.required, Validators.minLength(3), Validators.maxLength(21)]),
       lastName: new FormControl('', [Validators.required, Validators.minLength(3), Validators.maxLength(21)]),
       company: new FormControl('', [Validators.required]),
-      role: new FormControl('', [Validators.required]),
+      role: new FormControl(this.role, [Validators.required]),
       email: new FormControl('', [Validators.required, Validators.email]),
       password: new FormControl('', [Validators.required, Validators.pattern(pattern)]),
       confirmPassword: new FormControl('', [
         Validators.required,
         matchOtherValidator('password')
       ]),
-      terms: new FormControl('', [Validators.required]),
+      // terms: new FormControl('', [Validators.required]),
     });
   }
 
@@ -83,8 +92,15 @@ export class RegisterComponent implements OnInit {
     return this.regForm.get('company').hasError('required') ? '' : '';
   }
 
-  getErrorMessageTerms() {
-    return this.regForm.get('terms').hasError('required') ? 'You must accept terms' : '';
+  oldCompany() {
+    this.newOne = false;
+    this.oldOne = !this.oldOne ? true : false;
+  }
+
+  newCompany() {
+    this.oldOne = false;
+    this.regForm.get('company').setValue('');
+    this.newOne = !this.newOne ? true : false;
   }
 
   register(): void {
@@ -96,17 +112,60 @@ export class RegisterComponent implements OnInit {
       password,
     };
 
-    this.authService.register(this.regForm.value, { observe: 'response', responseType: 'json' })
-      .subscribe((response: HttpResponse<string>) => {
-        this.error = `${email} registered successfully!`;
-        this.login(obj);
-      },
-      (error: HttpErrorResponse) => {
-        this.error = error.error;
-        if (error.status === 302) {
-          console.log(error);
-        }
-      });
+    if (this.newOne) {
+      this.paramService.createCompany(<Company>{ name: this.regForm.value.company }).subscribe(data => {
+
+        this.newOne = !this.newOne ? true : false;
+        this.regForm.get('role').setValue(1);
+        this.regForm.get('company').setValue(data['result'][0].id);
+
+        this.authService.register(this.regForm.value, { observe: 'response', responseType: 'json' })
+          .subscribe((response: HttpResponse<string>) => {
+            this.invalidMessage = `${email} registered successfully!`;
+            this.child.message = this.invalidMessage;
+            this.child.openSnackBar();
+
+            this.paramService.getAllCompanies().subscribe((data) => {
+              this.companies = data.info;
+            });
+
+            this.router.navigate(['/login']);
+            // this.login(obj);
+          },
+          (error: HttpErrorResponse) => {
+            this.error = error.error;
+            this.invalidMessage = `${email} already exists!`;
+            this.child.message = this.invalidMessage;
+            this.child.openSnackBar();
+            if (error.status === 302) {
+              console.log(error);
+            }
+          });
+      })
+    } else {
+      this.authService.register(this.regForm.value, { observe: 'response', responseType: 'json' })
+        .subscribe((response: HttpResponse<string>) => {
+          this.invalidMessage = `${email} registered successfully!`;
+          this.child.message = this.invalidMessage;
+          this.child.openSnackBar();
+
+          this.paramService.getAllCompanies().subscribe((data) => {
+            this.companies = data.info;
+          });
+
+          this.router.navigate(['/login']);
+          // this.login(obj);
+        },
+        (error: HttpErrorResponse) => {
+          this.error = error.error;
+          this.invalidMessage = `${email} already exists!`;
+          this.child.message = this.invalidMessage;
+          this.child.openSnackBar();
+          if (error.status === 302) {
+            console.log(error);
+          }
+        });
+    }
   }
 
   login(obj): void {

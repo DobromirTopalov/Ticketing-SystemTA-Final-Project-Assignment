@@ -9,9 +9,14 @@ import { TeamsService } from "./teams.service";
 
 @Injectable()
 export class TicketGuard implements CanActivate {
-  fromUsers: boolean;
+  fromTicket: boolean;
   fromTeams: boolean;
-  constructor(private ticketService: TicketsService, private jwtService: JwtHelperService,
+  access: any;
+
+
+  constructor(
+    private ticketService: TicketsService,
+    private jwtService: JwtHelperService,
     private activatedRoute: ActivatedRoute,
     private teamService: TeamsService,
     private router: Router) { }
@@ -20,19 +25,19 @@ export class TicketGuard implements CanActivate {
     const userId = this.jwtService.decodeToken(localStorage.getItem('access_token'));
 
     return this.ticketService.getById(+urlTicketId).map((data) => {
-      const fromUsers = data['info']['Users'].find((user) => user.id === userId.id);
-        this.fromUsers = fromUsers ? true : false;
+      const fromTicket = data.info.Users.find((user) => user.id === userId.id);
 
-      // this.teamService.getById(+data['info']['TeamId']).subscribe((data) => {
-      //   const userInTeam = data['info']['Users'].find((user) => user.id === userId.id);
+      this.access = (data.info.EscalationContactId === userId.id ||
+                     data.info.AssigneeId === userId.id ||
+                     data.info.RequesterId === userId ||
+                     this.fromTicket || true);
 
-      //   this.fromTeams = userInTeam ? true : false;
+      if (this.access) {
+        return true;
+      }
 
-      //   console.log(this.fromUsers, this.fromTeams, 'aslsa');
-      //   return (this.fromTeams || this.fromUsers);
-      // });
-      return (this.fromUsers);
+      this.router.navigate(['/home']);
+      return false;
     });
-  }
-
+  };
 }

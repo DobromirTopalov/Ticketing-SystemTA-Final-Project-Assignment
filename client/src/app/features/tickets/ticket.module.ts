@@ -11,6 +11,7 @@ import { CreateTicketComponent } from './create-ticket/create-ticket.component';
 import { TeamTicketsComponent } from './team-tickets/team-tickets.component';
 import { CommentaryListComponent } from '../commentary/commentary-list/commentary-list.component';
 import { CommentaryPostComponent } from '../commentary/commentary-post/commentary-post.component';
+import { SnackBarModule } from '../snackbar/snackbar.module';
 
 
 @NgModule({
@@ -28,6 +29,7 @@ import { CommentaryPostComponent } from '../commentary/commentary-post/commentar
     CommonModule,
     CoreModule,
     SharedModule,
+    SnackBarModule,
     TicketsRoutingModule,
   ],
   exports: [

@@ -1,53 +1,147 @@
 .container {
-  text-align: center;
-  display: block;
-  overflow: auto;
-  justify-content: center;
-  align-self: center;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: space-around;
+  width: 100%;
 }
 
+/*
 @media only screen and (min-width: 958px) {
   .container {
     width: 60%;
     margin-left: 20%;
   }
 }
-
-.inside-tile,
-.link-inside-tile {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background-color: linen;
-  border: 0.5% solid transparent;
-  border-radius: 5px;
-  width: 99%;
-  height: 95%;
-}
-
-.link-inside-tile:hover {
-  background-color: silver;
-}
-
-.team-name {
-  font-weight: bolder;
-  font-size: 120%;
-}
-
-button:hover {
-  background-color: yellowgreen;
-}
-
-.available-members {
-  background-color: transparent;
-  border-radius: 3%;
-}
+*/
 
 .example-form {
-  margin-left: 35%;
-  width: 30%;
+  width: 50%;
 }
 
 .example-full-width {
   width: 100%;
+}
+
+.searchInvite {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  flex-direction: row;
+  padding: 20px;
+}
+
+.btnss {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: space-around;
+  width: 65%;
+  padding: 8px;
+}
+
+.colorButtonRed {
+  background-color: #b46f6f;
+  font-size: 16px;
+  font-family: 'Quicksand', sans-serif;
+  margin: 3px;
+}
+
+.colorButtonRed:hover {
+  background-color: #b46f6fcb;
+}
+
+.colorButtonGold {
+  background-color: #ffd740;
+  font-size: 16px;
+  font-family: 'Quicksand', sans-serif;
+  margin: 3px;
+}
+
+.colorButtonGold:hover {
+  background-color: #ffd740cb;
+}
+
+.btns {
+  font-size: 16px;
+  font-family: 'Quicksand', sans-serif;
+  background-color: #395b50;
+  margin: 3px;
+}
+
+.btns:hover {
+  background-color: #395b50cb;
+}
+
+.members {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-around;
+  width: 48%;
+  height: 50px;
+  background-color: white;
+  margin: 1px;
+}
+
+.person:hover {
+  background-color: rgba(241, 241, 241, 0.801);
+  cursor: pointer;
+}
+
+.bold {
+  font-weight: bold;
+}
+
+.description {
+  display: flex;
+  flex-direction: column;
+  /* align-items: center; */
+  justify-content: flex-start;
+  width: 93%;
+  background-color: white;
+  margin: 1px;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  hyphens: auto;
+  padding: 10px;
+}
+
+.membertile {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  flex-wrap: wrap;
+}
+
+.memberSection {
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.divwrapper {
+  width: 80%;
+}
+
+.spanWorkerNames {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+.workername {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  margin: 1px;
 }

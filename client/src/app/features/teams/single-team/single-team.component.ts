@@ -1,7 +1,7 @@
 import { NgModel } from '@angular/forms';
 import { AsyncPipe } from '@angular/common';
-import { Component, OnInit, Input } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Component, OnInit, Input, ViewChild } from '@angular/core';
+import { ActivatedRoute, Router, NavigationExtras } from '@angular/router';
 import { ObservableMedia, MediaChange } from '@angular/flex-layout';
 import { Observable } from 'rxjs/Observable';
 import { JwtHelperService } from '@auth0/angular-jwt';
@@ -10,6 +10,7 @@ import { TeamsDBModel } from '../../../models/teams/teamsDBModel';
 import { TeamsService } from '../../../core/teams.service';
 import { User } from '../../../models/users/user';
 import { UsersService } from '../../../core/users.service';
+import { SnackBarComponentExample } from '../../snackbar/snackbar/snack-bar-component-example';
 
 @Component({
   selector: 'app-single-team',
@@ -22,6 +23,9 @@ export class SingleTeamComponent implements OnInit {
   team: Team[];
   teamsId: number;
 
+  invalidMessage: string;
+  @ViewChild(SnackBarComponentExample) child: SnackBarComponentExample;
+
   id: number;
   companyId: number;
 
@@ -32,6 +36,8 @@ export class SingleTeamComponent implements OnInit {
   filteredUsers: User[];
   users: User[];
   teamLeaderId: number;
+
+  ceo: User;
   loggedUserId: number;
 
   generateCompanyUsersList: boolean = false;
@@ -100,8 +106,9 @@ export class SingleTeamComponent implements OnInit {
               .filter((x) => x.CompanyId === this.companyId);
 
               this.companyUsers = companyUsers;
-              this.filteredCompanyUsers = this.companyUsers;
+              this.ceo = this.companyUsers.find(companyUser => companyUser.RoleId === 1);
 
+              this.filteredCompanyUsers = this.companyUsers;
 
               this.teamMembers.forEach((teamMember) => {
                 this.filteredCompanyUsers = this.filteredCompanyUsers.filter((filtered) => filtered.id !== teamMember.id);
@@ -136,6 +143,12 @@ export class SingleTeamComponent implements OnInit {
     this.selectedMember = undefined;
     this.search = '';
     this.generateCompanyUsersList = false;
+
+    if (true) {
+      this.invalidMessage = 'All suggestions and searches are cleared!';
+      this.child.message = this.invalidMessage;
+      this.child.openSnackBar();
+    }
   }
 
   navToUser(id: number): void {
@@ -152,7 +165,14 @@ export class SingleTeamComponent implements OnInit {
     this.selected = false;
     this.teamsService.addUserToTeam(this.selectedMember.id, this.teamsId)
       .subscribe(
-        x => this.showChanges(),
+        x => {
+          this.showChanges();
+          if (true) {
+            this.invalidMessage = 'New member joined the team!';
+            this.child.message = this.invalidMessage;
+            this.child.openSnackBar();
+          }
+        },
         err => console.log(err)
       );
 
@@ -169,16 +189,23 @@ export class SingleTeamComponent implements OnInit {
 
   leaveTeam(team: Team) {
     const userId = this.userLoggedIn.id;
+
     if (userId === this.teamLeaderId) {
-      alert('You must choose another Team Leader before leaving team!')
+      this.invalidMessage = 'You must choose a new "Team Leader" first!';
+      this.child.message = this.invalidMessage;
+      this.child.openSnackBar();
       return;
     }
 
     this.teamsService.userLeaveTeam(userId, this.teamsId)
       .subscribe(
-        x => this.showChanges(),
+        x => {
+          this.showChanges();
+        },
         err => console.log(err)
       );
+
+      this.router.navigate(['/teams']);
   }
 
   isLoggedUserTeamLeader(): boolean {
@@ -201,6 +228,12 @@ export class SingleTeamComponent implements OnInit {
             y => {
               this.generateCompanyUsersList = false;
               this.showChanges();
+
+              if (true) {
+                this.invalidMessage = 'You are no longer a "Team Leader"!';
+                this.child.message = this.invalidMessage;
+                this.child.openSnackBar();
+              }
             },
             err => console.log(err)),
         err => console.log(err)
@@ -212,7 +245,12 @@ export class SingleTeamComponent implements OnInit {
   }
 
   navToCreateTicket(): void {
-    this.router.navigate(['/tickets/opencreate']);
+    let navigationExtras: NavigationExtras = {
+      queryParams: {
+        'teamId': this.teamsId,
+      }
+    }
+    this.router.navigate(['/tickets/opencreate'], navigationExtras);
   }
 
 }

@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { MatButtonModule, MatCardModule, MatSelectModule, MatFormFieldModule, MatInputModule, MatToolbarModule, MatSidenavModule, MatIconModule, MatGridListModule, MatDividerModule, MatListModule, MatRadioModule, MatTableModule, MatDatepickerModule, MatNativeDateModule } from '@angular/material';
+import { MatButtonModule, MatCardModule, MatSelectModule, MatFormFieldModule, MatInputModule, MatToolbarModule, MatSidenavModule, MatIconModule, MatGridListModule, MatDividerModule, MatListModule, MatRadioModule, MatTableModule, MatDatepickerModule, MatNativeDateModule, MatSnackBarModule, MatExpansionModule, MatTabsModule, MatDialogModule, MatTooltipModule } from '@angular/material';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { FlexLayoutModule } from '@angular/flex-layout';
 
@@ -20,16 +20,21 @@ import { EllipsisPipe } from './ellipsis.pipe';
     MatCardModule,
     MatTableModule,
     MatDividerModule,
+    MatDialogModule,
     MatSelectModule,
     MatFormFieldModule,
     MatInputModule,
     MatGridListModule,
+    MatExpansionModule,
+    MatTooltipModule,
+    MatTabsModule,
     MatToolbarModule,
     MatIconModule,
     MatListModule,
     MatRadioModule,
     MatSidenavModule,
     MatToolbarModule,
+    MatSnackBarModule,
   ],
   declarations: [
     MyNgIfDirective,
@@ -46,9 +51,12 @@ import { EllipsisPipe } from './ellipsis.pipe';
     StatusColorDirective,
     FormsModule,
     FlexLayoutModule,
+    MatExpansionModule,
     MatNativeDateModule,
     ReactiveFormsModule,
     MatDatepickerModule,
+    MatTooltipModule,
+    MatDialogModule,
     MatButtonModule,
     MatCardModule,
     MatSelectModule,
@@ -57,12 +65,14 @@ import { EllipsisPipe } from './ellipsis.pipe';
     MatInputModule,
     MatGridListModule,
     MatToolbarModule,
+    MatTabsModule,
     MatDividerModule,
     MatIconModule,
     MatSidenavModule,
     MatRadioModule,
     MatToolbarModule,
     MatListModule,
+    MatSnackBarModule,
   ]
 })
 export class SharedModule { }

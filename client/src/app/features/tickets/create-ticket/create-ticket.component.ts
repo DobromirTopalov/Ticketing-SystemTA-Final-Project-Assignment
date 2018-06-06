@@ -3,6 +3,7 @@ import { FormGroup } from '@angular/forms/src/model';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { ObservableMedia, MediaChange } from '@angular/flex-layout';
 
 import { Status } from '../../../models/tickets/status';
@@ -30,8 +31,8 @@ export class CreateTicketComponent implements OnInit {
   assigneeId: number;
   teamLeader: User;
   teamId: number;
-
   labels: Label[];
+
   setLabel: LabelType = 1;
   statuses: Status[];
   setStatus: StatusType = 3;
@@ -47,6 +48,8 @@ export class CreateTicketComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private jwtService: JwtHelperService,
+    private router: Router,
+    private route: ActivatedRoute,
     private ticketsService: TicketsService,
     private paramService: ParamsService,
     private teamService: TeamsService,
@@ -104,14 +107,16 @@ export class CreateTicketComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.route.queryParams.subscribe(params => {
+      this.teamId = +params["teamId"];
+    });
+
     const decodedToken = this.jwtService.decodeToken(localStorage.getItem('access_token'));
     this.userId = +decodedToken.id;
     this.requesterId = this.userId;
     this.assigneeId = this.userId;
 
     const userList = this.teamService.getUserFromTeam(this.userId).subscribe((data) => {
-      this.teamId = +data.info.TeamId;
-
       const teamInfo = this.teamService.getById(this.teamId).subscribe((data) => {
         this.teamLeader = data.info.teamLeaderId;
       });
@@ -169,6 +174,7 @@ export class CreateTicketComponent implements OnInit {
     };
 
     this.ticketsService.createInfo(<Ticket>ticketObject).subscribe((data: Object) => { });
+    this.router.navigate(['/teams', this.teamId]);
   }
 
 }

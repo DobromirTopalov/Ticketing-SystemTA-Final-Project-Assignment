@@ -15,6 +15,10 @@ const init = (app, data) => {
     //   session: false,
     // }), controller.getAll())
 
+    .post('/api/users/:id', passport.authenticate('jwt', {
+      session: false,
+    }), controller.updateUser2())
+
     .get('/api/users/:email', passport.authenticate('jwt', {
       session: false,
     }), controller.getByParameter())
@@ -26,10 +30,6 @@ const init = (app, data) => {
     .get('/api/create/user', passport.authenticate('jwt', {
       session: false,
     }), controller.createUser())
-
-    .get('/api/update/user', passport.authenticate('jwt', {
-      session: false,
-    }), controller.updateUser())
 
     .get('/api/delete/user', passport.authenticate('jwt', {
       session: false,

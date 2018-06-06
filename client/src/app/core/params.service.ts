@@ -8,6 +8,7 @@ import { StatusesDBModel } from '../models/tickets/statusesDBModel';
 import { RolesDBModel } from '../models/tickets/rolesDBModel';
 import { Company } from '../models/company/company';
 import { CompaniesDBModel } from '../models/company/companiesDBModel';
+import { HttpOptions } from '../models/core/http-options';
 
 
 @Injectable()
@@ -29,4 +30,11 @@ export class ParamsService {
     return this.httpClient.get(`${this.appConfig.apiUrl}/companies`).map(response => <CompaniesDBModel>(response));
   }
 
+  createCompany(company: Company, options?: HttpOptions): Observable<Object> {
+    return this.httpClient.post(`${this.appConfig.apiUrl}/companies/create`, company, options);
+  }
+
+  updateCompany(company: Company, options?: HttpOptions): Observable<Object> {
+    return this.httpClient.post(`${this.appConfig.apiUrl}/companies/${company.id}`, company, options);
+  }
 }

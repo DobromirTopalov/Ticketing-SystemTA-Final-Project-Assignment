@@ -14,7 +14,7 @@ import { SharedModule } from './shared/index';
 import { HomeModule } from './features/home/home.module';
 import { NavFieldModule } from './features/nav-field/nav-field.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-
+import { SnackBarModule } from './features/snackbar/snackbar.module';
 export function tokenGetter() {
   return localStorage.getItem('access_token');
 }
@@ -27,6 +27,7 @@ export function tokenGetter() {
     BrowserAnimationsModule,
     NavFieldModule,
     HomeModule,
+    SnackBarModule,
     ToastrModule.forRoot(),
     AuthModule,
     SharedModule,

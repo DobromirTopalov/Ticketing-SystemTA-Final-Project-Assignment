@@ -1,4 +1,4 @@
-<div class="menu" style="height: 89vh">
+<div class="menu" style="height: 91vh">
   <mat-toolbar color="primary">
     <a class="logo" [routerLink]="['/home']" routerLinkActive="active">
       <mat-icon svgIcon="logo"></mat-icon>
@@ -22,7 +22,7 @@
       <a *ngIf="!isAuth" [routerLink]="['/login']" routerLinkActive="active">
         <mat-icon svgIcon="login"></mat-icon>
         Login</a>
-      <a class="user" *ngIf="isAuth" [routerLink]=routerLink routerLinkActive="active">
+      <a class="user" *ngIf="isAuth" [routerLink]="['/profile']" routerLinkActive="active">
           <mat-icon svgIcon="profile"></mat-icon>
           <p>{{loggedUser?.email}}</p></a>
       <a *ngIf="isAuth" [routerLink]="['/']" (click)="logout()">
@@ -40,8 +40,6 @@
   <mat-sidenav-container fxFlexFill class="example-container">
     <mat-sidenav class="sideColumnColor" #sidenav fxLayout="column">
       <div fxLayout="column">
-        <a class="close" (click)="sidenav.toggle()" href="#" mat-button>Close</a>
-
         <div class="func">
 
           <!-- <a [routerLink]="['/home']" routerLinkActive="active">Home</a> -->
@@ -57,7 +55,7 @@
             </div>
 
             <div class="profileLogout">
-              <a class="user" *ngIf="isAuth" [routerLink]=routerLink routerLinkActive="active">
+              <a class="user" *ngIf="isAuth" [routerLink]="['/profile']" routerLinkActive="active">
                 <mat-icon svgIcon="profile"></mat-icon>
                 <p>{{loggedUser?.email}}</p>
               </a>

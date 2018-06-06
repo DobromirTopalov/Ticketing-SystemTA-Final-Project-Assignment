@@ -62,6 +62,19 @@ class TeamController extends SharedController {
     };
   }
 
+  removeTeam() {
+    return async (req, res, next) => {
+      const obj = await req.body;
+
+      const team = await this.data.teams.delete(obj);
+
+      // return created object to api
+      return await res.status(200).send({
+        team,
+      });
+    };
+  }
+
   setNewLeader() {
     return async (req, res, next) => {
       const obj = await {
@@ -78,6 +91,17 @@ class TeamController extends SharedController {
       // return created object to api
       return await res.status(200).send({
         obj,
+      });
+    };
+  }
+
+  updateTeam() {
+    return async (req, res, next) => {
+      const result = await this.data.teams.update(req.body, { id: req.body.id });
+
+      // return created object to api
+      return res.status(200).send({
+        result,
       });
     };
   }
