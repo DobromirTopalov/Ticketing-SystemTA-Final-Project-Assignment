@@ -8,7 +8,7 @@
 | Rusi Rusev          | [**roruroru**](https://github.com/roruroru)                                 |
 
 ## Video:
-   * https://www.youtube.com/watch?v=nUWGq6gpjk4&feature=youtu.be
+   * https://www.youtube.com/watch?v=lHaZ3lQ1KJM&feature=youtu.be
 
 ## Guide to try it out
   * download the repository
